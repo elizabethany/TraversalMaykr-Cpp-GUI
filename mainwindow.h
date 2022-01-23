@@ -18,9 +18,9 @@ public:
 private slots:
     void on_buttonClearOutput_clicked();
 
-    void on_inputStartCoords_textChanged(const QString &arg1);
+    void on_inputStartCoords_textChanged(const QString& arg1);
 
-    void on_inputEndCoords_textChanged(const QString &arg1);
+    void on_inputEndCoords_textChanged(const QString& arg1);
 
     void on_buttonClearCoords_clicked();
 
@@ -34,7 +34,7 @@ private slots:
 
     void on_buttonGenerateTraversalChain_clicked();
 
-    void on_inputEntityNumChain_textChanged(const QString &arg1);
+    void on_inputEntityNumChain_textChanged(const QString& arg1);
 
 private:
     Ui::MainWindow *ui;

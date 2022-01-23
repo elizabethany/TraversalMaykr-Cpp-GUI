@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#pragma once
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -176,7 +175,7 @@ void writeThisThing(
 )
 {
     std::fstream output(filePath, std::fstream::out | std::fstream::app);
-    for (std::string currentLine : thingToWrite)
+    for (const auto& currentLine : thingToWrite)
     {
        output << "\n" << currentLine;
     }
@@ -195,7 +194,7 @@ void generateInfoTraversal(
 {
     static const std::vector<std::string> infoTraversalTemplate = textFileToVector("Templates/Eternal/InfoTraversal.txt");
 
-    for (int monsterIndex : monsterIndices)
+    for (const auto& monsterIndex : monsterIndices)
     {
         std::vector<std::string> generatedEntity = infoTraversalTemplate;
 
@@ -271,7 +270,7 @@ void generateTraversalChain(
     static const std::vector<std::string> TraversalChainTemplate = textFileToVector("Templates/Eternal/TraversalChain.txt");
     static const std::vector<std::string> TraversalChainMidTemplate = textFileToVector("Templates/Eternal/TraversalChainMid.txt");
 
-    for (int monsterIndex : monsterIndices)
+    for (const auto& monsterIndex : monsterIndices)
     {
         auto generatedEntity1 = TraversalChainTemplate;
 
@@ -313,7 +312,7 @@ void generateTraversalChain(
         writeThisThing(generatedEntity1, "DE Generated Traversal Chains.txt");
 
         int midNum = 1;
-        for (std::vector<double> currentMidPoint : midCoords)
+        for (const auto& currentMidPoint : midCoords)
         {
             std::vector<std::string> generatedEntity2 = TraversalChainMidTemplate;
 
@@ -390,7 +389,7 @@ void generateTraversalChain(
             //    std::cout << currentLine << "\n";
             //}
             int midNum_r = 1;
-            for (std::vector<double> currentMidPoint : midCoords_r)
+            for (const auto& currentMidPoint : midCoords_r)
             {
                 std::vector<std::string> generatedEntity2_r = TraversalChainMidTemplate;
 
@@ -561,6 +560,11 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
         tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
         return tempList;
     }
+    else
+    {
+        return tempList;
+    }
+    
 }
 
 std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
@@ -632,6 +636,11 @@ std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
         tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
         return tempList;
     }
+    else
+    {
+        return tempList;
+    }
+    
 }
 
 // Clear the output files
@@ -689,17 +698,17 @@ bool isInputValid(Ui::MainWindow *ui)
 
 // If any input fields for the Traversal Info are changed, make sure their inputs are valid
 // Also try to get the delta values
-void MainWindow::on_inputStartCoords_textChanged(const QString &arg1)
+void MainWindow::on_inputStartCoords_textChanged(const QString& arg1)
 {
     ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
     getDeltaValues(ui);
 }
-void MainWindow::on_inputEndCoords_textChanged(const QString &arg1)
+void MainWindow::on_inputEndCoords_textChanged(const QString& arg1)
 {
     ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
     getDeltaValues(ui);
 }
-void MainWindow::on_inputEntityNumChain_textChanged(const QString &arg1)
+void MainWindow::on_inputEntityNumChain_textChanged(const QString& arg1)
 {
     ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
 }
