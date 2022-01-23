@@ -444,6 +444,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->demonSelect_19->setChecked(true);
     ui->radioButtonPresetNoneInfo->setChecked(true);
     ui->comboBoxAnimSelect->addItems(dropDownAnimations);
+    ui->buttonGenerateTraversal->setEnabled(false); // Disable generate button
 
     // For Traversal Chain
     ui->demonSelect_19_Chain->setChecked(true);
@@ -496,50 +497,33 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
     std::vector<int> tempList;
     if (ui->radioButtonPresetNoneInfo->isChecked())
     {
-        if (ui->demonSelect_1->isChecked())
-            tempList.push_back(0);
-        if (ui->demonSelect_2->isChecked())
-            tempList.push_back(1);
-        if (ui->demonSelect_3->isChecked())
-            tempList.push_back(2);
-        if (ui->demonSelect_4->isChecked())
-            tempList.push_back(3);
-        if (ui->demonSelect_5->isChecked())
-            tempList.push_back(4);
-        if (ui->demonSelect_6->isChecked())
-            tempList.push_back(5);
-        if (ui->demonSelect_7->isChecked())
-            tempList.push_back(6);
-        if (ui->demonSelect_8->isChecked())
-            tempList.push_back(7);
-        if (ui->demonSelect_9->isChecked())
-            tempList.push_back(8);
-        if (ui->demonSelect_10->isChecked())
-            tempList.push_back(9);
-        if (ui->demonSelect_11->isChecked())
-            tempList.push_back(10);
-        if (ui->demonSelect_12->isChecked())
-            tempList.push_back(11);
-        if (ui->demonSelect_13->isChecked())
-            tempList.push_back(12);
-        if (ui->demonSelect_14->isChecked())
-            tempList.push_back(13);
-        if (ui->demonSelect_15->isChecked())
-            tempList.push_back(14);
-        if (ui->demonSelect_16->isChecked())
-            tempList.push_back(15);
-        if (ui->demonSelect_17->isChecked())
-            tempList.push_back(16);
-        if (ui->demonSelect_18->isChecked())
-            tempList.push_back(17);
-        if (ui->demonSelect_19->isChecked())
-            tempList.push_back(18);
-        if (ui->demonSelect_20->isChecked())
-            tempList.push_back(19);
-        if (ui->demonSelect_21->isChecked())
-            tempList.push_back(20);
-        if (ui->demonSelect_22->isChecked())
-            tempList.push_back(21);
+        // Get all monster checkboxes
+        auto checkboxes = ui->groupBoxMonsterSelect->findChildren<QCheckBox*>();
+
+        // Look for checked checkboxes
+        for (const auto& checkbox: checkboxes)
+        {
+            if (!checkbox->isChecked())
+            {
+                continue;
+            }
+
+            // Get checkbox name, e.g. "demonSelect_1"
+            auto checkboxName = checkbox->objectName().toStdString();
+
+            // Strip everything after the "_" to get the number only
+            auto checkboxNumber = checkboxName.substr(checkboxName.find('_') + 1);
+
+            // Convert the number str to int, then substract 1 (0-based)
+            int checkboxIndex = std::stoi(checkboxNumber) - 1;
+
+            // Add number to list
+            tempList.push_back(checkboxIndex);
+        }
+
+        // Sort the list from smallest to biggest (is this needed?)
+        std::sort(tempList.begin(), tempList.end());
+
         return tempList;
     }
     else if (ui->radioButtonPresetFodderInfo->isChecked()) // Fodder
@@ -584,50 +568,33 @@ std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
     std::vector<int> tempList;
     if (ui->radioButtonPresetNoneChain->isChecked())
     {
-        if (ui->demonSelect_1_Chain->isChecked())
-            tempList.push_back(0);
-        if (ui->demonSelect_2_Chain->isChecked())
-            tempList.push_back(1);
-        if (ui->demonSelect_3_Chain->isChecked())
-            tempList.push_back(2);
-        if (ui->demonSelect_4_Chain->isChecked())
-            tempList.push_back(3);
-        if (ui->demonSelect_5_Chain->isChecked())
-            tempList.push_back(4);
-        if (ui->demonSelect_6_Chain->isChecked())
-            tempList.push_back(5);
-        if (ui->demonSelect_7_Chain->isChecked())
-            tempList.push_back(6);
-        if (ui->demonSelect_8_Chain->isChecked())
-            tempList.push_back(7);
-        if (ui->demonSelect_9_Chain->isChecked())
-            tempList.push_back(8);
-        if (ui->demonSelect_10_Chain->isChecked())
-            tempList.push_back(9);
-        if (ui->demonSelect_11_Chain->isChecked())
-            tempList.push_back(10);
-        if (ui->demonSelect_12_Chain->isChecked())
-            tempList.push_back(11);
-        if (ui->demonSelect_13_Chain->isChecked())
-            tempList.push_back(12);
-        if (ui->demonSelect_14_Chain->isChecked())
-            tempList.push_back(13);
-        if (ui->demonSelect_15_Chain->isChecked())
-            tempList.push_back(14);
-        if (ui->demonSelect_16_Chain->isChecked())
-            tempList.push_back(15);
-        if (ui->demonSelect_17_Chain->isChecked())
-            tempList.push_back(16);
-        if (ui->demonSelect_18_Chain->isChecked())
-            tempList.push_back(17);
-        if (ui->demonSelect_19_Chain->isChecked())
-            tempList.push_back(18);
-        if (ui->demonSelect_20_Chain->isChecked())
-            tempList.push_back(19);
-        if (ui->demonSelect_21_Chain->isChecked())
-            tempList.push_back(20);
-        if (ui->demonSelect_22_Chain->isChecked())
-            tempList.push_back(21);
+        // Get all monster checkboxes
+        auto checkboxes = ui->groupBoxMonsterSelect_3->findChildren<QCheckBox*>();
+
+        // Look for checked checkboxes
+        for (const auto& checkbox: checkboxes)
+        {
+            if (!checkbox->isChecked())
+            {
+                continue;
+            }
+
+            // Get checkbox name, e.g. "demonSelect_1"
+            auto checkboxName = checkbox->objectName().toStdString();
+
+            // Strip everything after the "_" to get the number only
+            auto checkboxNumber = checkboxName.substr(checkboxName.find('_') + 1);
+
+            // Convert the number str to int, then substract 1 (0-based)
+            int checkboxIndex = std::stoi(checkboxNumber) - 1;
+
+            // Add number to list
+            tempList.push_back(checkboxIndex);
+        }
+
+        // Sort the list from smallest to biggest (is this needed?)
+        std::sort(tempList.begin(), tempList.end());
+
         return tempList;
     }
     else if (ui->radioButtonPresetFodderChain->isChecked()) // Fodder
@@ -697,15 +664,46 @@ void MainWindow::on_buttonClearCoordsAndAnims_clicked() // Traversal Chain butto
     tempAnimList.clear();
 }
 
-// If either input fields for the Traversal Info coordinates are changed, try to get the delta values
+
+bool areCoordsValid(const std::string& coordsStr)
+{
+    std::vector<double> coordsDouble = stringToVector(coordsStr);
+    return coordsStr != "" && coordsDouble.size() >= 3;
+}
+// Check if the current input is valid
+bool isInputValid(Ui::MainWindow *ui)
+{
+    // Check if the start coords are valid
+    bool areStartCoordsValid = areCoordsValid(ui->inputStartCoords->text().toStdString());
+
+    // Check if the end coords are valid
+    bool areEndCoordsValid = areCoordsValid(ui->inputEndCoords->text().toStdString());
+
+    // Convert the entity number to int to check if it's valid
+    bool isEntityNumberValid;
+    ui->inputEntityNum->text().toInt(&isEntityNumberValid);
+    isEntityNumberValid = isEntityNumberValid || ui->inputEntityNum->text().isEmpty();
+
+    return areStartCoordsValid && areEndCoordsValid && isEntityNumberValid;
+}
+
+// If any input fields for the Traversal Info are changed, make sure their inputs are valid
+// Also try to get the delta values
 void MainWindow::on_inputStartCoords_textChanged(const QString &arg1)
 {
+    ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
     getDeltaValues(ui);
 }
 void MainWindow::on_inputEndCoords_textChanged(const QString &arg1)
 {
+    ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
     getDeltaValues(ui);
 }
+void MainWindow::on_inputEntityNumChain_textChanged(const QString &arg1)
+{
+    ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
+}
+
 
 // getGUIInputsDEInfoTraversal
 void MainWindow::on_buttonGenerateTraversal_released()
@@ -718,7 +716,7 @@ void MainWindow::on_buttonGenerateTraversal_released()
     int animIndex = ui->comboBoxAnimSelect->currentIndex();
 
     generateInfoTraversal(entityNum, startCoords, endCoords, monsterIndices, animIndex, reciprocalTraversal);
-    ui->inputEntityNum->setText(QString(entityNum + 1));
+    ui->inputEntityNum->setText(QString::number(entityNum + 1));
 }
 
 // addMidPointToList
@@ -745,9 +743,10 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
     auto endCoords = stringToVector(ui->inputEndCoordsChain->text().toStdString());
 
     auto monsterIndices = getMonsterTypesDETraversalChain(ui);
-    tempAnimList.insert(tempAnimList.begin(), ui->comboBoxAnimSelectStartChain->currentIndex());
+    auto traversalAnims = tempAnimList;
+    traversalAnims.insert(traversalAnims.begin()+0, ui->comboBoxAnimSelectStartChain->currentIndex());
     auto reciprocalTraversal = ui->selectReciprocalTraversalChain->isChecked();
 
-    generateTraversalChain(entityNum, startCoords, midCoords, endCoords, monsterIndices, tempAnimList, reciprocalTraversal);
+    generateTraversalChain(entityNum, startCoords, midCoords, endCoords, monsterIndices, traversalAnims, reciprocalTraversal);
+    ui->inputEntityNumChain->setText(QString::number(entityNum + 1));
 }
-

@@ -34,6 +34,8 @@ private slots:
 
     void on_buttonGenerateTraversalChain_clicked();
 
+    void on_inputEntityNumChain_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
 };
