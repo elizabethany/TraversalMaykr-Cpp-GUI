@@ -41,18 +41,17 @@ std::string animReverser(
     std::string animString
 )
 {
-    std::string tempStr = animString;
-    if (tempStr.find("up") != std::string::npos)
+    if (animString.find("up") != std::string::npos)
     {
-        size_t startPoint = tempStr.find("up");
-        tempStr.replace(startPoint, 2, "down");
+        size_t startPoint = animString.find("up");
+        animString.replace(startPoint, 2, "down");
     }
-    else if (tempStr.find("down") != std::string::npos)
+    else if (animString.find("down") != std::string::npos)
     {
-        size_t startPoint = tempStr.find("down");
-        tempStr.replace(startPoint, 4, "up");
+        size_t startPoint = animString.find("down");
+        animString.replace(startPoint, 4, "up");
     }
-    return tempStr;
+    return animString;
 }
 
 // Removes /traversal or /traversals from the given string
@@ -60,18 +59,17 @@ std::string monsterPathTruncater(
     std::string monsterPath
 )
 {
-    std::string tempStr = monsterPath;
-    if (tempStr.find("/traversals") != std::string::npos)
+    if (monsterPath.find("/traversals") != std::string::npos)
     {
-        size_t startPoint = tempStr.find("/traversals");
-        tempStr.replace(startPoint, 11, "");
+        size_t startPoint = monsterPath.find("/traversals");
+        monsterPath.replace(startPoint, 11, "");
     }
-    else if (tempStr.find("/traversal") != std::string::npos)
+    else if (monsterPath.find("/traversal") != std::string::npos)
     {
-        size_t startPoint = tempStr.find("/traversal");
-        tempStr.replace(startPoint, 10, "");
+        size_t startPoint = monsterPath.find("/traversal");
+        monsterPath.replace(startPoint, 10, "");
     }
-    return tempStr;
+    return monsterPath;
 }
 
 // Get the animation index for the given monster (index). Animation index determines which set of animations in DEAnimationSets to use.
@@ -139,7 +137,7 @@ std::vector<std::string> textFileToVector(
     std::string filePath
 )
 {
-    std::ifstream textTemplate(filePath, std::ifstream::in);
+    std::ifstream textTemplate(filePath);
     std::vector<std::string> makeVector;
     for (std::string currentLine; std::getline(textTemplate, currentLine);)
     {
@@ -205,12 +203,12 @@ void generateInfoTraversal(
 
         const int animSetIndex = getAnimIndex(monsterIndex);
 
-        const std::string startX = std::to_string(startCoords.at(0));
-        const std::string startY = std::to_string(startCoords.at(1));
-        const std::string startZ = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
-        const std::string endX = std::to_string(endCoords.at(0) - startCoords.at(0));
-        const std::string endY = std::to_string(endCoords.at(1) - startCoords.at(1));
-        const std::string endZ = std::to_string((endCoords.at(2) - DEpmNormalViewHeight) - (startCoords.at(2) - DEpmNormalViewHeight));
+        const auto startX = std::to_string(startCoords.at(0));
+        const auto startY = std::to_string(startCoords.at(1));
+        const auto startZ = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
+        const auto endX = std::to_string(endCoords.at(0) - startCoords.at(0));
+        const auto endY = std::to_string(endCoords.at(1) - startCoords.at(1));
+        const auto endZ = std::to_string((endCoords.at(2) - DEpmNormalViewHeight) - (startCoords.at(2) - DEpmNormalViewHeight));
         const std::string animation = DEAnimationSets.at(animSetIndex).at(animIndex);
         const std::string monsterName = DEMonsterNames.at(monsterIndex);
         const std::string monsterPath = DEMonsterPaths.at(monsterIndex);
@@ -234,12 +232,12 @@ void generateInfoTraversal(
         {
             std::vector<std::string> generatedEntity_r = infoTraversalTemplate;
             entityNumStr.append("_r");
-            const std::string startX_r = std::to_string(endCoords.at(0));
-            const std::string startY_r = std::to_string(endCoords.at(1));
-            const std::string startZ_r = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
-            const std::string endX_r = std::to_string(startCoords.at(0) - endCoords.at(0));
-            const std::string endY_r = std::to_string(startCoords.at(1) - endCoords.at(1));
-            const std::string endZ_r = std::to_string((startCoords.at(2) - DEpmNormalViewHeight) - (endCoords.at(2) - DEpmNormalViewHeight));
+            const auto startX_r = std::to_string(endCoords.at(0));
+            const auto startY_r = std::to_string(endCoords.at(1));
+            const auto startZ_r = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
+            const auto endX_r = std::to_string(startCoords.at(0) - endCoords.at(0));
+            const auto endY_r = std::to_string(startCoords.at(1) - endCoords.at(1));
+            const auto endZ_r = std::to_string((startCoords.at(2) - DEpmNormalViewHeight) - (endCoords.at(2) - DEpmNormalViewHeight));
             const std::string animation_r = animReverser(animation);
 
             replaceThisInString((generatedEntity_r).at(1), "{{{entityNum}}}", entityNumStr);
@@ -265,7 +263,7 @@ void generateTraversalChain(
     std::vector<double> startCoords,
     std::vector<std::vector<double>> midCoords,
     std::vector<double> endCoords,
-    std::vector<double> monsterIndices,
+    std::vector<int> monsterIndices,
     std::vector<int> traversalAnims,
     bool reciprocalTraversal
 )
@@ -275,7 +273,7 @@ void generateTraversalChain(
 
     for (int monsterIndex : monsterIndices)
     {
-        std::vector<std::string> generatedEntity1 = TraversalChainTemplate;
+        auto generatedEntity1 = TraversalChainTemplate;
 
         std::string entityNumStr = zeroPadded(std::to_string(entityNum));
 
@@ -286,12 +284,12 @@ void generateTraversalChain(
         const std::string monsterType = DEMonsterTypes.at(monsterIndex);
         const std::string animWeb = monsterPathTruncater(monsterPath);
 
-        const std::string startX = std::to_string(startCoords.at(0));
-        const std::string startY = std::to_string(startCoords.at(1));
-        const std::string startZ = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
-        const std::string endX = std::to_string(endCoords.at(0));
-        const std::string endY = std::to_string(endCoords.at(1));
-        const std::string endZ = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
+        const auto startX = std::to_string(startCoords.at(0));
+        const auto startY = std::to_string(startCoords.at(1));
+        const auto startZ = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
+        const auto endX = std::to_string(endCoords.at(0));
+        const auto endY = std::to_string(endCoords.at(1));
+        const auto endZ = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
         const std::string animation = DEAnimationSets.at(animSetIndex).at(traversalAnims.at(0));
 
         replaceThisInString((generatedEntity1).at(1), "{{{entityNum}}}", entityNumStr);
@@ -329,9 +327,9 @@ void generateTraversalChain(
                 nextPoint = "mod_traversal_chain_" + monsterName + "_mid_" + numToLetterStr.at(midNum + 1) + "_" + entityNumStr;
             }
 
-            const std::string midCoordX = std::to_string(currentMidPoint.at(0));
-            const std::string midCoordY = std::to_string(currentMidPoint.at(1));
-            const std::string midCoordZ = std::to_string(currentMidPoint.at(2) - DEpmNormalViewHeight);
+            const auto midCoordX = std::to_string(currentMidPoint.at(0));
+            const auto midCoordY = std::to_string(currentMidPoint.at(1));
+            const auto midCoordZ = std::to_string(currentMidPoint.at(2) - DEpmNormalViewHeight);
             const std::string currentMidLetter = numToLetterStr.at(midNum);
             const std::string midAnimation = DEAnimationSets.at(animSetIndex).at(traversalAnims.at(midNum));
 
@@ -354,14 +352,14 @@ void generateTraversalChain(
 
         if (reciprocalTraversal)
         {
-            std::vector<std::string> generatedEntity1_r = TraversalChainTemplate;
+            auto generatedEntity1_r = TraversalChainTemplate;
 
-            const std::string startX_r = std::to_string(endCoords.at(0));
-            const std::string startY_r = std::to_string(endCoords.at(1));
-            const std::string startZ_r = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
-            const std::string endX_r = std::to_string(startCoords.at(0));
-            const std::string endY_r = std::to_string(startCoords.at(1));
-            const std::string endZ_r = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
+            const auto startX_r = std::to_string(endCoords.at(0));
+            const auto startY_r = std::to_string(endCoords.at(1));
+            const auto startZ_r = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
+            const auto endX_r = std::to_string(startCoords.at(0));
+            const auto endY_r = std::to_string(startCoords.at(1));
+            const auto endZ_r = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
             const std::string animation_r = animReverser(DEAnimationSets.at(animSetIndex).at(traversalAnims.at(midNum-1)));
             entityNumStr.append("_r");
 
@@ -406,9 +404,9 @@ void generateTraversalChain(
                     nextPoint = "mod_traversal_chain_" + monsterName + "_mid_" + numToLetterStr.at(midNum_r + 1) + "_" + entityNumStr;
                 }
 
-                const std::string midCoordX = std::to_string(currentMidPoint.at(0));
-                const std::string midCoordY = std::to_string(currentMidPoint.at(1));
-                const std::string midCoordZ = std::to_string(currentMidPoint.at(2) - DEpmNormalViewHeight);
+                const auto midCoordX = std::to_string(currentMidPoint.at(0));
+                const auto midCoordY = std::to_string(currentMidPoint.at(1));
+                const auto midCoordZ = std::to_string(currentMidPoint.at(2) - DEpmNormalViewHeight);
                 const std::string currentMidLetter = numToLetterStr.at(midNum_r);
                 const std::string midAnimation = animReverser(DEAnimationSets.at(animSetIndex).at(traversalAnims_r.at(midNum_r)));
 
@@ -443,10 +441,12 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("TraversalMaykr-Cpp-GUI v0.2 by elizabethany");
 
     // For Traversal Info
+    ui->demonSelect_19->setChecked(true);
     ui->radioButtonPresetNoneInfo->setChecked(true);
     ui->comboBoxAnimSelect->addItems(dropDownAnimations);
 
     // For Traversal Chain
+    ui->demonSelect_19_Chain->setChecked(true);
     ui->radioButtonPresetNoneChain->setChecked(true);
     ui->comboBoxAnimSelectStartChain->addItems(dropDownAnimations);
     ui->comboBoxAnimSelectStartChain_2->addItems(dropDownAnimations);
@@ -461,8 +461,8 @@ MainWindow::~MainWindow()
 void getDeltaValues(Ui::MainWindow *ui)
 {
     // Get the text and convert them to std strings, then make a copy as vectors
-    std::string startCoordsStr = ui->inputStartCoords->text().toStdString();
-    std::string endCoordsStr = ui->inputEndCoords->text().toStdString();
+    auto startCoordsStr = ui->inputStartCoords->text().toStdString();
+    auto endCoordsStr = ui->inputEndCoords->text().toStdString();
     std::vector<double> startCoordsDouble = stringToVector(startCoordsStr);
     std::vector<double> endCoordsDouble = stringToVector(endCoordsStr);
 
@@ -579,6 +579,94 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
     }
 }
 
+std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
+{
+    std::vector<int> tempList;
+    if (ui->radioButtonPresetNoneChain->isChecked())
+    {
+        if (ui->demonSelect_1_Chain->isChecked())
+            tempList.push_back(0);
+        if (ui->demonSelect_2_Chain->isChecked())
+            tempList.push_back(1);
+        if (ui->demonSelect_3_Chain->isChecked())
+            tempList.push_back(2);
+        if (ui->demonSelect_4_Chain->isChecked())
+            tempList.push_back(3);
+        if (ui->demonSelect_5_Chain->isChecked())
+            tempList.push_back(4);
+        if (ui->demonSelect_6_Chain->isChecked())
+            tempList.push_back(5);
+        if (ui->demonSelect_7_Chain->isChecked())
+            tempList.push_back(6);
+        if (ui->demonSelect_8_Chain->isChecked())
+            tempList.push_back(7);
+        if (ui->demonSelect_9_Chain->isChecked())
+            tempList.push_back(8);
+        if (ui->demonSelect_10_Chain->isChecked())
+            tempList.push_back(9);
+        if (ui->demonSelect_11_Chain->isChecked())
+            tempList.push_back(10);
+        if (ui->demonSelect_12_Chain->isChecked())
+            tempList.push_back(11);
+        if (ui->demonSelect_13_Chain->isChecked())
+            tempList.push_back(12);
+        if (ui->demonSelect_14_Chain->isChecked())
+            tempList.push_back(13);
+        if (ui->demonSelect_15_Chain->isChecked())
+            tempList.push_back(14);
+        if (ui->demonSelect_16_Chain->isChecked())
+            tempList.push_back(15);
+        if (ui->demonSelect_17_Chain->isChecked())
+            tempList.push_back(16);
+        if (ui->demonSelect_18_Chain->isChecked())
+            tempList.push_back(17);
+        if (ui->demonSelect_19_Chain->isChecked())
+            tempList.push_back(18);
+        if (ui->demonSelect_20_Chain->isChecked())
+            tempList.push_back(19);
+        if (ui->demonSelect_21_Chain->isChecked())
+            tempList.push_back(20);
+        if (ui->demonSelect_22_Chain->isChecked())
+            tempList.push_back(21);
+        return tempList;
+    }
+    else if (ui->radioButtonPresetFodderChain->isChecked()) // Fodder
+    {
+        tempList = {5, 18, 11, 12, 21, 15};
+        return tempList;
+    }
+    else if (ui->radioButtonPresetHeavyChain->isChecked()) // Heavy
+    {
+        tempList = {13, 1, 2, 4, 17, 19, 20, 7, 8, 10};
+            return tempList;
+    }
+    else if (ui->radioButtonPresetSuperHeavyChain->isChecked()) // Super Heavy
+    {
+        tempList = {0, 16, 3, 6, 9, 14};
+        return tempList;
+    }
+    else if (ui->radioButtonPresetAChain->isChecked()) // Fodder + Carcass, Prowler, Whiplash, Marauder
+    {
+        tempList = {5, 18, 11, 12, 21, 15, 2, 7, 10, 6};
+        return tempList;
+    }
+    else if (ui->radioButtonPresetDChain->isChecked()) // Maykr Drone, Soldier, Prowler, Revenant, Archvile, Doom Hunter
+    {
+        tempList = {11, 21, 7, 8, 0, 3};
+        return tempList;
+    }
+    else if (ui->radioButtonPresetBChain->isChecked()) // All sans Tyrant
+    {
+        tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+        return tempList;
+    }
+    else if (ui->radioButtonPresetCChain->isChecked()) // All
+    {
+        tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+        return tempList;
+    }
+}
+
 // Clear the output files
 void MainWindow::on_buttonClearOutput_clicked() // Traversal Info button
 {
@@ -593,6 +681,7 @@ void MainWindow::on_buttonClearOutputChain_clicked() // Traversal Chain button
     output.close();
 }
 
+// clearCoords
 void MainWindow::on_buttonClearCoords_clicked() // Traversal Info button
 {
     ui->inputStartCoords->clear();
@@ -618,16 +707,47 @@ void MainWindow::on_inputEndCoords_textChanged(const QString &arg1)
     getDeltaValues(ui);
 }
 
-
+// getGUIInputsDEInfoTraversal
 void MainWindow::on_buttonGenerateTraversal_released()
 {
-    int entityNum = ui->inputEntityNum->text().toInt();
-    std::vector<double> startCoords = stringToVector(ui->inputStartCoords->text().toStdString());
-    std::vector<double> endCoords = stringToVector(ui->inputEndCoords->text().toStdString());
+    auto entityNum = ui->inputEntityNum->text().toInt();
+    auto startCoords = stringToVector(ui->inputStartCoords->text().toStdString());
+    auto endCoords = stringToVector(ui->inputEndCoords->text().toStdString());
     std::vector<int> monsterIndices = getMonsterTypesDEInfoTraversal(ui);
     bool reciprocalTraversal = ui->selectReciprocalTraversal->isChecked();
     int animIndex = ui->comboBoxAnimSelect->currentIndex();
 
     generateInfoTraversal(entityNum, startCoords, endCoords, monsterIndices, animIndex, reciprocalTraversal);
+    ui->inputEntityNum->setText(QString(entityNum + 1));
+}
+
+// addMidPointToList
+void MainWindow::on_pushButtonAddMidpoint_clicked()
+{
+    ui->listWidgetMidpoints->addItem(ui->inputMidCoordsChain->text());
+    tempAnimList.push_back(ui->comboBoxAnimSelectStartChain_2->currentIndex());
+    ui->listWidgetMidAnims->addItem(dropDownAnimations[ui->comboBoxAnimSelectStartChain_2->currentIndex()]);
+    ui->inputMidCoordsChain->clear();
+}
+
+// getGUIInputsDETraversalChain
+void MainWindow::on_buttonGenerateTraversalChain_clicked()
+{
+    auto entityNum = ui->inputEntityNumChain->text().toInt();
+    auto startCoords = stringToVector(ui->inputStartCoordsChain->text().toStdString());
+
+    std::vector<std::vector<double>> midCoords;
+    for (int i = 0; i < ui->listWidgetMidpoints->count(); i++)
+    {
+       midCoords.push_back(stringToVector(ui->listWidgetMidpoints->item(i)->text().toStdString()));
+    }
+
+    auto endCoords = stringToVector(ui->inputEndCoordsChain->text().toStdString());
+
+    auto monsterIndices = getMonsterTypesDETraversalChain(ui);
+    tempAnimList.insert(tempAnimList.begin(), ui->comboBoxAnimSelectStartChain->currentIndex());
+    auto reciprocalTraversal = ui->selectReciprocalTraversalChain->isChecked();
+
+    generateTraversalChain(entityNum, startCoords, midCoords, endCoords, monsterIndices, tempAnimList, reciprocalTraversal);
 }
 

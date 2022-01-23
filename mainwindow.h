@@ -30,6 +30,10 @@ private slots:
 
     void on_buttonGenerateTraversal_released();
 
+    void on_pushButtonAddMidpoint_clicked();
+
+    void on_buttonGenerateTraversalChain_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

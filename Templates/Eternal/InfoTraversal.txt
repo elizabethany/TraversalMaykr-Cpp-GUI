@@ -1,0 +1,25 @@
+entity {
+	entityDef mod_info_traversal_{{{monsterName}}}_{{{entityNum}}} {
+	class = "idInfoTraversal";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		traversalAnim = "animweb/characters/monsters/{{{monsterPath}}}/{{{animation}}}";
+		monsterType = "{{{monsterType}}}";
+		snapToGround = true;
+		spawnPosition = {
+			x = {{{startX}}};
+			y = {{{startY}}};
+			z = {{{startZ}}};
+		}
+		traversalEndpoint = {
+			x = {{{endX}}};
+			y = {{{endY}}};
+			z = {{{endZ}}};
+		}
+	}
+}
+}
