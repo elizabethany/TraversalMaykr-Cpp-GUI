@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <cmath>
 
 // pm_NormalViewHeight, using default value
 static const double DEpmNormalViewHeight = 1.65735;
