@@ -444,13 +444,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->demonSelect_19->setChecked(true);
     ui->radioButtonPresetNoneInfo->setChecked(true);
     ui->comboBoxAnimSelect->addItems(dropDownAnimations);
-    ui->buttonGenerateTraversal->setEnabled(false); // Disable generate button
+    ui->buttonGenerateTraversal->setEnabled(false); // Disable "generate traversal info" button
 
     // For Traversal Chain
     ui->demonSelect_19_Chain->setChecked(true);
     ui->radioButtonPresetNoneChain->setChecked(true);
     ui->comboBoxAnimSelectStartChain->addItems(dropDownAnimations);
     ui->comboBoxAnimSelectStartChain_2->addItems(dropDownAnimations);
+    ui->buttonGenerateTraversalChain->setEnabled(false); // Disable "generate traversal chain" button
+    ui->pushButtonAddMidpoint->setEnabled(false); // Disable "add midpoint" button
 }
 
 MainWindow::~MainWindow()
@@ -670,8 +672,8 @@ bool areCoordsValid(const std::string& coordsStr)
     std::vector<double> coordsDouble = stringToVector(coordsStr);
     return coordsStr != "" && coordsDouble.size() >= 3;
 }
-// Check if the current input is valid
-bool isInputValid(Ui::MainWindow *ui)
+// Check if the current inputs for the Traversal Info tab are valid
+bool isInputValidInfo(Ui::MainWindow *ui)
 {
     // Check if the start coords are valid
     bool areStartCoordsValid = areCoordsValid(ui->inputStartCoords->text().toStdString());
@@ -687,23 +689,60 @@ bool isInputValid(Ui::MainWindow *ui)
     return areStartCoordsValid && areEndCoordsValid && isEntityNumberValid;
 }
 
-// If any input fields for the Traversal Info are changed, make sure their inputs are valid
+// If any input fields for the Traversal Info tab are changed, make sure their inputs are valid
 // Also try to get the delta values
 void MainWindow::on_inputStartCoords_textChanged(const QString &arg1)
 {
-    ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
+    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
     getDeltaValues(ui);
 }
 void MainWindow::on_inputEndCoords_textChanged(const QString &arg1)
 {
-    ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
+    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
     getDeltaValues(ui);
 }
 void MainWindow::on_inputEntityNumChain_textChanged(const QString &arg1)
 {
-    ui->buttonGenerateTraversal->setEnabled(isInputValid(ui));
+    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
 }
 
+// Check if the current inputs for the Traversal Chain tab are valid
+bool isInputValidChain(Ui::MainWindow *ui)
+{
+    // Check if the start coords are valid
+    bool areStartCoordsValid = areCoordsValid(ui->inputStartCoordsChain->text().toStdString());
+
+    // Check if the end coords are valid
+    bool areEndCoordsValid = areCoordsValid(ui->inputEndCoordsChain->text().toStdString());
+
+    // Convert the entity number to int to check if it's valid
+    bool isEntityNumberValid;
+    ui->inputEntityNum->text().toInt(&isEntityNumberValid);
+    isEntityNumberValid = isEntityNumberValid || ui->inputEntityNumChain->text().isEmpty();
+
+    return areStartCoordsValid && areEndCoordsValid && isEntityNumberValid;
+}
+bool isInputValidChainMidpoint(Ui::MainWindow *ui)
+{
+    // Check if the midpoint coords are valid
+    bool areMidCoordsValid = areCoordsValid(ui->inputMidCoordsChain->text().toStdString());
+
+    return areMidCoordsValid;
+}
+
+// If any input fields for the Traversal Chain tab are changed, make sure their inputs are valid
+void MainWindow::on_inputStartCoordsChain_textChanged(const QString &arg1)
+{
+    ui->buttonGenerateTraversalChain->setEnabled(isInputValidChain(ui));
+}
+void MainWindow::on_inputEndCoordsChain_textChanged(const QString &arg1)
+{
+    ui->buttonGenerateTraversalChain->setEnabled(isInputValidChain(ui));
+}
+void MainWindow::on_inputMidCoordsChain_textChanged(const QString &arg1)
+{
+    ui->buttonGenerateTraversalChain->setEnabled(isInputValidChainMidpoint(ui));
+}
 
 // getGUIInputsDEInfoTraversal
 void MainWindow::on_buttonGenerateTraversal_released()
@@ -750,3 +789,4 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
     generateTraversalChain(entityNum, startCoords, midCoords, endCoords, monsterIndices, traversalAnims, reciprocalTraversal);
     ui->inputEntityNumChain->setText(QString::number(entityNum + 1));
 }
+
