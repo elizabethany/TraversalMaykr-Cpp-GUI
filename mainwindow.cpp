@@ -439,6 +439,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Set window title
     setWindowTitle("TraversalMaykr-Cpp-GUI v0.2 by elizabethany");
 
+    // Set the traversal info tab as the default
+    ui->tabWidgetTraversalEntityTypes->setCurrentIndex(0);
+
     // For Traversal Info
     ui->demonSelect_19->setChecked(true);
     ui->radioButtonPresetNoneInfo->setChecked(true);
