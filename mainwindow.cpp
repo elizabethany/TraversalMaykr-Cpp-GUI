@@ -715,7 +715,7 @@ void MainWindow::on_inputEntityNumChain_textChanged(const QString& arg1)
     ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
 }
 
-// Check if the current inputs for the Traversal Chain tab are valid
+// Check if the start and end coords for the Traversal Chain are valid
 bool isInputValidChain(Ui::MainWindow *ui)
 {
     // Check if the start coords are valid
@@ -729,8 +729,11 @@ bool isInputValidChain(Ui::MainWindow *ui)
     ui->inputEntityNum->text().toInt(&isEntityNumberValid);
     isEntityNumberValid = isEntityNumberValid || ui->inputEntityNumChain->text().isEmpty();
 
-    return areStartCoordsValid && areEndCoordsValid && isEntityNumberValid;
+    bool wasMidpointAdded = ui->listWidgetMidpoints->count();
+
+    return areStartCoordsValid && areEndCoordsValid && wasMidpointAdded;
 }
+// Check if the coords for the Traversal Chain midpoint are valid
 bool isInputValidChainMidpoint(Ui::MainWindow *ui)
 {
     // Check if the midpoint coords are valid
@@ -748,9 +751,10 @@ void MainWindow::on_inputEndCoordsChain_textChanged(const QString &arg1)
 {
     ui->buttonGenerateTraversalChain->setEnabled(isInputValidChain(ui));
 }
+// Enable "add midpoint" button if the given midpoint coords are valid
 void MainWindow::on_inputMidCoordsChain_textChanged(const QString &arg1)
 {
-    ui->buttonGenerateTraversalChain->setEnabled(isInputValidChainMidpoint(ui));
+    ui->pushButtonAddMidpoint->setEnabled(isInputValidChainMidpoint(ui));
 }
 
 // getGUIInputsDEInfoTraversal
@@ -774,6 +778,9 @@ void MainWindow::on_pushButtonAddMidpoint_clicked()
     tempAnimList.push_back(ui->comboBoxAnimSelectStartChain_2->currentIndex());
     ui->listWidgetMidAnims->addItem(dropDownAnimations[ui->comboBoxAnimSelectStartChain_2->currentIndex()]);
     ui->inputMidCoordsChain->clear();
+
+    // Also try to enable "generate traversal chain" button after adding midpoint
+    ui->buttonGenerateTraversalChain->setEnabled(isInputValidChain(ui));
 }
 
 // getGUIInputsDETraversalChain
