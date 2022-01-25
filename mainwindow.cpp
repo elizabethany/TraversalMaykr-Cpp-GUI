@@ -33,10 +33,18 @@ static const std::vector<std::string> DEMonsterPaths = { "archvile/traversal", "
 // Quick int to char (to string) conversion
 static const std::vector<std::string> numToLetterStr = { "0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
 
-// To popular drown down menu with available animations
+// To populate drown down menus with available animations
 static const QStringList dropDownAnimations = { "ledge_up_100", "ledge_up_200", "ledge_up_300", "ledge_up_400", "ledge_up_500", "ledge_up_700", "ledge_up_1000", "ledge_down_100", "ledge_down_200", "ledge_down_300", "ledge_down_400", "ledge_down_500", "ledge_down_700", "ledge_down_1000", "rail_down_100", "rail_down_200", "rail_down_300", "rail_down_400", "rail_down_500", "rail_down_700", "rail_down_1000", "rail_up_100", "rail_up_200", "rail_up_300", "rail_up_400", "rail_up_500", "rail_up_700", "rail_up_1000", "jump_forward_100", "jump_forward_200", "jump_forward_300", "jump_forward_400", "jump_forward_500", "jump_forward_700", "jump_forward_1000", "jump_forward_300_down_300", "jump_forward_300_down_500", "jump_forward_300_up_300", "jump_forward_300_up_500", "jump_forward_500_down_300", "jump_forward_500_down_500", "jump_forward_500_up_300", "jump_forward_500_up_500", "jump_forward_1000_down_1000", "jump_forward_1000_up_1000" };
 
 std::vector<int> tempAnimList;
+
+// For Dedicated Traversal Chain tab
+static const std::vector<std::string> linkAnimationsArachnotron = { "ceiling_hangout/floor_to_ceiling", "ceiling_hangout/ceiling_to_floor", "ceiling_hangout/ceiling_to_wall_center", "ceiling_hangout/ceiling_to_wall_left", "ceiling_hangout/ceiling_to_wall_right", "wall_hangout/floor_to_wall", "wall_hangout/wall_to_ceiling", "wall_hangout/wall_to_floor", "traversal/jump_forward_100", "traversal/jump_forward_1000", "traversal/jump_forward_200", "traversal/jump_forward_2000", "traversal/jump_forward_300", "traversal/jump_forward_400", "traversal/jump_forward_500", "traversal/jump_forward_700", "traversal/ledge_down_100", "traversal/ledge_down_1000", "traversal/ledge_down_200", "traversal/ledge_down_300", "traversal/ledge_down_400", "traversal/ledge_down_500", "traversal/ledge_down_700", "traversal/ledge_forward_1000_down_1000", "traversal/ledge_forward_1000_up_1000", "traversal/ledge_forward_300_down_300", "traversal/ledge_forward_300_down_500", "traversal/ledge_forward_300_up_300", "traversal/ledge_forward_300_up_500", "traversal/ledge_forward_500_down_300", "traversal/ledge_forward_500_down_500", "traversal/ledge_forward_500_up_300", "traversal/ledge_forward_500_up_500", "traversal/ledge_up_100", "traversal/ledge_up_1000", "traversal/ledge_up_200", "traversal/ledge_up_300", "traversal/ledge_up_400", "traversal/ledge_up_500", "traversal/ledge_up_700", "traversal/rail_down_100", "traversal/rail_down_1000", "traversal/rail_down_200", "traversal/rail_down_300", "traversal/rail_down_400", "traversal/rail_down_500", "traversal/rail_down_700", "traversal/rail_up_100", "traversal/rail_up_1000", "traversal/rail_up_200", "traversal/rail_up_300", "traversal/rail_up_400", "traversal/rail_up_500", "traversal/rail_up_700", "traversal/window_forward_700_up_200", "traversal/window_forward_700_up_300", "traversal/window_forward_700_up_500", "traversal/window_forward_800_up_500" };
+static const std::vector<std::string> idleAnimationsArachnotron = { "", "ceiling_hangout/ceiling_idle", "wall_hangout/idle", "traversal/to_idle" };
+static const QStringList linkAnimationsArachnotron_Q = { "ceiling_hangout/floor_to_ceiling", "ceiling_hangout/ceiling_to_floor", "ceiling_hangout/ceiling_to_wall_center", "ceiling_hangout/ceiling_to_wall_left", "ceiling_hangout/ceiling_to_wall_right", "wall_hangout/floor_to_wall", "wall_hangout/wall_to_ceiling", "wall_hangout/wall_to_floor", "traversal/jump_forward_100", "traversal/jump_forward_1000", "traversal/jump_forward_200", "traversal/jump_forward_2000", "traversal/jump_forward_300", "traversal/jump_forward_400", "traversal/jump_forward_500", "traversal/jump_forward_700", "traversal/ledge_down_100", "traversal/ledge_down_1000", "traversal/ledge_down_200", "traversal/ledge_down_300", "traversal/ledge_down_400", "traversal/ledge_down_500", "traversal/ledge_down_700", "traversal/ledge_forward_1000_down_1000", "traversal/ledge_forward_1000_up_1000", "traversal/ledge_forward_300_down_300", "traversal/ledge_forward_300_down_500", "traversal/ledge_forward_300_up_300", "traversal/ledge_forward_300_up_500", "traversal/ledge_forward_500_down_300", "traversal/ledge_forward_500_down_500", "traversal/ledge_forward_500_up_300", "traversal/ledge_forward_500_up_500", "traversal/ledge_up_100", "traversal/ledge_up_1000", "traversal/ledge_up_200", "traversal/ledge_up_300", "traversal/ledge_up_400", "traversal/ledge_up_500", "traversal/ledge_up_700", "traversal/rail_down_100", "traversal/rail_down_1000", "traversal/rail_down_200", "traversal/rail_down_300", "traversal/rail_down_400", "traversal/rail_down_500", "traversal/rail_down_700", "traversal/rail_up_100", "traversal/rail_up_1000", "traversal/rail_up_200", "traversal/rail_up_300", "traversal/rail_up_400", "traversal/rail_up_500", "traversal/rail_up_700", "traversal/window_forward_700_up_200", "traversal/window_forward_700_up_300", "traversal/window_forward_700_up_500", "traversal/window_forward_800_up_500" };
+static const QStringList idleAnimationsArachnotron_Q = { "NONE", "ceiling_hangout/ceiling_idle", "wall_hangout/idle", "traversal/to_idle" };
+std::vector<int> tempLinkListHangArachnotron;
+std::vector<int> tempIdleListHangArachnotron;
 
 double degToRad(
     double degree
@@ -550,13 +558,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBoxAnimSelect->addItems(dropDownAnimations);
     ui->buttonGenerateTraversal->setEnabled(false); // Disable "generate traversal info" button
 
-    // For Traversal Chain
+    // For Traversal Chain (General)
     ui->demonSelect_19_Chain->setChecked(true);
     ui->radioButtonPresetNoneChain->setChecked(true);
     ui->comboBoxAnimSelectStartChain->addItems(dropDownAnimations);
     ui->comboBoxAnimSelectStartChain_2->addItems(dropDownAnimations);
     ui->buttonGenerateTraversalChain->setEnabled(false); // Disable "generate traversal chain" button
     ui->pushButtonAddMidpoint->setEnabled(false); // Disable "add midpoint" button
+
+    // For Traversal Chain (Dedicated)
+    ui->comboBox_linkAnimsArachnotron->addItems(linkAnimationsArachnotron_Q);
+    ui->comboBox_idleAnimsArachnotron->addItems(idleAnimationsArachnotron_Q);
 }
 
 MainWindow::~MainWindow()
@@ -1007,6 +1019,7 @@ void generateHangoutTest(
 
 void MainWindow::on_pushButtonForTesting_clicked()
 {
+    /*
     idInfo_TraversalChain P1, P2;
     idInfo_TraversalPoint P3;
 
@@ -1022,9 +1035,44 @@ void MainWindow::on_pushButtonForTesting_clicked()
 
     P3.coordinates = {-134.93, 124.27, -29.29, 90.4, 89.0};
     P3.entityName = "hangout_test_entity_end";
+    */
 
-    std::vector<idInfo_TraversalChain> entityObjects = {P1, P2};
+    auto entityName = ui->inputEntityNameHangArachnotron->text().toStdString();
 
-    generateHangoutTest(entityObjects, P3);
+    idInfo_TraversalPoint landingEntity;
+    landingEntity.entityName = "mod_traversal_chain_arachnotron_hangout_landing_" + entityName;
+    landingEntity.coordinates = stringToVector(ui->inputCoordsLandArachnotron->text().toStdString());
+
+    std::vector<idInfo_TraversalChain> entityObjects;
+    for (int i = 0; i < ui->listWidget_hangCoordsArachnotron->count(); i++)
+    {
+        idInfo_TraversalChain tempObject;
+        tempObject.entityName = "mod_traversal_chain_arachnotron_hangout_" + entityName + "_" + numToLetterStr[i+1];
+        tempObject.coordinates = stringToVector(ui->listWidget_hangCoordsArachnotron->item(i)->text().toStdString());
+        tempObject.linkAnimation = ui->listWidget_hangLinkArachnotron->item(i)->text().toStdString();
+
+        auto tempStr = ui->listWidget_hangIdleArachnotron->item(i)->text().toStdString();
+        if (tempStr == "NONE")
+            tempObject.idleAnimation = "";
+        else
+            tempObject.idleAnimation = "animweb/characters/monsters/arachnotron/" + tempStr;
+
+        entityObjects.push_back(tempObject);
+    }
+
+    generateHangoutTest(entityObjects, landingEntity);
+    // test_entity
+    // -135.05 149.79 -41.34 269.4 6.0 | ceiling_hangout/floor_to_ceiling
+    // -135.35 138.65 -24.08 270.7 4.3 | ceiling_hangout/ceiling_to_floor
+    // -134.93 124.27 -29.29 90.4 89.0
+}
+
+
+void MainWindow::on_pushButton_addChain_clicked()
+{
+    ui->listWidget_hangCoordsArachnotron->addItem(ui->inputCoordsHangArachnotron->text());
+    ui->listWidget_hangLinkArachnotron->addItem(ui->comboBox_linkAnimsArachnotron->currentText());
+    ui->listWidget_hangIdleArachnotron->addItem(ui->comboBox_idleAnimsArachnotron->currentText());
+    ui->inputCoordsHangArachnotron->clear();
 }
 

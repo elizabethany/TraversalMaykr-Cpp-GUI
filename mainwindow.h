@@ -46,6 +46,8 @@ private slots:
 
     void on_pushButtonForTesting_clicked();
 
+    void on_pushButton_addChain_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
