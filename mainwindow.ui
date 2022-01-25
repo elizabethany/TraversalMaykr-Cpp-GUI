@@ -31,7 +31,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -45,6 +45,9 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidgetTraversalEntityTypes">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -55,11 +58,11 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_TraversalInfo">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -71,7 +74,7 @@
         <item>
          <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0">
           <property name="sizeConstraint">
-           <enum>QLayout::SetMaximumSize</enum>
+           <enum>QLayout::SetMinimumSize</enum>
           </property>
           <item row="0" column="0">
            <widget class="QLineEdit" name="inputStartCoords">
@@ -87,6 +90,11 @@
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Coordinates for where you want the traversal to start.
+For example, if you want a demon to jump up a ledge, the starting coordinates would be from the bottom of the ledge.
+Direction does not matter for these coordinates.</string>
+            </property>
             <property name="placeholderText">
              <string>Start Coordinates</string>
             </property>
@@ -98,7 +106,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Maximum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -160,6 +168,11 @@
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Coordinates for where you want the traversal to end.
+For example, if you want a demon to jump up a ledge, the destination coordinates would be at the top of the ledge.
+Direction does not matter for these coordinates.</string>
+            </property>
             <property name="placeholderText">
              <string>Destination Coordinates</string>
             </property>
@@ -188,6 +201,9 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>The difference between the x, y, and z values of the coordinates you entered</string>
             </property>
             <property name="title">
              <string>Delta Values</string>
@@ -277,7 +293,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Preferred</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -345,6 +361,11 @@
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>The starting entity number is the number appended to the name of the generated entity.
+For example, if you set it to 24 and made a traversal info for soldiers, then the generated entity would be named mod_info_traversal_soldier_00024.
+This number automatically increments by 1 after every generated entity.</string>
+            </property>
             <property name="placeholderText">
              <string>Starting Entity Number</string>
             </property>
@@ -372,7 +393,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Maximum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -388,7 +409,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Maximum</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -411,6 +432,9 @@
               <width>0</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>The animation you want the demon to use to move from the start to the destination</string>
             </property>
             <property name="maxVisibleItems">
              <number>45</number>
@@ -436,7 +460,7 @@
           <item row="2" column="2" rowspan="7">
            <widget class="QGroupBox" name="groupBoxMonsterSelect">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -545,6 +569,9 @@
              </item>
              <item row="21" column="0" colspan="3">
               <widget class="QRadioButton" name="radioButtonPresetDInfo">
+               <property name="toolTip">
+                <string>Soldier, Revenant, Doom Hunter, Maykr Drone, Prowler, and Archvile</string>
+               </property>
                <property name="text">
                 <string>Thruster Assisted and Teleporting Demons</string>
                </property>
@@ -732,7 +759,7 @@
       </widget>
       <widget class="QWidget" name="tab_TraversalChain">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -750,7 +777,7 @@
         <item>
          <layout class="QGridLayout" name="gridLayout_5" columnstretch="0,0,0,0,0,0">
           <property name="sizeConstraint">
-           <enum>QLayout::SetMaximumSize</enum>
+           <enum>QLayout::SetMinimumSize</enum>
           </property>
           <item row="7" column="0" colspan="3">
            <widget class="QLabel" name="labelMidAnimSelect">
@@ -781,7 +808,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -816,7 +843,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -839,6 +866,11 @@
               <width>0</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Coordinates for a midpoint in the traversal chain.
+Once valid coordinates have been entered and an animation is picked, hit the &quot;Add Midpoint&quot; button to add it to the list below.
+You need at least one midpoint.</string>
             </property>
             <property name="text">
              <string/>
@@ -926,6 +958,12 @@
           </item>
           <item row="8" column="0" colspan="3">
            <widget class="QComboBox" name="comboBoxAnimSelectStartChain_2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
             <property name="maxVisibleItems">
              <number>45</number>
             </property>
@@ -979,7 +1017,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -995,7 +1033,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1041,6 +1079,11 @@
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>The starting entity number is the number appended to the name of the generated entity.
+For example, if you set it to 24 and made a traversal info for soldiers, then the generated entity would be named mod_info_traversal_soldier_00024.
+This number automatically increments by 1 after every generated entity.</string>
+            </property>
             <property name="placeholderText">
              <string>Starting Entity Number</string>
             </property>
@@ -1060,6 +1103,10 @@
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>The coordinates for the spot you want the traversal chain to begin.
+Direction does not matter for these coordinates.</string>
+            </property>
             <property name="placeholderText">
              <string>Start Coordinates</string>
             </property>
@@ -1071,7 +1118,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1087,7 +1134,7 @@
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1100,7 +1147,7 @@
           <item row="2" column="5" rowspan="12">
            <widget class="QGroupBox" name="groupBoxMonsterSelect_3">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -1352,6 +1399,9 @@
              </item>
              <item row="22" column="0" colspan="3">
               <widget class="QRadioButton" name="radioButtonPresetDChain">
+               <property name="toolTip">
+                <string>Soldier, Revenant, Doom Hunter, Maykr Drone, Prowler, and Archvile</string>
+               </property>
                <property name="text">
                 <string>Thruster Assisted and Teleporting Demons</string>
                </property>
@@ -1440,8 +1490,11 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_TraversalChainHang">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -1449,6 +1502,123 @@
        <attribute name="title">
         <string>Traversal Chain (Hangout)</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMaximumSize</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QTabWidget" name="tabWidget">
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
+            <widget class="QWidget" name="tab_3">
+             <attribute name="title">
+              <string>Arachnotron</string>
+             </attribute>
+             <widget class="QLineEdit" name="lineEdit_inputStartCoordsHang">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>40</y>
+                <width>632</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="placeholderText">
+               <string>Start Coordinates</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="lineEdit_inputHangCoordsHang">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>90</y>
+                <width>632</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
+              </property>
+              <property name="placeholderText">
+               <string>Hangout Coordinates</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="lineEdit_inputLandCoordsHangArac">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>130</y>
+                <width>632</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <property name="placeholderText">
+               <string>Landing Coordinates</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_generateHangout">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>170</y>
+                <width>632</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Generate Traversal Chain (Hangout)</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="tab_4">
+             <attribute name="title">
+              <string>Testing</string>
+             </attribute>
+             <widget class="QPushButton" name="pushButtonForTesting">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>240</y>
+                <width>80</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Push To Test</string>
+              </property>
+             </widget>
+             <widget class="QLineEdit" name="lineEdit">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>50</y>
+                <width>113</width>
+                <height>24</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QComboBox" name="comboBox">
+              <property name="geometry">
+               <rect>
+                <x>60</x>
+                <y>100</y>
+                <width>151</width>
+                <height>24</height>
+               </rect>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

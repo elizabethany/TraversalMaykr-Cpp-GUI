@@ -42,6 +42,10 @@ private slots:
 
     void on_inputEndCoordsChain_textChanged(const QString &arg1);
 
+    void on_pushButton_generateHangout_clicked();
+
+    void on_pushButtonForTesting_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

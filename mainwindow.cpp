@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -35,6 +37,40 @@ static const std::vector<std::string> numToLetterStr = { "0", "a", "b", "c", "d"
 static const QStringList dropDownAnimations = { "ledge_up_100", "ledge_up_200", "ledge_up_300", "ledge_up_400", "ledge_up_500", "ledge_up_700", "ledge_up_1000", "ledge_down_100", "ledge_down_200", "ledge_down_300", "ledge_down_400", "ledge_down_500", "ledge_down_700", "ledge_down_1000", "rail_down_100", "rail_down_200", "rail_down_300", "rail_down_400", "rail_down_500", "rail_down_700", "rail_down_1000", "rail_up_100", "rail_up_200", "rail_up_300", "rail_up_400", "rail_up_500", "rail_up_700", "rail_up_1000", "jump_forward_100", "jump_forward_200", "jump_forward_300", "jump_forward_400", "jump_forward_500", "jump_forward_700", "jump_forward_1000", "jump_forward_300_down_300", "jump_forward_300_down_500", "jump_forward_300_up_300", "jump_forward_300_up_500", "jump_forward_500_down_300", "jump_forward_500_down_500", "jump_forward_500_up_300", "jump_forward_500_up_500", "jump_forward_1000_down_1000", "jump_forward_1000_up_1000" };
 
 std::vector<int> tempAnimList;
+
+double degToRad(
+    double degree
+)
+{
+    return (degree * M_PI / 180);
+}
+
+// Turns the pitch, yaw, and roll that you input, into mat3 values
+std::vector<double> angle_to_mat3(
+    double pitch,
+    double yaw,
+    double roll
+)
+{
+    double sy = sin(degToRad(yaw));
+    double cy = cos(degToRad(yaw));
+    double sp = sin(degToRad(pitch));
+    double cp = cos(degToRad(pitch));
+    double sr = sin(degToRad(roll));
+    double cr = cos(degToRad(roll));
+
+    double mat0X = cp * cy;
+    double mat0Y = cp * sy;
+    double mat0Z = -sp;
+    double mat1X = sr * sp * cy + cr * -sy;
+    double mat1Y = sr * sp * sy + cr * cy;
+    double mat1Z = sr * cp;
+    double mat2X = cr * sp * cy + -sr * sy;
+    double mat2Y = cr * sp * sy + -sr * cy;
+    double mat2Z = cr * cp;
+
+    return std::vector<double>{mat0X, mat0Y, mat0Z, mat1X, mat1Y, mat1Z, mat2X, mat2Y, mat2Z};
+}
 
 // Reverses direction of given animation, if applicable
 std::string animReverser(
@@ -193,7 +229,7 @@ void generateInfoTraversal(
     bool reciprocalTraversal
 )
 {
-    static const std::vector<std::string> infoTraversalTemplate = textFileToVector("Templates/Eternal/InfoTraversal.txt");
+    static const std::vector<std::string> infoTraversalTemplate = textFileToVector("Templates/Traversal Info/InfoTraversal.txt");
 
     for (const auto& monsterIndex : monsterIndices)
     {
@@ -268,8 +304,8 @@ void generateTraversalChain(
     bool reciprocalTraversal
 )
 {
-    static const std::vector<std::string> TraversalChainTemplate = textFileToVector("Templates/Eternal/TraversalChain.txt");
-    static const std::vector<std::string> TraversalChainMidTemplate = textFileToVector("Templates/Eternal/TraversalChainMid.txt");
+    static const std::vector<std::string> TraversalChainTemplate = textFileToVector("Templates/Traversal Chain/TraversalChain.txt");
+    static const std::vector<std::string> TraversalChainMidTemplate = textFileToVector("Templates/Traversal Chain/TraversalChainMid.txt");
 
     for (const auto& monsterIndex : monsterIndices)
     {
@@ -304,11 +340,11 @@ void generateTraversalChain(
         replaceThisInString((generatedEntity1).at(21), "{{{monsterPathStart}}}", monsterPath);
         replaceThisInString((generatedEntity1).at(21), "{{{animation}}}", animation);
 
-        replaceThisInString((generatedEntity1).at(28), "{{{monsterName}}}", monsterName);
-        replaceThisInString((generatedEntity1).at(28), "{{{entityNum}}}", entityNumStr);
-        replaceThisInString((generatedEntity1).at(37), "{{{endX}}}", endX);
-        replaceThisInString((generatedEntity1).at(38), "{{{endY}}}", endY);
-        replaceThisInString((generatedEntity1).at(39), "{{{endZ}}}", endZ);
+        replaceThisInString((generatedEntity1).at(29), "{{{monsterName}}}", monsterName);
+        replaceThisInString((generatedEntity1).at(29), "{{{entityNum}}}", entityNumStr);
+        replaceThisInString((generatedEntity1).at(38), "{{{endX}}}", endX);
+        replaceThisInString((generatedEntity1).at(39), "{{{endY}}}", endY);
+        replaceThisInString((generatedEntity1).at(40), "{{{endZ}}}", endZ);
 
         writeThisThing(generatedEntity1, "DE Generated Traversal Chains.txt");
 
@@ -375,11 +411,11 @@ void generateTraversalChain(
             replaceThisInString((generatedEntity1_r).at(21), "{{{monsterPathStart}}}", monsterPath);
             replaceThisInString((generatedEntity1_r).at(21), "{{{animation}}}", animation_r);
 
-            replaceThisInString((generatedEntity1_r).at(28), "{{{monsterName}}}", monsterName);
-            replaceThisInString((generatedEntity1_r).at(28), "{{{entityNum}}}", entityNumStr);
-            replaceThisInString((generatedEntity1_r).at(37), "{{{endX}}}", endX_r);
-            replaceThisInString((generatedEntity1_r).at(38), "{{{endY}}}", endY_r);
-            replaceThisInString((generatedEntity1_r).at(39), "{{{endZ}}}", endZ_r);
+            replaceThisInString((generatedEntity1_r).at(29), "{{{monsterName}}}", monsterName);
+            replaceThisInString((generatedEntity1_r).at(29), "{{{entityNum}}}", entityNumStr);
+            replaceThisInString((generatedEntity1_r).at(38), "{{{endX}}}", endX_r);
+            replaceThisInString((generatedEntity1_r).at(39), "{{{endY}}}", endY_r);
+            replaceThisInString((generatedEntity1_r).at(40), "{{{endZ}}}", endZ_r);
 
             writeThisThing(generatedEntity1_r, "DE Generated Traversal Chains.txt");
 
@@ -428,6 +464,71 @@ void generateTraversalChain(
             }
         }
     }
+}
+
+// Create idInfoTraversal_Chain (Hangout) entities for the given inputs and writes them to their output
+void generateHangoutArachnotron(
+    int entityNum,
+    std::vector<double> startCoords,
+    std::vector<double> hangCoords,
+    std::vector<double> endCoords
+)
+{
+    static const std::vector<std::string> hangoutArachnotronTemplate = textFileToVector("Templates/Traversal Chain/Hangout/TraversalChainHangout.txt");
+
+    std::vector<std::string> generatedEntity = hangoutArachnotronTemplate;
+
+    std::string entityNumStr = zeroPadded(std::to_string(entityNum));
+
+    const auto pitchYawRoll = angle_to_mat3(hangCoords[4], hangCoords[3], 0);
+
+    const auto startX = std::to_string(startCoords[0]);
+    const auto startY = std::to_string(startCoords[1]);
+    const auto startZ = std::to_string(startCoords[2] - DEpmNormalViewHeight);
+    const auto hangX = std::to_string(hangCoords[0]);
+    const auto hangY = std::to_string(hangCoords[1]);
+    const auto hangZ = std::to_string(hangCoords[2]);
+    const auto endX = std::to_string(endCoords[0]);
+    const auto endY = std::to_string(endCoords[1]);
+    const auto endZ = std::to_string(endCoords[2] - DEpmNormalViewHeight);
+
+    const auto mat0X = std::to_string(pitchYawRoll[0]);
+    const auto mat0Y = std::to_string(pitchYawRoll[1]);
+    const auto mat0Z = std::to_string(pitchYawRoll[2]);
+    const auto mat1X = std::to_string(pitchYawRoll[3]);
+    const auto mat1Y = std::to_string(pitchYawRoll[4]);
+    const auto mat1Z = std::to_string(pitchYawRoll[5]);
+    const auto mat2X = std::to_string(pitchYawRoll[6]);
+    const auto mat2Y = std::to_string(pitchYawRoll[7]);
+    const auto mat2Z = std::to_string(pitchYawRoll[8]);
+
+    replaceThisInString((generatedEntity).at(1), "{{{entityNum}}}", entityNumStr);
+    replaceThisInString((generatedEntity).at(12), "{{{startX}}}", startX);
+    replaceThisInString((generatedEntity).at(13), "{{{startY}}}", startY);
+    replaceThisInString((generatedEntity).at(14), "{{{startZ}}}", startZ);
+    replaceThisInString((generatedEntity).at(20), "{{{entityNum}}}", entityNumStr);
+
+    replaceThisInString((generatedEntity).at(29), "{{{entityNum}}}", entityNumStr);
+    replaceThisInString((generatedEntity).at(40), "{{{hangX}}}", startX);
+    replaceThisInString((generatedEntity).at(41), "{{{hangY}}}", startY);
+    replaceThisInString((generatedEntity).at(42), "{{{hangZ}}}", startZ);
+    replaceThisInString((generatedEntity).at(47), "{{{mat0X}}}", mat0X);
+    replaceThisInString((generatedEntity).at(48), "{{{mat0Y}}}", mat0Y);
+    replaceThisInString((generatedEntity).at(49), "{{{mat0Z}}}", mat0Z);
+    replaceThisInString((generatedEntity).at(52), "{{{mat1X}}}", mat1X);
+    replaceThisInString((generatedEntity).at(53), "{{{mat1Y}}}", mat1Y);
+    replaceThisInString((generatedEntity).at(54), "{{{mat1Z}}}", mat1Z);
+    replaceThisInString((generatedEntity).at(57), "{{{mat2X}}}", mat2X);
+    replaceThisInString((generatedEntity).at(58), "{{{mat2Y}}}", mat2Y);
+    replaceThisInString((generatedEntity).at(59), "{{{mat2Z}}}", mat2Z);
+    replaceThisInString((generatedEntity).at(67), "{{{entityNum}}}", entityNumStr);
+
+    replaceThisInString((generatedEntity).at(77), "{{{entityNum}}}", entityNumStr);
+    replaceThisInString((generatedEntity).at(86), "{{{endX}}}", endX);
+    replaceThisInString((generatedEntity).at(87), "{{{endY}}}", endY);
+    replaceThisInString((generatedEntity).at(88), "{{{endZ}}}", endZ);
+
+    writeThisThing(generatedEntity, "DE Generated Hangouts.txt");
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -808,5 +909,122 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
 
     generateTraversalChain(entityNum, startCoords, midCoords, endCoords, monsterIndices, traversalAnims, reciprocalTraversal);
     ui->inputEntityNumChain->setText(QString::number(entityNum + 1));
+}
+
+// Gather inputs and attempt to generate a traversal chain hangout
+void MainWindow::on_pushButton_generateHangout_clicked()
+{
+    int entityNum = 1;
+    auto startCoords = stringToVector(ui->lineEdit_inputStartCoordsHang->text().toStdString()); // -50.34 404.32 108.66 222.3 358.7
+    auto hangCoords = stringToVector(ui->lineEdit_inputHangCoordsHang->text().toStdString()); // -56.89 397.19 115.95 150.7 6.0
+    auto landCoords = stringToVector(ui->lineEdit_inputLandCoordsHangArac->text().toStdString()); // -69.21 404.12 113.86 149.6 6.1
+
+    generateHangoutArachnotron(entityNum, startCoords, hangCoords, landCoords);
+}
+
+class idInfo_Traversal_X{
+public:
+    std::string entityName;
+    std::vector<double> coordinates;
+};
+
+class idInfo_TraversalChain : public idInfo_Traversal_X{
+public:
+    std::string linkAnimation;
+    std::string idleAnimation;
+};
+
+class idInfo_TraversalPoint : public idInfo_Traversal_X{
+};
+
+void generateHangoutTest(
+    std::vector<idInfo_TraversalChain> entityObjects,
+    idInfo_TraversalPoint finalEntity
+)
+{
+    static const std::vector<std::string> hangoutTemplate = textFileToVector("Templates/Traversal Chain/Hangout/TraversalChainHangout.txt");
+    static const std::vector<std::string> hangoutEndTemplate = textFileToVector("Templates/Traversal Chain/Hangout/TraversalChainHangout_End.txt");
+
+    for (int i = 0; i < entityObjects.size(); i++)
+    {
+        std::vector<std::string> currentEntity = hangoutTemplate;
+
+        auto entityName = entityObjects[i].entityName;
+
+        auto entityX = std::to_string(entityObjects[i].coordinates[0]);
+        auto entityY = std::to_string(entityObjects[i].coordinates[1]);
+        auto entityZ = std::to_string(entityObjects[i].coordinates[2] - DEpmNormalViewHeight);
+
+        const auto pitchYawRoll = angle_to_mat3(0, entityObjects[i].coordinates[3], 0);
+        const auto mat0X = std::to_string(pitchYawRoll[0]);
+        const auto mat0Y = std::to_string(pitchYawRoll[1]);
+        const auto mat0Z = std::to_string(pitchYawRoll[2]);
+        const auto mat1X = std::to_string(pitchYawRoll[3]);
+        const auto mat1Y = std::to_string(pitchYawRoll[4]);
+        const auto mat1Z = std::to_string(pitchYawRoll[5]);
+        const auto mat2X = std::to_string(pitchYawRoll[6]);
+        const auto mat2Y = std::to_string(pitchYawRoll[7]);
+        const auto mat2Z = std::to_string(pitchYawRoll[8]);
+
+        std::string nextTargetName;
+        // Check if this is the last object in the vector. If it is, make the target the endpoint. If not, make the target the next object in the vector.
+        if (i == entityObjects.size() - 1)
+            nextTargetName = finalEntity.entityName;
+        else
+            nextTargetName = entityObjects[i+1].entityName;
+
+        auto linkAnimation = entityObjects[i].linkAnimation;
+        auto idleAnimation = entityObjects[i].idleAnimation;
+
+        replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityName);
+        replaceThisInString(currentEntity[12], "{{{COORDX}}}", entityX);
+        replaceThisInString(currentEntity[13], "{{{COORDY}}}", entityY);
+        replaceThisInString(currentEntity[14], "{{{COORDZ}}}", entityZ);
+        replaceThisInString(currentEntity[19], "{{{MAT0X}}}", mat0X);
+        replaceThisInString(currentEntity[20], "{{{MAT0Y}}}", mat0Y);
+        replaceThisInString(currentEntity[21], "{{{MAT0Z}}}", mat0Z);
+        replaceThisInString(currentEntity[24], "{{{MAT1X}}}", mat1X);
+        replaceThisInString(currentEntity[25], "{{{MAT1Y}}}", mat1Y);
+        replaceThisInString(currentEntity[26], "{{{MAT1Z}}}", mat1Z);
+        replaceThisInString(currentEntity[29], "{{{MAT2X}}}", mat2X);
+        replaceThisInString(currentEntity[30], "{{{MAT2Y}}}", mat2Y);
+        replaceThisInString(currentEntity[31], "{{{MAT2Z}}}", mat2Z);
+        replaceThisInString(currentEntity[39], "{{{NEXT_TARGET_NAME}}}", nextTargetName);
+        replaceThisInString(currentEntity[40], "{{{LINK_ANIMATION}}}", linkAnimation);
+        replaceThisInString(currentEntity[43], "{{{IDLE_ANIMATION}}}", idleAnimation);
+
+        writeThisThing(currentEntity, "DE Generated Hangouts.txt");
+    }
+
+    std::vector<std::string> lastEntity = hangoutEndTemplate;
+
+    replaceThisInString(lastEntity[1], "{{{ENTITY_NAME}}}", finalEntity.entityName);
+    replaceThisInString(lastEntity[10], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
+    replaceThisInString(lastEntity[11], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
+    replaceThisInString(lastEntity[12], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
+    writeThisThing(lastEntity, "DE Generated Hangouts.txt");
+}
+
+void MainWindow::on_pushButtonForTesting_clicked()
+{
+    idInfo_TraversalChain P1, P2;
+    idInfo_TraversalPoint P3;
+
+    P1.coordinates = {-135.05, 149.79, -41.34, 269.4, 6.0};
+    P1.entityName = "hangout_test_entity_A";
+    P1.linkAnimation = "ceiling_hangout/floor_to_ceiling";
+    P1.idleAnimation = "";
+
+    P2.coordinates = {-135.35, 138.65, -24.08, 270.7, 4.3};
+    P2.entityName = "hangout_test_entity_B";
+    P2.linkAnimation = "ceiling_hangout/ceiling_to_floor";
+    P2.idleAnimation = "animweb/characters/monsters/arachnotron/ceiling_hangout/ceiling_idle";
+
+    P3.coordinates = {-134.93, 124.27, -29.29, 90.4, 89.0};
+    P3.entityName = "hangout_test_entity_end";
+
+    std::vector<idInfo_TraversalChain> entityObjects = {P1, P2};
+
+    generateHangoutTest(entityObjects, P3);
 }
 
