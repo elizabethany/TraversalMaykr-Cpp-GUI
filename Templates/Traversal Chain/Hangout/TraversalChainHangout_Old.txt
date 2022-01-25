@@ -1,0 +1,93 @@
+entity {
+	entityDef mod_traversal_chain_arachnotron_start_hangout_{{{entityNum}}} {
+	class = "idInfo_TraversalChain";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		monsterType = "TRAVERSALMONSTERTYPE_ARACHNATRON";
+		animWeb = "animweb/characters/monsters/arachnotron";
+		spawnPosition = {
+			x = {{{startX}}};
+			y = {{{startY}}};
+			z = {{{startZ}}};
+		}
+		traversalFlags = "TRAVERSAL_ENABLED DELTA_CORRECT";
+		links = {
+			num = 1;
+			item[0] = {
+				target = "mod_traversal_chain_arachnotron_mid_hangout_{{{entityNum}}}";
+				anim = "animweb/characters/monsters/arachnotron/ceiling_hangout/floor_to_ceiling";
+			}
+		}
+		alignWithLink = true;
+	}
+}
+}
+entity {
+	entityDef mod_traversal_chain_arachnotron_mid_hangout_{{{entityNum}}} {
+	class = "idInfo_TraversalChain";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		monsterType = "TRAVERSALMONSTERTYPE_ARACHNATRON";
+		animWeb = "animweb/characters/monsters/arachnotron";
+		spawnPosition = {
+			x = {{{hangX}}};
+			y = {{{hangY}}};
+			z = {{{hangZ}}};
+		}
+		spawnOrientation = { // {{{pitch}}} {{{yaw}}} {{{roll}}}
+			mat = {
+				mat[0] = {
+					x = {{{mat0X}}};
+					y = {{{mat0Y}}};
+					z = {{{mat0Z}}};
+				}
+				mat[1] = {
+					x = {{{mat1X}}};
+					y = {{{mat1Y}}};
+					z = {{{mat1Z}}};
+				}
+				mat[2] = {
+					x = {{{mat2X}}};
+					y = {{{mat2Y}}};
+					z = {{{mat2Z}}};
+				}
+			}
+		}
+		traversalFlags = "TRAVERSAL_ENABLED DELTA_CORRECT";
+		links = {
+			num = 1;
+			item[0] = {
+				target = "mod_traversal_point_arachnotron_hangout_landing_{{{entityNum}}}";
+				anim = "animweb/characters/monsters/arachnotron/ceiling_hangout/ceiling_to_floor";
+			}
+		}
+		idleAnim = "animweb/characters/monsters/arachnotron/ceiling_hangout/ceiling_idle";
+		alignWithLink = true;
+	}
+}
+}
+entity {
+	entityDef mod_traversal_point_arachnotron_hangout_landing_{{{entityNum}}} {
+	class = "idInfo_TraversalPoint";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		spawnPosition = {
+			x = {{{endX}}};
+			y = {{{endY}}};
+			z = {{{endZ}}};
+		}
+	}
+}
+}

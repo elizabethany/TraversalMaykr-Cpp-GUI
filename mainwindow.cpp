@@ -39,12 +39,10 @@ static const QStringList dropDownAnimations = { "ledge_up_100", "ledge_up_200", 
 std::vector<int> tempAnimList;
 
 // For Dedicated Traversal Chain tab
-static const std::vector<std::string> linkAnimationsArachnotron = { "ceiling_hangout/floor_to_ceiling", "ceiling_hangout/ceiling_to_floor", "ceiling_hangout/ceiling_to_wall_center", "ceiling_hangout/ceiling_to_wall_left", "ceiling_hangout/ceiling_to_wall_right", "wall_hangout/floor_to_wall", "wall_hangout/wall_to_ceiling", "wall_hangout/wall_to_floor", "traversal/jump_forward_100", "traversal/jump_forward_1000", "traversal/jump_forward_200", "traversal/jump_forward_2000", "traversal/jump_forward_300", "traversal/jump_forward_400", "traversal/jump_forward_500", "traversal/jump_forward_700", "traversal/ledge_down_100", "traversal/ledge_down_1000", "traversal/ledge_down_200", "traversal/ledge_down_300", "traversal/ledge_down_400", "traversal/ledge_down_500", "traversal/ledge_down_700", "traversal/ledge_forward_1000_down_1000", "traversal/ledge_forward_1000_up_1000", "traversal/ledge_forward_300_down_300", "traversal/ledge_forward_300_down_500", "traversal/ledge_forward_300_up_300", "traversal/ledge_forward_300_up_500", "traversal/ledge_forward_500_down_300", "traversal/ledge_forward_500_down_500", "traversal/ledge_forward_500_up_300", "traversal/ledge_forward_500_up_500", "traversal/ledge_up_100", "traversal/ledge_up_1000", "traversal/ledge_up_200", "traversal/ledge_up_300", "traversal/ledge_up_400", "traversal/ledge_up_500", "traversal/ledge_up_700", "traversal/rail_down_100", "traversal/rail_down_1000", "traversal/rail_down_200", "traversal/rail_down_300", "traversal/rail_down_400", "traversal/rail_down_500", "traversal/rail_down_700", "traversal/rail_up_100", "traversal/rail_up_1000", "traversal/rail_up_200", "traversal/rail_up_300", "traversal/rail_up_400", "traversal/rail_up_500", "traversal/rail_up_700", "traversal/window_forward_700_up_200", "traversal/window_forward_700_up_300", "traversal/window_forward_700_up_500", "traversal/window_forward_800_up_500" };
-static const std::vector<std::string> idleAnimationsArachnotron = { "", "ceiling_hangout/ceiling_idle", "wall_hangout/idle", "traversal/to_idle" };
 static const QStringList linkAnimationsArachnotron_Q = { "ceiling_hangout/floor_to_ceiling", "ceiling_hangout/ceiling_to_floor", "ceiling_hangout/ceiling_to_wall_center", "ceiling_hangout/ceiling_to_wall_left", "ceiling_hangout/ceiling_to_wall_right", "wall_hangout/floor_to_wall", "wall_hangout/wall_to_ceiling", "wall_hangout/wall_to_floor", "traversal/jump_forward_100", "traversal/jump_forward_1000", "traversal/jump_forward_200", "traversal/jump_forward_2000", "traversal/jump_forward_300", "traversal/jump_forward_400", "traversal/jump_forward_500", "traversal/jump_forward_700", "traversal/ledge_down_100", "traversal/ledge_down_1000", "traversal/ledge_down_200", "traversal/ledge_down_300", "traversal/ledge_down_400", "traversal/ledge_down_500", "traversal/ledge_down_700", "traversal/ledge_forward_1000_down_1000", "traversal/ledge_forward_1000_up_1000", "traversal/ledge_forward_300_down_300", "traversal/ledge_forward_300_down_500", "traversal/ledge_forward_300_up_300", "traversal/ledge_forward_300_up_500", "traversal/ledge_forward_500_down_300", "traversal/ledge_forward_500_down_500", "traversal/ledge_forward_500_up_300", "traversal/ledge_forward_500_up_500", "traversal/ledge_up_100", "traversal/ledge_up_1000", "traversal/ledge_up_200", "traversal/ledge_up_300", "traversal/ledge_up_400", "traversal/ledge_up_500", "traversal/ledge_up_700", "traversal/rail_down_100", "traversal/rail_down_1000", "traversal/rail_down_200", "traversal/rail_down_300", "traversal/rail_down_400", "traversal/rail_down_500", "traversal/rail_down_700", "traversal/rail_up_100", "traversal/rail_up_1000", "traversal/rail_up_200", "traversal/rail_up_300", "traversal/rail_up_400", "traversal/rail_up_500", "traversal/rail_up_700", "traversal/window_forward_700_up_200", "traversal/window_forward_700_up_300", "traversal/window_forward_700_up_500", "traversal/window_forward_800_up_500" };
 static const QStringList idleAnimationsArachnotron_Q = { "NONE", "ceiling_hangout/ceiling_idle", "wall_hangout/idle", "traversal/to_idle" };
-std::vector<int> tempLinkListHangArachnotron;
-std::vector<int> tempIdleListHangArachnotron;
+static const QStringList linkAnimationsImp = { "wallclimbright/wcr_climb_right_250_wcr", "wallclimbright/wcr_jump_down_right_250", "wallclimbleft/wcl_climb_left_250_wcl", "wallclimbleft/wcl_jump_down_left_250", "wallclimb/wc_jump_back_down_500" };
+static const QStringList idleAnimationsImp = { "NONE" };
 
 double degToRad(
     double degree
@@ -474,71 +472,6 @@ void generateTraversalChain(
     }
 }
 
-// Create idInfoTraversal_Chain (Hangout) entities for the given inputs and writes them to their output
-void generateHangoutArachnotron(
-    int entityNum,
-    std::vector<double> startCoords,
-    std::vector<double> hangCoords,
-    std::vector<double> endCoords
-)
-{
-    static const std::vector<std::string> hangoutArachnotronTemplate = textFileToVector("Templates/Traversal Chain/Hangout/TraversalChainHangout.txt");
-
-    std::vector<std::string> generatedEntity = hangoutArachnotronTemplate;
-
-    std::string entityNumStr = zeroPadded(std::to_string(entityNum));
-
-    const auto pitchYawRoll = angle_to_mat3(hangCoords[4], hangCoords[3], 0);
-
-    const auto startX = std::to_string(startCoords[0]);
-    const auto startY = std::to_string(startCoords[1]);
-    const auto startZ = std::to_string(startCoords[2] - DEpmNormalViewHeight);
-    const auto hangX = std::to_string(hangCoords[0]);
-    const auto hangY = std::to_string(hangCoords[1]);
-    const auto hangZ = std::to_string(hangCoords[2]);
-    const auto endX = std::to_string(endCoords[0]);
-    const auto endY = std::to_string(endCoords[1]);
-    const auto endZ = std::to_string(endCoords[2] - DEpmNormalViewHeight);
-
-    const auto mat0X = std::to_string(pitchYawRoll[0]);
-    const auto mat0Y = std::to_string(pitchYawRoll[1]);
-    const auto mat0Z = std::to_string(pitchYawRoll[2]);
-    const auto mat1X = std::to_string(pitchYawRoll[3]);
-    const auto mat1Y = std::to_string(pitchYawRoll[4]);
-    const auto mat1Z = std::to_string(pitchYawRoll[5]);
-    const auto mat2X = std::to_string(pitchYawRoll[6]);
-    const auto mat2Y = std::to_string(pitchYawRoll[7]);
-    const auto mat2Z = std::to_string(pitchYawRoll[8]);
-
-    replaceThisInString((generatedEntity).at(1), "{{{entityNum}}}", entityNumStr);
-    replaceThisInString((generatedEntity).at(12), "{{{startX}}}", startX);
-    replaceThisInString((generatedEntity).at(13), "{{{startY}}}", startY);
-    replaceThisInString((generatedEntity).at(14), "{{{startZ}}}", startZ);
-    replaceThisInString((generatedEntity).at(20), "{{{entityNum}}}", entityNumStr);
-
-    replaceThisInString((generatedEntity).at(29), "{{{entityNum}}}", entityNumStr);
-    replaceThisInString((generatedEntity).at(40), "{{{hangX}}}", startX);
-    replaceThisInString((generatedEntity).at(41), "{{{hangY}}}", startY);
-    replaceThisInString((generatedEntity).at(42), "{{{hangZ}}}", startZ);
-    replaceThisInString((generatedEntity).at(47), "{{{mat0X}}}", mat0X);
-    replaceThisInString((generatedEntity).at(48), "{{{mat0Y}}}", mat0Y);
-    replaceThisInString((generatedEntity).at(49), "{{{mat0Z}}}", mat0Z);
-    replaceThisInString((generatedEntity).at(52), "{{{mat1X}}}", mat1X);
-    replaceThisInString((generatedEntity).at(53), "{{{mat1Y}}}", mat1Y);
-    replaceThisInString((generatedEntity).at(54), "{{{mat1Z}}}", mat1Z);
-    replaceThisInString((generatedEntity).at(57), "{{{mat2X}}}", mat2X);
-    replaceThisInString((generatedEntity).at(58), "{{{mat2Y}}}", mat2Y);
-    replaceThisInString((generatedEntity).at(59), "{{{mat2Z}}}", mat2Z);
-    replaceThisInString((generatedEntity).at(67), "{{{entityNum}}}", entityNumStr);
-
-    replaceThisInString((generatedEntity).at(77), "{{{entityNum}}}", entityNumStr);
-    replaceThisInString((generatedEntity).at(86), "{{{endX}}}", endX);
-    replaceThisInString((generatedEntity).at(87), "{{{endY}}}", endY);
-    replaceThisInString((generatedEntity).at(88), "{{{endZ}}}", endZ);
-
-    writeThisThing(generatedEntity, "DE Generated Hangouts.txt");
-}
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -569,6 +502,8 @@ MainWindow::MainWindow(QWidget *parent)
     // For Traversal Chain (Dedicated)
     ui->comboBox_linkAnimsArachnotron->addItems(linkAnimationsArachnotron_Q);
     ui->comboBox_idleAnimsArachnotron->addItems(idleAnimationsArachnotron_Q);
+    ui->comboBox_linkAnimsImp->addItems(linkAnimationsImp);
+    ui->comboBox_idleAnimsImp->addItems(idleAnimationsImp);
 }
 
 MainWindow::~MainWindow()
@@ -923,17 +858,6 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
     ui->inputEntityNumChain->setText(QString::number(entityNum + 1));
 }
 
-// Gather inputs and attempt to generate a traversal chain hangout
-void MainWindow::on_pushButton_generateHangout_clicked()
-{
-    int entityNum = 1;
-    auto startCoords = stringToVector(ui->lineEdit_inputStartCoordsHang->text().toStdString()); // -50.34 404.32 108.66 222.3 358.7
-    auto hangCoords = stringToVector(ui->lineEdit_inputHangCoordsHang->text().toStdString()); // -56.89 397.19 115.95 150.7 6.0
-    auto landCoords = stringToVector(ui->lineEdit_inputLandCoordsHangArac->text().toStdString()); // -69.21 404.12 113.86 149.6 6.1
-
-    generateHangoutArachnotron(entityNum, startCoords, hangCoords, landCoords);
-}
-
 class idInfo_Traversal_X{
 public:
     std::string entityName;
@@ -949,12 +873,12 @@ public:
 class idInfo_TraversalPoint : public idInfo_Traversal_X{
 };
 
-void generateHangoutTest(
+void generateHangout(
+    std::vector<std::string> hangoutTemplate,
     std::vector<idInfo_TraversalChain> entityObjects,
     idInfo_TraversalPoint finalEntity
 )
 {
-    static const std::vector<std::string> hangoutTemplate = textFileToVector("Templates/Traversal Chain/Hangout/TraversalChainHangout.txt");
     static const std::vector<std::string> hangoutEndTemplate = textFileToVector("Templates/Traversal Chain/Hangout/TraversalChainHangout_End.txt");
 
     for (int i = 0; i < entityObjects.size(); i++)
@@ -1017,26 +941,17 @@ void generateHangoutTest(
     writeThisThing(lastEntity, "DE Generated Hangouts.txt");
 }
 
+
+void MainWindow::on_pushButtonClearOutputHang_clicked()
+{
+    std::fstream output("DE Generated Hangouts.txt", std::fstream::out);
+    output << "";
+    output.close();
+}
+
+// Generate Arachnotron Traversal Chain
 void MainWindow::on_pushButtonForTesting_clicked()
 {
-    /*
-    idInfo_TraversalChain P1, P2;
-    idInfo_TraversalPoint P3;
-
-    P1.coordinates = {-135.05, 149.79, -41.34, 269.4, 6.0};
-    P1.entityName = "hangout_test_entity_A";
-    P1.linkAnimation = "ceiling_hangout/floor_to_ceiling";
-    P1.idleAnimation = "";
-
-    P2.coordinates = {-135.35, 138.65, -24.08, 270.7, 4.3};
-    P2.entityName = "hangout_test_entity_B";
-    P2.linkAnimation = "ceiling_hangout/ceiling_to_floor";
-    P2.idleAnimation = "animweb/characters/monsters/arachnotron/ceiling_hangout/ceiling_idle";
-
-    P3.coordinates = {-134.93, 124.27, -29.29, 90.4, 89.0};
-    P3.entityName = "hangout_test_entity_end";
-    */
-
     auto entityName = ui->inputEntityNameHangArachnotron->text().toStdString();
 
     idInfo_TraversalPoint landingEntity;
@@ -1060,19 +975,80 @@ void MainWindow::on_pushButtonForTesting_clicked()
         entityObjects.push_back(tempObject);
     }
 
-    generateHangoutTest(entityObjects, landingEntity);
+    static const std::vector<std::string> hangoutTemplate = textFileToVector("Templates/Traversal Chain/Hangout/Arachnotron/TraversalChainHangout.txt");
+
+    generateHangout(hangoutTemplate, entityObjects, landingEntity);
     // test_entity
     // -135.05 149.79 -41.34 269.4 6.0 | ceiling_hangout/floor_to_ceiling
     // -135.35 138.65 -24.08 270.7 4.3 | ceiling_hangout/ceiling_to_floor
     // -134.93 124.27 -29.29 90.4 89.0
 }
 
-
+// Add an Arachnotron Traversal Chain
 void MainWindow::on_pushButton_addChain_clicked()
 {
     ui->listWidget_hangCoordsArachnotron->addItem(ui->inputCoordsHangArachnotron->text());
     ui->listWidget_hangLinkArachnotron->addItem(ui->comboBox_linkAnimsArachnotron->currentText());
     ui->listWidget_hangIdleArachnotron->addItem(ui->comboBox_idleAnimsArachnotron->currentText());
     ui->inputCoordsHangArachnotron->clear();
+}
+
+// Clear Arachnotron Traversal Chains
+void MainWindow::on_pushButton_clearHangArachnotron_clicked()
+{
+     ui->listWidget_hangCoordsArachnotron->clear();
+     ui->listWidget_hangLinkArachnotron->clear();
+     ui->listWidget_hangIdleArachnotron->clear();
+}
+
+// Generate Imp Traversal Chain
+void MainWindow::on_pushButtonToMakeHangImp_clicked()
+{
+    auto entityName = ui->inputEntityNameHangImp->text().toStdString();
+
+    idInfo_TraversalPoint landingEntity;
+    landingEntity.entityName = "mod_traversal_chain_imp_hangout_landing_" + entityName;
+    landingEntity.coordinates = stringToVector(ui->inputCoordsLandImp->text().toStdString());
+
+    std::vector<idInfo_TraversalChain> entityObjects;
+    for (int i = 0; i < ui->listWidget_hangCoordsImp->count(); i++)
+    {
+        idInfo_TraversalChain tempObject;
+        tempObject.entityName = "mod_traversal_chain_imp_hangout_" + entityName + "_" + numToLetterStr[i+1];
+        tempObject.coordinates = stringToVector(ui->listWidget_hangCoordsImp->item(i)->text().toStdString());
+        tempObject.linkAnimation = ui->listWidget_hangLinkImp->item(i)->text().toStdString();
+
+        auto tempStr = ui->listWidget_hangIdleImp->item(i)->text().toStdString();
+        if (tempStr == "NONE")
+            tempObject.idleAnimation = "";
+        else
+            tempObject.idleAnimation = "animweb/characters/monsters/imp/" + tempStr;
+
+        entityObjects.push_back(tempObject);
+    }
+
+    static const std::vector<std::string> hangoutTemplate = textFileToVector("Templates/Traversal Chain/Hangout/Imp/TraversalChainHangout.txt");
+
+    generateHangout(hangoutTemplate, entityObjects, landingEntity);
+    //
+    //
+    //
+}
+
+
+void MainWindow::on_pushButton_addChain_Imp_clicked()
+{
+    ui->listWidget_hangCoordsImp->addItem(ui->inputCoordsHangImp->text());
+    ui->listWidget_hangLinkImp->addItem(ui->comboBox_linkAnimsImp->currentText());
+    ui->listWidget_hangIdleImp->addItem(ui->comboBox_idleAnimsImp->currentText());
+    ui->inputCoordsHangImp->clear();
+}
+
+
+void MainWindow::on_pushButton_clearHangImp_clicked()
+{
+    ui->listWidget_hangCoordsImp->clear();
+    ui->listWidget_hangLinkImp->clear();
+    ui->listWidget_hangIdleImp->clear();
 }
 

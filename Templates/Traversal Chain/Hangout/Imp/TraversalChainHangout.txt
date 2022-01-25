@@ -1,0 +1,48 @@
+entity {
+	entityDef {{{ENTITY_NAME}}} {
+	class = "idInfo_TraversalChain";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		monsterType = "TRAVERSALMONSTERTYPE_IMP";
+		animWeb = "animweb/characters/monsters/imp";
+		spawnPosition = {
+			x = {{{COORDX}}};
+			y = {{{COORDY}}};
+			z = {{{COORDZ}}};
+		}
+		spawnOrientation = {
+			mat = {
+				mat[0] = {
+					x = {{{MAT0X}}};
+					y = {{{MAT0Y}}};
+					z = {{{MAT0Z}}};
+				}
+				mat[1] = {
+					x = {{{MAT1X}}};
+					y = {{{MAT1Y}}};
+					z = {{{MAT1Z}}};
+				}
+				mat[2] = {
+					x = {{{MAT2X}}};
+					y = {{{MAT2Y}}};
+					z = {{{MAT2Z}}};
+				}
+			}
+		}
+		traversalFlags = "TRAVERSAL_ENABLED DELTA_CORRECT";
+		links = {
+			num = 1;
+			item[0] = {
+				target = "{{{NEXT_TARGET_NAME}}}";
+				anim = "animweb/characters/monsters/imp/{{{LINK_ANIMATION}}}";
+			}
+		}
+		idleAnim = "{{{IDLE_ANIMATION}}}";
+		alignWithLink = false;
+	}
+}
+}

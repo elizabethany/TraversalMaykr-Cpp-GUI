@@ -42,11 +42,19 @@ private slots:
 
     void on_inputEndCoordsChain_textChanged(const QString &arg1);
 
-    void on_pushButton_generateHangout_clicked();
-
     void on_pushButtonForTesting_clicked();
 
     void on_pushButton_addChain_clicked();
+
+    void on_pushButton_clearHangArachnotron_clicked();
+
+    void on_pushButtonClearOutputHang_clicked();
+
+    void on_pushButtonToMakeHangImp_clicked();
+
+    void on_pushButton_addChain_Imp_clicked();
+
+    void on_pushButton_clearHangImp_clicked();
 
 private:
     Ui::MainWindow *ui;

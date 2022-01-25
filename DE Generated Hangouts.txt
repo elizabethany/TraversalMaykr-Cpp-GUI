@@ -1,0 +1,114 @@
+
+entity {
+	entityDef mod_traversal_chain_imp_hangout_rasdasdd_a {
+	class = "idInfo_TraversalChain";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		monsterType = "TRAVERSALMONSTERTYPE_IMP";
+		animWeb = "animweb/characters/monsters/imp";
+		spawnPosition = {
+			x = -146.180000;
+			y = 79.380000;
+			z = -30.897350;
+		}
+		spawnOrientation = {
+			mat = {
+				mat[0] = {
+					x = -0.671721;
+					y = -0.740805;
+					z = -0.000000;
+				}
+				mat[1] = {
+					x = 0.740805;
+					y = -0.671721;
+					z = 0.000000;
+				}
+				mat[2] = {
+					x = 0.000000;
+					y = 0.000000;
+					z = 1.000000;
+				}
+			}
+		}
+		traversalFlags = "TRAVERSAL_ENABLED DELTA_CORRECT";
+		links = {
+			num = 1;
+			item[0] = {
+				target = "mod_traversal_chain_imp_hangout_rasdasdd_b";
+				anim = "animweb/characters/monsters/imp/wallclimbleft/wcl_climb_left_250_wcl";
+			}
+		}
+		idleAnim = "";
+		alignWithLink = false;
+	}
+}
+}
+entity {
+	entityDef mod_traversal_chain_imp_hangout_rasdasdd_b {
+	class = "idInfo_TraversalChain";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		monsterType = "TRAVERSALMONSTERTYPE_IMP";
+		animWeb = "animweb/characters/monsters/imp";
+		spawnPosition = {
+			x = -153.770000;
+			y = 69.950000;
+			z = -30.827350;
+		}
+		spawnOrientation = {
+			mat = {
+				mat[0] = {
+					x = -0.038388;
+					y = -0.999263;
+					z = -0.000000;
+				}
+				mat[1] = {
+					x = 0.999263;
+					y = -0.038388;
+					z = 0.000000;
+				}
+				mat[2] = {
+					x = 0.000000;
+					y = 0.000000;
+					z = 1.000000;
+				}
+			}
+		}
+		traversalFlags = "TRAVERSAL_ENABLED DELTA_CORRECT";
+		links = {
+			num = 1;
+			item[0] = {
+				target = "mod_traversal_chain_imp_hangout_landing_rasdasdd";
+				anim = "animweb/characters/monsters/imp/wallclimb/wc_jump_back_down_500";
+			}
+		}
+		idleAnim = "";
+		alignWithLink = false;
+	}
+}
+}
+entity {
+	entityDef mod_traversal_chain_imp_hangout_landing_rasdasdd {
+	class = "idInfo_TraversalPoint";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		spawnPosition = {
+			x = -153.910000;
+			y = 83.310000;
+			z = -42.897350;
+		}
+	}
+}
+}

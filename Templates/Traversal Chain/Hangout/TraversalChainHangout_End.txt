@@ -1,0 +1,17 @@
+entity {
+	entityDef {{{ENTITY_NAME}}} {
+	class = "idInfo_TraversalPoint";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		spawnPosition = {
+			x = {{{COORDX}}};
+			y = {{{COORDY}}};
+			z = {{{COORDZ}}};
+		}
+	}
+}
+}
