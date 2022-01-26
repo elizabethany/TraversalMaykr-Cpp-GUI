@@ -256,6 +256,12 @@ void writeThisThing(
     output.close();
 }
 
+bool areCoordsValid(const std::string& coordsStr)
+{
+    std::vector<double> coordsDouble = stringToVector(coordsStr);
+    return coordsStr != "" && coordsDouble.size() >= 3;
+}
+
 /*
     ENTITY GENERATING FUNCTIONS
 */
@@ -419,26 +425,6 @@ void generateTraversalChain(
     replaceThisInString(lastEntity[12], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
     writeThisThing(lastEntity, "DE Generated Traversal Chains.txt");
 
-    // Generate reverse end point
-    std::vector<std::string> lastEntity_r = TraversalPointTemplate;
-    idInfo_TraversalChain_General finalObject_r = entityObjects[0];
-    finalObject_r.entityName = finalEntity.entityName + "_r";
-
-    replaceThisInString(lastEntity_r[1], "{{{ENTITY_NAME}}}", finalObject_r.entityName);
-    replaceThisInString(lastEntity_r[10], "{{{COORDX}}}", std::to_string(finalObject_r.coordinates[0]));
-    replaceThisInString(lastEntity_r[11], "{{{COORDY}}}", std::to_string(finalObject_r.coordinates[1]));
-    replaceThisInString(lastEntity_r[12], "{{{COORDZ}}}", std::to_string(finalObject_r.coordinates[2] - DEpmNormalViewHeight));
-    writeThisThing(lastEntity_r, "DE Generated Traversal Chains.txt");
-
-    std::string reverse;
-    if (reciprocalTraversal)
-        reverse = "2";
-    else
-        reverse = "1";
-
-    // Copy of traversal chain objects, but in reverse
-    std::vector<idInfo_TraversalChain_General> entityObjects_r(entityObjects.rbegin(), entityObjects.rend());
-
     static const std::vector<std::string> TraversalChainTemplate = textFileToVector("Templates/Traversal Chain/TraversalChain.txt");
 
     for (const auto& monsterIndex : monsterIndices)
@@ -460,7 +446,11 @@ void generateTraversalChain(
             auto entityY = std::to_string(entityObjects[i].coordinates[1]);
             auto entityZ = std::to_string(entityObjects[i].coordinates[2] - DEpmNormalViewHeight);
 
-            auto animation = DEAnimationSets[animSetIndex][entityObjects[i].animationIndex];
+            std::string animation;
+            if (reciprocalTraversal)
+                animation = animReverser(DEAnimationSets[animSetIndex][entityObjects[i].animationIndex]);
+            else
+                animation = DEAnimationSets[animSetIndex][entityObjects[i].animationIndex];
 
             std::string nextTargetName;
             // Check if this is the last object in the vector. If it is, make the target the endpoint. If not, make the target the next object in the vector.
@@ -469,68 +459,17 @@ void generateTraversalChain(
             else
                 nextTargetName = entityObjects[i+1].entityName + "_" + monsterName;
 
-            std::string previousTargetName, animation_r;
-            if (i == 0)
-            {
-                previousTargetName = "";
-                animation_r = animation;
-            }
-            else if (i == 1)
-            {
-                previousTargetName = finalObject_r.entityName;
-                animation_r = animReverser(DEAnimationSets[animSetIndex][entityObjects[i-1].animationIndex]);
-            }
-            else
-            {
-                previousTargetName = entityObjects[i-1].entityName + "_" + monsterName;
-                animation_r = animReverser(DEAnimationSets[animSetIndex][entityObjects[i-1].animationIndex]);
-            }
-
             replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityName);
             replaceThisInString(currentEntity[9], "{{{MONSTERTYPE}}}", monsterType);
             replaceThisInString(currentEntity[10], "{{{ANIMWEB}}}", animWeb);
             replaceThisInString(currentEntity[12], "{{{COORDX}}}", entityX);
             replaceThisInString(currentEntity[13], "{{{COORDY}}}", entityY);
             replaceThisInString(currentEntity[14], "{{{COORDZ}}}", entityZ);
-
-            if (i == 0)
-                replaceThisInString(currentEntity[18], "{{{REVERSE}}}", "1");
-            else
-                replaceThisInString(currentEntity[18], "{{{REVERSE}}}", reverse);
-
             replaceThisInString(currentEntity[20], "{{{NEXT_TARGET_NAME}}}", nextTargetName);
             replaceThisInString(currentEntity[21], "{{{MONSTER_PATH}}}", monsterPath);
             replaceThisInString(currentEntity[21], "{{{LINK_ANIMATION}}}", animation);
-            replaceThisInString(currentEntity[24], "{{{PREVIOUS_TARGET_NAME}}}", previousTargetName);
-            replaceThisInString(currentEntity[25], "{{{MONSTER_PATH}}}", monsterPath);
-            replaceThisInString(currentEntity[25], "{{{LINK_ANIMATION_R}}}", animation_r);
 
             writeThisThing(currentEntity, "DE Generated Traversal Chains.txt");
-        }
-
-        if (reciprocalTraversal)
-        {
-            std::vector<std::string> currentEntity_r = TraversalChainTemplate;
-
-            auto entityName_r = entityObjects[entityObjects.size()-1].entityName + "_" + monsterName + "_r";
-            auto animation_r = animReverser(DEAnimationSets[animSetIndex][entityObjects[entityObjects.size()-1].animationIndex]);
-            auto nextTargetName_r = entityObjects[entityObjects.size()-1].entityName + "_" + monsterName;
-
-            replaceThisInString(currentEntity_r[1], "{{{ENTITY_NAME}}}", entityName_r);
-            replaceThisInString(currentEntity_r[9], "{{{MONSTERTYPE}}}", monsterType);
-            replaceThisInString(currentEntity_r[10], "{{{ANIMWEB}}}", animWeb);
-            replaceThisInString(currentEntity_r[12], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
-            replaceThisInString(currentEntity_r[13], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
-            replaceThisInString(currentEntity_r[14], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
-            replaceThisInString(currentEntity_r[18], "{{{REVERSE}}}", "1");
-            replaceThisInString(currentEntity_r[20], "{{{NEXT_TARGET_NAME}}}", nextTargetName_r);
-            replaceThisInString(currentEntity_r[21], "{{{MONSTER_PATH}}}", monsterPath);
-            replaceThisInString(currentEntity_r[21], "{{{LINK_ANIMATION}}}", animation_r);
-            replaceThisInString(currentEntity_r[24], "{{{PREVIOUS_TARGET_NAME}}}", "");
-            replaceThisInString(currentEntity_r[25], "{{{MONSTER_PATH}}}", monsterPath);
-            replaceThisInString(currentEntity_r[25], "{{{LINK_ANIMATION_R}}}", animation_r);
-
-            writeThisThing(currentEntity_r, "DE Generated Traversal Chains.txt");
         }
     }
 }
@@ -579,7 +518,7 @@ MainWindow::~MainWindow()
 
 
 /*
-    GUI RELATED FUNCTIONS
+    TRAVERSAL INFO TAB
 */
 
 // Get the inputs, check if they are valid, then calculate the delta values and display them
@@ -692,6 +631,57 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
     
 }
 
+// Clear the output files
+void MainWindow::on_buttonClearOutput_clicked() // Traversal Info button
+{
+    std::fstream output("DE Generated Info Traversals.txt", std::fstream::out);
+    output << "";
+    output.close();
+}
+
+// clearCoords
+void MainWindow::on_buttonClearCoords_clicked() // Traversal Info button
+{
+    ui->inputStartCoords->clear();
+    ui->inputEndCoords->clear();
+}
+
+// Check if the current inputs for the Traversal Info tab are valid
+bool isInputValidInfo(Ui::MainWindow *ui)
+{
+    // Check if the start coords are valid
+    bool areStartCoordsValid = areCoordsValid(ui->inputStartCoords->text().toStdString());
+
+    // Check if the end coords are valid
+    bool areEndCoordsValid = areCoordsValid(ui->inputEndCoords->text().toStdString());
+
+    // Convert the entity number to int to check if it's valid
+    bool isEntityNumberValid;
+    ui->inputEntityNum->text().toInt(&isEntityNumberValid);
+    isEntityNumberValid = isEntityNumberValid || ui->inputEntityNum->text().isEmpty();
+
+    return areStartCoordsValid && areEndCoordsValid && isEntityNumberValid;
+}
+
+// getGUIInputsDEInfoTraversal
+void MainWindow::on_buttonGenerateTraversal_released()
+{
+    auto entityNum = ui->inputEntityNum->text().toInt();
+    auto startCoords = stringToVector(ui->inputStartCoords->text().toStdString());
+    auto endCoords = stringToVector(ui->inputEndCoords->text().toStdString());
+    std::vector<int> monsterIndices = getMonsterTypesDEInfoTraversal(ui);
+    bool reciprocalTraversal = ui->selectReciprocalTraversal->isChecked();
+    int animIndex = ui->comboBoxAnimSelect->currentIndex();
+
+    generateInfoTraversal(entityNum, startCoords, endCoords, monsterIndices, animIndex, reciprocalTraversal);
+    ui->inputEntityNum->setText(QString::number(entityNum + 1));
+}
+
+
+/*
+    TRAVERSAL CHAIN (GENERAL) TAB
+*/
+
 std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
 {
     std::vector<int> tempList;
@@ -769,12 +759,6 @@ std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
 }
 
 // Clear the output files
-void MainWindow::on_buttonClearOutput_clicked() // Traversal Info button
-{
-    std::fstream output("DE Generated Info Traversals.txt", std::fstream::out);
-    output << "";
-    output.close();
-}
 void MainWindow::on_buttonClearOutputChain_clicked() // Traversal Chain button
 {
     std::fstream output("DE Generated Traversal Chains.txt", std::fstream::out);
@@ -783,11 +767,6 @@ void MainWindow::on_buttonClearOutputChain_clicked() // Traversal Chain button
 }
 
 // clearCoords
-void MainWindow::on_buttonClearCoords_clicked() // Traversal Info button
-{
-    ui->inputStartCoords->clear();
-    ui->inputEndCoords->clear();
-}
 void MainWindow::on_buttonClearCoordsAndAnims_clicked() // Traversal Chain button
 {
     ui->inputMidCoordsChain->clear();
@@ -795,29 +774,6 @@ void MainWindow::on_buttonClearCoordsAndAnims_clicked() // Traversal Chain butto
     ui->listWidgetMidpoints->clear();
     ui->listWidgetMidAnims->clear();
     tempAnimList.clear();
-}
-
-
-bool areCoordsValid(const std::string& coordsStr)
-{
-    std::vector<double> coordsDouble = stringToVector(coordsStr);
-    return coordsStr != "" && coordsDouble.size() >= 3;
-}
-// Check if the current inputs for the Traversal Info tab are valid
-bool isInputValidInfo(Ui::MainWindow *ui)
-{
-    // Check if the start coords are valid
-    bool areStartCoordsValid = areCoordsValid(ui->inputStartCoords->text().toStdString());
-
-    // Check if the end coords are valid
-    bool areEndCoordsValid = areCoordsValid(ui->inputEndCoords->text().toStdString());
-
-    // Convert the entity number to int to check if it's valid
-    bool isEntityNumberValid;
-    ui->inputEntityNum->text().toInt(&isEntityNumberValid);
-    isEntityNumberValid = isEntityNumberValid || ui->inputEntityNum->text().isEmpty();
-
-    return areStartCoordsValid && areEndCoordsValid && isEntityNumberValid;
 }
 
 // If any input fields for the Traversal Info tab are changed, make sure their inputs are valid
@@ -879,20 +835,6 @@ void MainWindow::on_inputMidCoordsChain_textChanged(const QString &arg1)
     ui->pushButtonAddMidpoint->setEnabled(isInputValidChainMidpoint(ui));
 }
 
-// getGUIInputsDEInfoTraversal
-void MainWindow::on_buttonGenerateTraversal_released()
-{
-    auto entityNum = ui->inputEntityNum->text().toInt();
-    auto startCoords = stringToVector(ui->inputStartCoords->text().toStdString());
-    auto endCoords = stringToVector(ui->inputEndCoords->text().toStdString());
-    std::vector<int> monsterIndices = getMonsterTypesDEInfoTraversal(ui);
-    bool reciprocalTraversal = ui->selectReciprocalTraversal->isChecked();
-    int animIndex = ui->comboBoxAnimSelect->currentIndex();
-
-    generateInfoTraversal(entityNum, startCoords, endCoords, monsterIndices, animIndex, reciprocalTraversal);
-    ui->inputEntityNum->setText(QString::number(entityNum + 1));
-}
-
 // addMidPointToList
 void MainWindow::on_pushButtonAddMidpoint_clicked()
 {
@@ -927,11 +869,43 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
 
     std::vector<int> monsterIndices = getMonsterTypesDETraversalChain(ui);
 
-    bool reciprocalTraversal = ui->selectReciprocalTraversalChain->isChecked();
+    generateTraversalChain(entityObjects, lastEntity, monsterIndices, false);
 
-    generateTraversalChain(entityObjects, lastEntity, monsterIndices, reciprocalTraversal);
+    auto reciprocalTraversal = ui->selectReciprocalTraversalChain->isChecked();
+    if(reciprocalTraversal)
+    {
+        auto size_r = entityObjects.size() - 1;
+        std::vector<idInfo_TraversalChain_General> entityObjects_r;
+
+        idInfo_TraversalChain_General firstEntity_r;
+        firstEntity_r.entityName = "mod_traversal_chain_" + entityName + "_" + numToLetterStr[size_r+2] + "_r";
+        firstEntity_r.coordinates = lastEntity.coordinates;
+        firstEntity_r.animationIndex = entityObjects[size_r].animationIndex;
+
+        entityObjects_r.push_back(firstEntity_r);
+
+        for (int i = size_r; i > 0; i--)
+        {
+            idInfo_TraversalChain_General tempObject_r;
+            tempObject_r.entityName = entityObjects[i].entityName + "_r";
+            tempObject_r.coordinates = entityObjects[i].coordinates;
+            tempObject_r.animationIndex = entityObjects[i-1].animationIndex;
+
+            entityObjects_r.push_back(tempObject_r);
+        }
+
+        idInfo_TraversalPoint lastEntity_r;
+        lastEntity_r.entityName = lastEntity.entityName + "_r";
+        lastEntity_r.coordinates = entityObjects[0].coordinates;
+
+        generateTraversalChain(entityObjects_r, lastEntity_r, monsterIndices, true);
+    }
 }
 
+
+/*
+    TRAVERSAL CHAIN (DEDICATED) TAB
+*/
 
 void MainWindow::on_pushButtonClearOutputHang_clicked()
 {
@@ -1019,7 +993,7 @@ void MainWindow::on_pushButtonToMakeHangImp_clicked()
     generateHangout(hangoutTemplate, entityObjects, landingEntity);
 }
 
-
+// Add Imp traversal chain to list
 void MainWindow::on_pushButton_addChain_Imp_clicked()
 {
     ui->listWidget_hangCoordsImp->addItem(ui->inputCoordsHangImp->text());
@@ -1028,7 +1002,7 @@ void MainWindow::on_pushButton_addChain_Imp_clicked()
     ui->inputCoordsHangImp->clear();
 }
 
-
+// Clear Imp traversal chains
 void MainWindow::on_pushButton_clearHangImp_clicked()
 {
     ui->listWidget_hangCoordsImp->clear();
