@@ -1,0 +1,28 @@
+entity {
+	entityDef {{{ENTITY_NAME}}} {
+	class = "idInfo_TraversalChain";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		monsterType = "{{{MONSTERTYPE}}}";
+		animWeb = "animweb/characters/monsters/{{{ANIMWEB}}}";
+		spawnPosition = {
+			x = {{{COORDX}}};
+			y = {{{COORDY}}};
+			z = {{{COORDZ}}};
+		}
+		traversalFlags = "TRAVERSAL_ENABLED DELTA_CORRECT";
+		links = {
+			num = 1;
+			item[0] = {
+				target = "{{{NEXT_TARGET_NAME}}}";
+				anim = "animweb/characters/monsters/{{{MONSTER_PATH}}}/{{{LINK_ANIMATION}}}";
+			}
+		}
+		alignWithLink = true;
+	}
+}
+}

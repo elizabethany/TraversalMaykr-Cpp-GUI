@@ -2,7 +2,20 @@ wallclimbright/wcr_climb_right_250_wcr
 wallclimbright/wcr_jump_down_right_250
 wallclimbleft/wcl_climb_left_250_wcl
 wallclimbleft/wcl_jump_down_left_250
+wallclimb/wc_climb_250_wc
+wallclimb/wc_into_wl
+wallclimb/wc_into_wr
+wallclimb/wc_jump_back_1000_wc
+wallclimb/wc_jump_back_500
+wallclimb/wc_jump_back_500_wc
+wallclimb/wc_jump_back_down_250
 wallclimb/wc_jump_back_down_500
+wallclimb/wc_jump_left_down_250
+wallclimb/wc_jump_right_down_250
+wallclimbdown/wcd_climb_down45_250_wcd
+wallclimbdown/wcd_climb_down_250_wcd
+wallclimbdown/wcd_hang_down_drop_750
+wallclimbdown/wcd_jump_down_250
 
 traversal/jump_ledge_up_100
 traversal/jump_ledge_up_200
