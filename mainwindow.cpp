@@ -46,29 +46,38 @@ static const QStringList idleAnimationsArachnotron_Q = { "NONE", "ceiling_hangou
 static const QStringList linkAnimationsImp = { "wallclimbright/wcr_climb_right_250_wcr", "wallclimbright/wcr_jump_down_right_250", "wallclimbleft/wcl_climb_left_250_wcl", "wallclimbleft/wcl_jump_down_left_250", "wallclimb/wc_climb_250_wc", "wallclimb/wc_into_wl", "wallclimb/wc_into_wr", "wallclimb/wc_jump_back_1000_wc", "wallclimb/wc_jump_back_500", "wallclimb/wc_jump_back_500_wc", "wallclimb/wc_jump_back_down_250", "wallclimb/wc_jump_back_down_500", "wallclimb/wc_jump_left_down_250", "wallclimb/wc_jump_right_down_250", "wallclimbdown/wcd_climb_down45_250_wcd", "wallclimbdown/wcd_climb_down_250_wcd", "wallclimbdown/wcd_hang_down_drop_750", "wallclimbdown/wcd_jump_down_250" };
 static const QStringList idleAnimationsImp = { "NONE", "wallclimb_hangout/idle", "upright_hangout/idle", "perch/pch_idle_pch" };
 
+// For InfoPath tab
+static const QStringList walkStates = { "WALKSTATE_WALKING", "WALKSTATE_RUNNING", "WALKSTATE_SPRINTING", "WALKSTATE_NOCLIP" };
+static const QStringList navSizes = { "NAVSIZE_SMALL", "NAVSIZE_MEDIUM", "NAVSIZE_LARGE", "NAVSIZE_SUPER" };
 
 /*
     CLASSES
 */
 
-class idInfo_Traversal_X{
+class idEntity{
 public:
     std::string entityName;
     std::vector<double> coordinates;
 };
 
-class idInfo_TraversalPoint : public idInfo_Traversal_X{
+class idInfo_TraversalPoint : public idEntity{
 };
 
-class idInfo_TraversalChain_Hang : public idInfo_Traversal_X{
+class idInfo_TraversalChain_Hang : public idEntity{
 public:
     std::string linkAnimation;
     std::string idleAnimation;
 };
 
-class idInfo_TraversalChain_General : public idInfo_Traversal_X{
+class idInfo_TraversalChain_General : public idEntity{
 public:
     int animationIndex;
+};
+
+class idInfoPath : public idEntity{
+public:
+    std::string walkState;
+    std::string navSize;
 };
 
 /*
@@ -309,7 +318,7 @@ void generateInfoTraversal(
         replaceThisInString((generatedEntity).at(19), "{{{endY}}}", endY);
         replaceThisInString((generatedEntity).at(20), "{{{endZ}}}", endZ);
 
-        writeThisThing(generatedEntity, "DE Generated Info Traversals.txt");
+        writeThisThing(generatedEntity, "Output/Traversal Info.txt");
 
         if (reciprocalTraversal)
         {
@@ -335,7 +344,7 @@ void generateInfoTraversal(
             replaceThisInString((generatedEntity_r).at(19), "{{{endY}}}", endY_r);
             replaceThisInString((generatedEntity_r).at(20), "{{{endZ}}}", endZ_r);
 
-            writeThisThing(generatedEntity_r, "DE Generated Info Traversals.txt");
+            writeThisThing(generatedEntity_r, "Output/Traversal Info.txt");
         }
     }
 }
@@ -396,7 +405,7 @@ void generateHangout(
         replaceThisInString(currentEntity[40], "{{{LINK_ANIMATION}}}", linkAnimation);
         replaceThisInString(currentEntity[43], "{{{IDLE_ANIMATION}}}", idleAnimation);
 
-        writeThisThing(currentEntity, "DE Generated Hangouts.txt");
+        writeThisThing(currentEntity, "Output/Traversal Chains (Dedicated).txt");
     }
 
     std::vector<std::string> lastEntity = hangoutEndTemplate;
@@ -405,7 +414,7 @@ void generateHangout(
     replaceThisInString(lastEntity[10], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
     replaceThisInString(lastEntity[11], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
     replaceThisInString(lastEntity[12], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
-    writeThisThing(lastEntity, "DE Generated Hangouts.txt");
+    writeThisThing(lastEntity, "Output/Traversal Chains (Dedicated).txt");
 }
 
 void generateTraversalChain(
@@ -423,7 +432,7 @@ void generateTraversalChain(
     replaceThisInString(lastEntity[10], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
     replaceThisInString(lastEntity[11], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
     replaceThisInString(lastEntity[12], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
-    writeThisThing(lastEntity, "DE Generated Traversal Chains.txt");
+    writeThisThing(lastEntity, "Output/Traversal Chains (General).txt");
 
     static const std::vector<std::string> TraversalChainTemplate = textFileToVector("Templates/Traversal Chain/TraversalChain.txt");
 
@@ -469,7 +478,36 @@ void generateTraversalChain(
             replaceThisInString(currentEntity[21], "{{{MONSTER_PATH}}}", monsterPath);
             replaceThisInString(currentEntity[21], "{{{LINK_ANIMATION}}}", animation);
 
-            writeThisThing(currentEntity, "DE Generated Traversal Chains.txt");
+            writeThisThing(currentEntity, "Output/Traversal Chains (General).txt");
+        }
+    }
+}
+
+void generateInfoPath(
+    std::vector<idInfoPath> entityObjects
+)
+{
+    static const auto infoPathTemplate = textFileToVector("Templates/Path/InfoPath.txt");
+    auto size = entityObjects.size();
+
+    for (int i = 0; i < size; i++)
+    {
+        auto currentEntity = infoPathTemplate;
+
+        replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityObjects[i].entityName + "_" + zeroPadded(std::to_string(i+1)));
+        replaceThisInString(currentEntity[10], "{{{COORDX}}}", std::to_string(entityObjects[i].coordinates[0]));
+        replaceThisInString(currentEntity[11], "{{{COORDY}}}", std::to_string(entityObjects[i].coordinates[1]));
+        replaceThisInString(currentEntity[12], "{{{COORDZ}}}", std::to_string(entityObjects[i].coordinates[2] - DEpmNormalViewHeight));
+
+        if (i == size - 1)
+        {
+            replaceThisInString(currentEntity[15], "{{{NUM_TARGETS}}}", "0");
+            replaceThisInString(currentEntity[16], "{{{NEXT_TARGET}}}", "");
+        }
+        else
+        {
+            replaceThisInString(currentEntity[15], "{{{NUM_TARGETS}}}", "1");
+            replaceThisInString(currentEntity[16], "{{{NEXT_TARGET}}}", entityObjects[i+1].entityName);
         }
     }
 }
@@ -491,6 +529,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Set the traversal info tab as the default
     ui->tabWidgetTraversalEntityTypes->setCurrentIndex(0);
 
+    // Set Imp tab in dedicated traversal chains as default
+    ui->tabWidget_TraversalChainHang->setCurrentIndex(0);
+
     // For Traversal Info
     ui->demonSelect_19->setChecked(true);
     ui->radioButtonPresetNoneInfo->setChecked(true);
@@ -505,8 +546,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButtonAddMidpoint->setEnabled(false); // Disable "add midpoint" button
 
     // For Traversal Chain (Dedicated)
+    ui->pushButton_addChain->setEnabled(false);
+    ui->pushButtonForTesting->setEnabled(false);
     ui->comboBox_linkAnimsArachnotron->addItems(linkAnimationsArachnotron_Q);
     ui->comboBox_idleAnimsArachnotron->addItems(idleAnimationsArachnotron_Q);
+    ui->pushButton_addChain_Imp->setEnabled(false);
+    ui->pushButtonToMakeHangImp->setEnabled(false);
     ui->comboBox_linkAnimsImp->addItems(linkAnimationsImp);
     ui->comboBox_idleAnimsImp->addItems(idleAnimationsImp);
 }
@@ -553,6 +598,31 @@ void getDeltaValues(Ui::MainWindow *ui)
         ui->labelValHorDelta->setText(QString::number(deltaHor, 'f', 4));
         ui->labelValVerDelta->setText(QString::number(deltaZ, 'f', 4));
     }
+}
+
+// Check if the current inputs for the Traversal Info tab are valid
+bool isInputValidInfo(Ui::MainWindow *ui)
+{
+    // Check if the start coords are valid
+    bool areStartCoordsValid = areCoordsValid(ui->inputStartCoords->text().toStdString());
+
+    // Check if the end coords are valid
+    bool areEndCoordsValid = areCoordsValid(ui->inputEndCoords->text().toStdString());
+
+    return areStartCoordsValid && areEndCoordsValid;
+}
+
+// If any input fields for the Traversal Info tab are changed, make sure their inputs are valid
+// Also try to get the delta values
+void MainWindow::on_inputStartCoords_textChanged(const QString& arg1)
+{
+    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
+    getDeltaValues(ui);
+}
+void MainWindow::on_inputEndCoords_textChanged(const QString& arg1)
+{
+    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
+    getDeltaValues(ui);
 }
 
 std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
@@ -634,7 +704,7 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
 // Clear the output files
 void MainWindow::on_buttonClearOutput_clicked() // Traversal Info button
 {
-    std::fstream output("DE Generated Info Traversals.txt", std::fstream::out);
+    std::fstream output("Output/Traversal Info.txt", std::fstream::out);
     output << "";
     output.close();
 }
@@ -644,23 +714,6 @@ void MainWindow::on_buttonClearCoords_clicked() // Traversal Info button
 {
     ui->inputStartCoords->clear();
     ui->inputEndCoords->clear();
-}
-
-// Check if the current inputs for the Traversal Info tab are valid
-bool isInputValidInfo(Ui::MainWindow *ui)
-{
-    // Check if the start coords are valid
-    bool areStartCoordsValid = areCoordsValid(ui->inputStartCoords->text().toStdString());
-
-    // Check if the end coords are valid
-    bool areEndCoordsValid = areCoordsValid(ui->inputEndCoords->text().toStdString());
-
-    // Convert the entity number to int to check if it's valid
-    bool isEntityNumberValid;
-    ui->inputEntityNum->text().toInt(&isEntityNumberValid);
-    isEntityNumberValid = isEntityNumberValid || ui->inputEntityNum->text().isEmpty();
-
-    return areStartCoordsValid && areEndCoordsValid && isEntityNumberValid;
 }
 
 // getGUIInputsDEInfoTraversal
@@ -761,7 +814,7 @@ std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
 // Clear the output files
 void MainWindow::on_buttonClearOutputChain_clicked() // Traversal Chain button
 {
-    std::fstream output("DE Generated Traversal Chains.txt", std::fstream::out);
+    std::fstream output("Output/Traversal Chains (General).txt", std::fstream::out);
     output << "";
     output.close();
 }
@@ -776,36 +829,11 @@ void MainWindow::on_buttonClearCoordsAndAnims_clicked() // Traversal Chain butto
     tempAnimList.clear();
 }
 
-// If any input fields for the Traversal Info tab are changed, make sure their inputs are valid
-// Also try to get the delta values
-void MainWindow::on_inputStartCoords_textChanged(const QString& arg1)
-{
-    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
-    getDeltaValues(ui);
-}
-void MainWindow::on_inputEndCoords_textChanged(const QString& arg1)
-{
-    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
-    getDeltaValues(ui);
-}
-void MainWindow::on_inputEntityNumChain_textChanged(const QString& arg1)
-{
-    ui->buttonGenerateTraversal->setEnabled(isInputValidInfo(ui));
-}
-
 // Check if the start and end coords for the Traversal Chain are valid
 bool isInputValidChain(Ui::MainWindow *ui)
 {
-    // Check if the start coords are valid
-    //bool areStartCoordsValid = areCoordsValid(ui->inputStartCoordsChain->text().toStdString());
-
     // Check if the end coords are valid
     bool areEndCoordsValid = areCoordsValid(ui->inputEndCoordsChain->text().toStdString());
-
-    // Convert the entity number to int to check if it's valid
-    bool isEntityNumberValid;
-    ui->inputEntityNum->text().toInt(&isEntityNumberValid);
-    isEntityNumberValid = isEntityNumberValid || ui->inputEntityNumChain->text().isEmpty();
 
     bool wasMidpointAdded = ui->listWidgetMidpoints->count();
 
@@ -907,9 +935,10 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
     TRAVERSAL CHAIN (DEDICATED) TAB
 */
 
+// Clear output file (affects all sub-tabs)
 void MainWindow::on_pushButtonClearOutputHang_clicked()
 {
-    std::fstream output("DE Generated Hangouts.txt", std::fstream::out);
+    std::fstream output("Output/Traversal Chains (Dedicated).txt", std::fstream::out);
     output << "";
     output.close();
 }
@@ -960,6 +989,38 @@ void MainWindow::on_pushButton_clearHangArachnotron_clicked()
      ui->listWidget_hangCoordsArachnotron->clear();
      ui->listWidget_hangLinkArachnotron->clear();
      ui->listWidget_hangIdleArachnotron->clear();
+     ui->inputCoordsLandArachnotron->clear();
+}
+
+// Check if the coords for the Arachnotron Traversal Chain are valid
+bool isInputValidHangArachnotron(Ui::MainWindow *ui)
+{
+    bool areChainCoordsValid = areCoordsValid(ui->inputCoordsHangArachnotron->text().toStdString());
+
+    return areChainCoordsValid;
+}
+
+// Check if the coords for the Arachnotron landing point
+bool isInputValidHangLandArachnotron(Ui::MainWindow *ui)
+{
+    // Check if the end coords are valid
+    bool areEndCoordsValid = areCoordsValid(ui->inputCoordsLandArachnotron->text().toStdString());
+
+    bool wasMidpointAdded = ui->listWidget_hangCoordsArachnotron->count();
+
+    return areEndCoordsValid && wasMidpointAdded;
+}
+
+// When the Arachnotron's Traversal Chain coords are changed, check if they are valid
+void MainWindow::on_inputCoordsHangArachnotron_textChanged(const QString &arg1)
+{
+    ui->pushButton_addChain->setEnabled(isInputValidHangArachnotron(ui));
+    ui->pushButtonForTesting->setEnabled(isInputValidHangLandArachnotron(ui));
+}
+// When the Imp's landing coords are changed, check if they are valid
+void MainWindow::on_inputCoordsLandArachnotron_textChanged(const QString &arg1)
+{
+    ui->pushButtonForTesting->setEnabled(isInputValidHangLandArachnotron(ui));
 }
 
 // Generate Imp Traversal Chain
@@ -1008,5 +1069,37 @@ void MainWindow::on_pushButton_clearHangImp_clicked()
     ui->listWidget_hangCoordsImp->clear();
     ui->listWidget_hangLinkImp->clear();
     ui->listWidget_hangIdleImp->clear();
+    ui->inputCoordsLandImp->clear();
+}
+
+// Check if the coords for the Imp Traversal Chain are valid
+bool isInputValidHangImp(Ui::MainWindow *ui)
+{
+    bool areChainCoordsValid = areCoordsValid(ui->inputCoordsHangImp->text().toStdString());
+
+    return areChainCoordsValid;
+}
+
+// Check if the coords for the Imp landing point
+bool isInputValidHangLandImp(Ui::MainWindow *ui)
+{
+    // Check if the end coords are valid
+    bool areEndCoordsValid = areCoordsValid(ui->inputCoordsLandImp->text().toStdString());
+
+    bool wasMidpointAdded = ui->listWidget_hangCoordsImp->count();
+
+    return areEndCoordsValid && wasMidpointAdded;
+}
+
+// When the Imp's Traversal Chain coords are changed, check if they are valid
+void MainWindow::on_inputCoordsHangImp_textChanged(const QString &arg1)
+{
+    ui->pushButton_addChain_Imp->setEnabled(isInputValidHangImp(ui));
+    ui->pushButtonToMakeHangImp->setEnabled(isInputValidHangLandImp(ui));
+}
+// When the Imp's landing coords are changed, check if they are valid
+void MainWindow::on_inputCoordsLandImp_textChanged(const QString &arg1)
+{
+    ui->pushButtonToMakeHangImp->setEnabled(isInputValidHangLandImp(ui));
 }
 

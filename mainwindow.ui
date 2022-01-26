@@ -58,7 +58,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_TraversalInfo">
        <property name="sizePolicy">
@@ -149,6 +149,10 @@
               <width>0</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Click here to create traversal info based on the information you entered above.
+This button will be disabled if you are missing certain information.</string>
             </property>
             <property name="text">
              <string>Generate Traversals</string>
@@ -807,6 +811,9 @@ This number automatically increments by 1 after every generated entity.</string>
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Use this to pick the animation you want the demon to use, to get from the coordinates you just entered, to the next set of coordinates</string>
+            </property>
             <property name="maxVisibleItems">
              <number>45</number>
             </property>
@@ -896,6 +903,10 @@ Note that the entity class and monster type will be automatically added to the e
               <height>30</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Click this once you have entered coordinates and picked an animation.
+This is disabled if you haven't done so.</string>
+            </property>
             <property name="text">
              <string>Add Traversal Chain</string>
             </property>
@@ -914,6 +925,9 @@ Note that the entity class and monster type will be automatically added to the e
               <width>0</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Coordinates for the last point in the traversal chain</string>
             </property>
             <property name="placeholderText">
              <string>Destination Coordiantes</string>
@@ -1233,6 +1247,10 @@ Note that the entity class and monster type will be automatically added to the e
               <height>40</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Click here to create traversal chains based on the information you entered above.
+This button will be disabled if you are missing certain information.</string>
+            </property>
             <property name="text">
              <string>Generate Traversal Chain</string>
             </property>
@@ -1262,7 +1280,7 @@ Note that the entity class and monster type will be automatically added to the e
            <enum>QLayout::SetMaximumSize</enum>
           </property>
           <item row="0" column="0">
-           <widget class="QTabWidget" name="tabWidget">
+           <widget class="QTabWidget" name="tabWidget_TraversalChainHang">
             <property name="currentIndex">
              <number>1</number>
             </property>
@@ -1294,7 +1312,7 @@ Note that the entity class and monster type will be automatically added to the e
                    </size>
                   </property>
                   <property name="text">
-                   <string>Clear Traversal Chains</string>
+                   <string>Clear Coordinates and Animations</string>
                   </property>
                  </widget>
                 </item>
@@ -1314,25 +1332,6 @@ Note that the entity class and monster type will be automatically added to the e
                   </property>
                  </spacer>
                 </item>
-                <item row="4" column="0">
-                 <widget class="QPushButton" name="pushButton_addChain_Imp">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Add Traversal Chain</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="2" column="2">
                  <widget class="QComboBox" name="comboBox_idleAnimsImp">
                   <property name="sizePolicy">
@@ -1346,6 +1345,11 @@ Note that the entity class and monster type will be automatically added to the e
                     <width>0</width>
                     <height>30</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>(Leave this at NONE if you aren't sure. It may not work anyways)
+This is for picking the idle animation to use at this traversal chain.
+The idle animation will allow the demon to use this traversal chain as a hangout.</string>
                   </property>
                  </widget>
                 </item>
@@ -1379,6 +1383,9 @@ Note that the entity class and monster type will be automatically added to the e
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Coordinates for the traversal chain</string>
+                  </property>
                   <property name="placeholderText">
                    <string>Coordinates</string>
                   </property>
@@ -1403,25 +1410,6 @@ Note that the entity class and monster type will be automatically added to the e
                 <item row="3" column="1">
                  <widget class="QListWidget" name="listWidget_hangLinkImp"/>
                 </item>
-                <item row="8" column="0">
-                 <widget class="QLineEdit" name="inputCoordsLandImp">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="placeholderText">
-                   <string>Landing Coordinates</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="11" column="0" colspan="3" alignment="Qt::AlignHCenter">
                  <widget class="QPushButton" name="pushButtonToMakeHangImp">
                   <property name="sizePolicy">
@@ -1435,6 +1423,10 @@ Note that the entity class and monster type will be automatically added to the e
                     <width>250</width>
                     <height>70</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Click here to create traversal chains based on the information you entered above.
+This button will be disabled if you are missing certain information.</string>
                   </property>
                   <property name="text">
                    <string>Generate Traversal Chain</string>
@@ -1454,6 +1446,9 @@ Note that the entity class and monster type will be automatically added to the e
                     <width>0</width>
                     <height>30</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Use this to pick the animation you want the demon to use, to get from the coordinates you just entered, to the next set of coordinates</string>
                   </property>
                   <property name="maxVisibleItems">
                    <number>20</number>
@@ -1494,6 +1489,51 @@ Note that the entity class and monster type will be automatically added to the e
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item row="4" column="0" colspan="3">
+                 <widget class="QPushButton" name="pushButton_addChain_Imp">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Click this once you have entered coordinates and picked the animations.
+This is disabled if you haven't done so.</string>
+                  </property>
+                  <property name="text">
+                   <string>Add Traversal Chain</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="0" colspan="3">
+                 <widget class="QLineEdit" name="inputCoordsLandImp">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Coordinates for the last point in the traversal chain</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Landing Coordinates</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -1571,6 +1611,10 @@ Note that the entity class and monster type will be automatically added to the e
                     <height>70</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Click here to create traversal chains based on the information you entered above.
+This button will be disabled if you are missing certain information.</string>
+                  </property>
                   <property name="text">
                    <string>Generate Traversal Chain</string>
                   </property>
@@ -1591,7 +1635,7 @@ Note that the entity class and monster type will be automatically added to the e
                    </size>
                   </property>
                   <property name="text">
-                   <string>Clear Traversal Chains</string>
+                   <string>Clear Coordinates and Animations</string>
                   </property>
                  </widget>
                 </item>
@@ -1611,25 +1655,6 @@ Note that the entity class and monster type will be automatically added to the e
                   </property>
                  </spacer>
                 </item>
-                <item row="4" column="0">
-                 <widget class="QPushButton" name="pushButton_addChain">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Add Traversal Chain</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="2" column="1">
                  <widget class="QComboBox" name="comboBox_linkAnimsArachnotron">
                   <property name="sizePolicy">
@@ -1643,6 +1668,9 @@ Note that the entity class and monster type will be automatically added to the e
                     <width>0</width>
                     <height>30</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Use this to pick the animation you want the demon to use, to get from the coordinates you just entered, to the next set of coordinates</string>
                   </property>
                   <property name="maxVisibleItems">
                    <number>20</number>
@@ -1701,6 +1729,9 @@ Note that the entity class and monster type will be automatically added to the e
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Coordinates for the traversal chain</string>
+                  </property>
                   <property name="placeholderText">
                    <string>Coordinates</string>
                   </property>
@@ -1720,12 +1751,40 @@ Note that the entity class and monster type will be automatically added to the e
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>(Leave this at NONE if you aren't sure. It may not work anyways)
+This is for picking the idle animation to use at this traversal chain.
+The idle animation will allow the demon to use this traversal chain as a hangout.</string>
+                  </property>
                  </widget>
                 </item>
                 <item row="3" column="1">
                  <widget class="QListWidget" name="listWidget_hangLinkArachnotron"/>
                 </item>
-                <item row="6" column="0">
+                <item row="4" column="0" colspan="3">
+                 <widget class="QPushButton" name="pushButton_addChain">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Click this once you have entered coordinates and picked the animations.
+This is disabled if you haven't done so.</string>
+                  </property>
+                  <property name="text">
+                   <string>Add Traversal Chain</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0" colspan="3">
                  <widget class="QLineEdit" name="inputCoordsLandArachnotron">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1738,6 +1797,9 @@ Note that the entity class and monster type will be automatically added to the e
                     <width>0</width>
                     <height>30</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Coordinates for the last point in the traversal chain</string>
                   </property>
                   <property name="placeholderText">
                    <string>Landing Coordinates</string>
@@ -1788,6 +1850,103 @@ Note that the entity class and monster type will be automatically added to the e
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab_InfoPath">
+       <attribute name="title">
+        <string>Path Info</string>
+       </attribute>
+       <widget class="QLineEdit" name="lineEdit_InfoPath_EntityName">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>40</y>
+          <width>113</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_InfoPath_Coords">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>90</y>
+          <width>113</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox_InfoPath_WalkState">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>120</y>
+          <width>111</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Add_InfoPath">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>180</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add Path Info</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Generate_InfoPath">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>270</y>
+          <width>171</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Generate Path Info</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox_InfoPath_NavSize">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>150</y>
+          <width>111</width>
+          <height>24</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Clear_InfoPath">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>230</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Clear Path Info</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_ClearOutput_InfoPath">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>310</y>
+          <width>111</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Clear Output File</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

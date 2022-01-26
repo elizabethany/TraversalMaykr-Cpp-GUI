@@ -34,8 +34,6 @@ private slots:
 
     void on_buttonGenerateTraversalChain_clicked();
 
-    void on_inputEntityNumChain_textChanged(const QString& arg1);
-
     void on_inputMidCoordsChain_textChanged(const QString &arg1);
 
     void on_inputEndCoordsChain_textChanged(const QString &arg1);
@@ -53,6 +51,14 @@ private slots:
     void on_pushButton_addChain_Imp_clicked();
 
     void on_pushButton_clearHangImp_clicked();
+
+    void on_inputCoordsHangImp_textChanged(const QString &arg1);
+
+    void on_inputCoordsLandImp_textChanged(const QString &arg1);
+
+    void on_inputCoordsHangArachnotron_textChanged(const QString &arg1);
+
+    void on_inputCoordsLandArachnotron_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
