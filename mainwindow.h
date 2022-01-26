@@ -36,8 +36,6 @@ private slots:
 
     void on_inputEntityNumChain_textChanged(const QString& arg1);
 
-    void on_inputStartCoordsChain_textChanged(const QString &arg1);
-
     void on_inputMidCoordsChain_textChanged(const QString &arg1);
 
     void on_inputEndCoordsChain_textChanged(const QString &arg1);

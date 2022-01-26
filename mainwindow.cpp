@@ -8,20 +8,22 @@
 #include <fstream>
 #include <cmath>
 
+/*
+    GLOBAL VARIABLES
+*/
+
 // pm_NormalViewHeight, using default value
 static const double DEpmNormalViewHeight = 1.65735;
 
-/*
-Set 1 is for all monsters not listed below
-Set 2 is for the Baron, Hell Knight, Imp, Mancubus, Pinky, and Soldier
-Set 3 is for the Marauder Wolf
-Set 4 is for the Arachnotron
-Set 5 is for the Zombie
-*/
+// Set 1 is for all monsters not listed below
 static const std::vector<std::string> animationSet1 = { "ledge_up_100", "ledge_up_200", "ledge_up_300", "ledge_up_400", "ledge_up_500", "ledge_up_700", "ledge_up_1000", "ledge_down_100", "ledge_down_200", "ledge_down_300", "ledge_down_400", "ledge_down_500", "ledge_down_700", "ledge_down_1000", "rail_down_100", "rail_down_200", "rail_down_300", "rail_down_400", "rail_down_500", "rail_down_700", "rail_down_1000", "rail_up_100", "rail_up_200", "rail_up_300", "rail_up_400", "rail_up_500", "rail_up_700", "rail_up_1000", "jump_forward_100", "jump_forward_200", "jump_forward_300", "jump_forward_400", "jump_forward_500", "jump_forward_700", "jump_forward_1000", "jump_forward_300_down_300", "jump_forward_300_down_500", "jump_forward_300_up_300", "jump_forward_300_up_500", "jump_forward_500_down_300", "jump_forward_500_down_500", "jump_forward_500_up_300", "jump_forward_500_up_500", "jump_forward_1000_down_1000", "jump_forward_1000_up_1000" };
+// Set 2 is for the Baron, Hell Knight, Imp, Mancubus, Pinky, and Soldier
 static const std::vector<std::string> animationSet2 = { "jump_ledge_up_100", "jump_ledge_up_200", "jump_ledge_up_300", "jump_ledge_up_400", "jump_ledge_up_500", "jump_ledge_up_700", "jump_ledge_up_1000", "jump_ledge_down_100", "jump_ledge_down_200", "jump_ledge_down_300", "jump_ledge_down_400", "jump_ledge_down_500", "jump_ledge_down_700", "jump_ledge_down_1000", "jump_rail_down_100", "jump_rail_down_200", "jump_rail_down_300", "jump_rail_down_400", "jump_rail_down_500", "jump_rail_down_700", "jump_rail_down_1000", "jump_rail_up_100", "jump_rail_up_200", "jump_rail_up_300", "jump_rail_up_400", "jump_rail_up_500", "jump_rail_up_700", "jump_rail_up_1000", "jump_forward_100", "jump_forward_200", "jump_forward_300", "jump_forward_400", "jump_forward_500", "jump_forward_700", "jump_forward_1000", "jump_forward_300_down_300", "jump_forward_300_down_500", "jump_forward_300_up_300", "jump_forward_300_up_500", "jump_forward_500_down_300", "jump_forward_500_down_500", "jump_forward_500_up_300", "jump_forward_500_up_500", "jump_forward_1000_down_1000", "jump_forward_1000_up_1000" };
+// Set 3 is for the Marauder Wolf
 static const std::vector<std::string> animationSet3 = { "ledge_up_100", "ledge_up_200", "ledge_up_300", "ledge_up_400", "ledge_up_500", "ledge_up_700", "ledge_up_1000", "ledge_down_100", "ledge_down_200", "ledge_down_300", "ledge_down_400", "ledge_down_500", "ledge_down_700", "ledge_down_1000", "rail_down_100", "rail_down_200", "rail_down_300", "rail_down_400", "rail_down_500", "rail_down_700", "rail_down_1000", "rail_up_100", "rail_up_200", "rail_up_300", "rail_up_400", "rail_up_500", "rail_up_700", "rail_up_1000", "jump_forward_100", "jump_forward_200", "jump_forward_300", "jump_forward_400", "jump_forward_500", "jump_forward_700", "jump_forward_1000", "ledge_forward_300_down_300", "ledge_forward_300_down_500", "ledge_forward_300_up_300", "ledge_forward_300_up_500", "ledge_forward_500_down_300", "ledge_forward_500_down_500", "ledge_forward_500_up_300", "ledge_forward_500_up_500", "ledge_forward_1000_down_1000", "ledge_forward_1000_up_1000" };
+// Set 4 is for the Arachnotron
 static const std::vector<std::string> animationSet4 = { "ledge_up_500", "ledge_up_500", "ledge_up_500", "ledge_up_500", "ledge_up_500", "ledge_up_500", "ledge_up_500", "ledge_down_500", "ledge_down_500", "ledge_down_500", "ledge_down_500", "ledge_down_500", "ledge_down_500", "ledge_down_500", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "jump_forward_500", "jump_forward_500", "jump_forward_500", "jump_forward_500", "jump_forward_500", "jump_forward_500", "jump_forward_500", "", "", "", "", "", "", "", "", "", "" };
+// Set 5 is for the Zombie
 static const std::vector<std::string> animationSet5 = { "ledge_up_100", "ledge_up_200", "ledge_up_300", "ledge_up_400", "ledge_up_500", "ledge_up_500", "ledge_up_500", "ledge_down_100", "ledge_down_200", "ledge_down_300", "ledge_down_400", "ledge_down_500", "ledge_down_700", "ledge_down_1000", "rail_down_100", "rail_down_200", "rail_down_300", "rail_down_400", "rail_down_500", "rail_down_700", "rail_down_1000", "rail_up_100", "rail_up_200", "rail_up_300", "rail_up_400", "rail_up_500", "rail_up_500", "rail_up_500", "jump_forward_100", "jump_forward_200", "jump_forward_300", "jump_forward_400", "jump_forward_500", "jump_forward_700", "jump_forward_700", "jump_forward_300_down_300", "jump_forward_300_down_500", "jump_forward_300_up_300", "jump_forward_300_up_500", "jump_forward_500_down_300", "jump_forward_500_down_500", "jump_forward_500_up_300", "jump_forward_500_up_500", "jump_forward_1000_down_1000", "jump_forward_500_up_500" };
 static const std::vector<std::vector<std::string>> DEAnimationSets = { animationSet1, animationSet2, animationSet3, animationSet4, animationSet5 };
 
@@ -43,6 +45,35 @@ static const QStringList linkAnimationsArachnotron_Q = { "ceiling_hangout/floor_
 static const QStringList idleAnimationsArachnotron_Q = { "NONE", "ceiling_hangout/ceiling_idle", "wall_hangout/idle", "traversal/to_idle" };
 static const QStringList linkAnimationsImp = { "wallclimbright/wcr_climb_right_250_wcr", "wallclimbright/wcr_jump_down_right_250", "wallclimbleft/wcl_climb_left_250_wcl", "wallclimbleft/wcl_jump_down_left_250", "wallclimb/wc_climb_250_wc", "wallclimb/wc_into_wl", "wallclimb/wc_into_wr", "wallclimb/wc_jump_back_1000_wc", "wallclimb/wc_jump_back_500", "wallclimb/wc_jump_back_500_wc", "wallclimb/wc_jump_back_down_250", "wallclimb/wc_jump_back_down_500", "wallclimb/wc_jump_left_down_250", "wallclimb/wc_jump_right_down_250", "wallclimbdown/wcd_climb_down45_250_wcd", "wallclimbdown/wcd_climb_down_250_wcd", "wallclimbdown/wcd_hang_down_drop_750", "wallclimbdown/wcd_jump_down_250" };
 static const QStringList idleAnimationsImp = { "NONE", "wallclimb_hangout/idle", "upright_hangout/idle", "perch/pch_idle_pch" };
+
+
+/*
+    CLASSES
+*/
+
+class idInfo_Traversal_X{
+public:
+    std::string entityName;
+    std::vector<double> coordinates;
+};
+
+class idInfo_TraversalPoint : public idInfo_Traversal_X{
+};
+
+class idInfo_TraversalChain_Hang : public idInfo_Traversal_X{
+public:
+    std::string linkAnimation;
+    std::string idleAnimation;
+};
+
+class idInfo_TraversalChain_General : public idInfo_Traversal_X{
+public:
+    int animationIndex;
+};
+
+/*
+    GENERAL FUNCTIONS
+*/
 
 double degToRad(
     double degree
@@ -225,6 +256,10 @@ void writeThisThing(
     output.close();
 }
 
+/*
+    ENTITY GENERATING FUNCTIONS
+*/
+
 // Create idInfoTraversal entities for the given inputs and writes them to their output
 void generateInfoTraversal(
     int entityNum,
@@ -299,179 +334,211 @@ void generateInfoTraversal(
     }
 }
 
-// Create idInfo_TraversalChain and idInfo_TraversalPoint entities for the given inputs and writes them to their output
+void generateHangout(
+    std::vector<std::string> hangoutTemplate,
+    std::vector<idInfo_TraversalChain_Hang> entityObjects,
+    idInfo_TraversalPoint finalEntity
+)
+{
+    static const std::vector<std::string> hangoutEndTemplate = textFileToVector("Templates/Traversal Chain/TraversalPoint.txt");
+
+    for (int i = 0; i < entityObjects.size(); i++)
+    {
+        std::vector<std::string> currentEntity = hangoutTemplate;
+
+        auto entityName = entityObjects[i].entityName;
+
+        auto entityX = std::to_string(entityObjects[i].coordinates[0]);
+        auto entityY = std::to_string(entityObjects[i].coordinates[1]);
+        auto entityZ = std::to_string(entityObjects[i].coordinates[2] - DEpmNormalViewHeight);
+
+        const auto pitchYawRoll = angle_to_mat3(0, entityObjects[i].coordinates[3], 0);
+        const auto mat0X = std::to_string(pitchYawRoll[0]);
+        const auto mat0Y = std::to_string(pitchYawRoll[1]);
+        const auto mat0Z = std::to_string(pitchYawRoll[2]);
+        const auto mat1X = std::to_string(pitchYawRoll[3]);
+        const auto mat1Y = std::to_string(pitchYawRoll[4]);
+        const auto mat1Z = std::to_string(pitchYawRoll[5]);
+        const auto mat2X = std::to_string(pitchYawRoll[6]);
+        const auto mat2Y = std::to_string(pitchYawRoll[7]);
+        const auto mat2Z = std::to_string(pitchYawRoll[8]);
+
+        std::string nextTargetName;
+        // Check if this is the last object in the vector. If it is, make the target the endpoint. If not, make the target the next object in the vector.
+        if (i == entityObjects.size() - 1)
+            nextTargetName = finalEntity.entityName;
+        else
+            nextTargetName = entityObjects[i+1].entityName;
+
+        auto linkAnimation = entityObjects[i].linkAnimation;
+        auto idleAnimation = entityObjects[i].idleAnimation;
+
+        replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityName);
+        replaceThisInString(currentEntity[12], "{{{COORDX}}}", entityX);
+        replaceThisInString(currentEntity[13], "{{{COORDY}}}", entityY);
+        replaceThisInString(currentEntity[14], "{{{COORDZ}}}", entityZ);
+        replaceThisInString(currentEntity[19], "{{{MAT0X}}}", mat0X);
+        replaceThisInString(currentEntity[20], "{{{MAT0Y}}}", mat0Y);
+        replaceThisInString(currentEntity[21], "{{{MAT0Z}}}", mat0Z);
+        replaceThisInString(currentEntity[24], "{{{MAT1X}}}", mat1X);
+        replaceThisInString(currentEntity[25], "{{{MAT1Y}}}", mat1Y);
+        replaceThisInString(currentEntity[26], "{{{MAT1Z}}}", mat1Z);
+        replaceThisInString(currentEntity[29], "{{{MAT2X}}}", mat2X);
+        replaceThisInString(currentEntity[30], "{{{MAT2Y}}}", mat2Y);
+        replaceThisInString(currentEntity[31], "{{{MAT2Z}}}", mat2Z);
+        replaceThisInString(currentEntity[39], "{{{NEXT_TARGET_NAME}}}", nextTargetName);
+        replaceThisInString(currentEntity[40], "{{{LINK_ANIMATION}}}", linkAnimation);
+        replaceThisInString(currentEntity[43], "{{{IDLE_ANIMATION}}}", idleAnimation);
+
+        writeThisThing(currentEntity, "DE Generated Hangouts.txt");
+    }
+
+    std::vector<std::string> lastEntity = hangoutEndTemplate;
+
+    replaceThisInString(lastEntity[1], "{{{ENTITY_NAME}}}", finalEntity.entityName);
+    replaceThisInString(lastEntity[10], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
+    replaceThisInString(lastEntity[11], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
+    replaceThisInString(lastEntity[12], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
+    writeThisThing(lastEntity, "DE Generated Hangouts.txt");
+}
+
 void generateTraversalChain(
-    int entityNum,
-    std::vector<double> startCoords,
-    std::vector<std::vector<double>> midCoords,
-    std::vector<double> endCoords,
+    std::vector<idInfo_TraversalChain_General> entityObjects,
+    idInfo_TraversalPoint finalEntity,
     std::vector<int> monsterIndices,
-    std::vector<int> traversalAnims,
     bool reciprocalTraversal
 )
 {
+    static const std::vector<std::string> TraversalPointTemplate = textFileToVector("Templates/Traversal Chain/TraversalPoint.txt");
+
+    // Generate the end point first, since there will only be one instance of it
+    std::vector<std::string> lastEntity = TraversalPointTemplate;
+    replaceThisInString(lastEntity[1], "{{{ENTITY_NAME}}}", finalEntity.entityName);
+    replaceThisInString(lastEntity[10], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
+    replaceThisInString(lastEntity[11], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
+    replaceThisInString(lastEntity[12], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
+    writeThisThing(lastEntity, "DE Generated Traversal Chains.txt");
+
+    // Generate reverse end point
+    std::vector<std::string> lastEntity_r = TraversalPointTemplate;
+    idInfo_TraversalChain_General finalObject_r = entityObjects[0];
+    finalObject_r.entityName = finalEntity.entityName + "_r";
+
+    replaceThisInString(lastEntity_r[1], "{{{ENTITY_NAME}}}", finalObject_r.entityName);
+    replaceThisInString(lastEntity_r[10], "{{{COORDX}}}", std::to_string(finalObject_r.coordinates[0]));
+    replaceThisInString(lastEntity_r[11], "{{{COORDY}}}", std::to_string(finalObject_r.coordinates[1]));
+    replaceThisInString(lastEntity_r[12], "{{{COORDZ}}}", std::to_string(finalObject_r.coordinates[2] - DEpmNormalViewHeight));
+    writeThisThing(lastEntity_r, "DE Generated Traversal Chains.txt");
+
+    std::string reverse;
+    if (reciprocalTraversal)
+        reverse = "2";
+    else
+        reverse = "1";
+
+    // Copy of traversal chain objects, but in reverse
+    std::vector<idInfo_TraversalChain_General> entityObjects_r(entityObjects.rbegin(), entityObjects.rend());
+
     static const std::vector<std::string> TraversalChainTemplate = textFileToVector("Templates/Traversal Chain/TraversalChain.txt");
-    static const std::vector<std::string> TraversalChainMidTemplate = textFileToVector("Templates/Traversal Chain/TraversalChainMid.txt");
 
     for (const auto& monsterIndex : monsterIndices)
     {
-        auto generatedEntity1 = TraversalChainTemplate;
-
-        std::string entityNumStr = zeroPadded(std::to_string(entityNum));
-
         const int animSetIndex = getAnimIndex(monsterIndex);
 
-        const std::string monsterName = DEMonsterNames.at(monsterIndex);
-        const std::string monsterPath = DEMonsterPaths.at(monsterIndex);
-        const std::string monsterType = DEMonsterTypes.at(monsterIndex);
-        const std::string animWeb = monsterPathTruncater(monsterPath);
+        const auto monsterName = DEMonsterNames.at(monsterIndex);
+        const auto monsterPath = DEMonsterPaths.at(monsterIndex);
+        const auto monsterType = DEMonsterTypes.at(monsterIndex);
+        const auto animWeb = monsterPathTruncater(monsterPath);
 
-        const auto startX = std::to_string(startCoords.at(0));
-        const auto startY = std::to_string(startCoords.at(1));
-        const auto startZ = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
-        const auto endX = std::to_string(endCoords.at(0));
-        const auto endY = std::to_string(endCoords.at(1));
-        const auto endZ = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
-        const std::string animation = DEAnimationSets.at(animSetIndex).at(traversalAnims.at(0));
-
-        replaceThisInString((generatedEntity1).at(1), "{{{entityNum}}}", entityNumStr);
-        replaceThisInString((generatedEntity1).at(1), "{{{monsterName}}}", monsterName);
-        replaceThisInString((generatedEntity1).at(9), "{{{monsterType}}}", monsterType);
-        replaceThisInString((generatedEntity1).at(10), "{{{animWeb}}}", animWeb);
-        replaceThisInString((generatedEntity1).at(12), "{{{startX}}}", startX);
-        replaceThisInString((generatedEntity1).at(13), "{{{startY}}}", startY);
-        replaceThisInString((generatedEntity1).at(14), "{{{startZ}}}", startZ);
-        replaceThisInString((generatedEntity1).at(20), "{{{monsterName}}}", monsterName);
-        replaceThisInString((generatedEntity1).at(20), "{{{entityNum}}}", entityNumStr);
-        replaceThisInString((generatedEntity1).at(21), "{{{monsterPathStart}}}", monsterPath);
-        replaceThisInString((generatedEntity1).at(21), "{{{animation}}}", animation);
-
-        replaceThisInString((generatedEntity1).at(29), "{{{monsterName}}}", monsterName);
-        replaceThisInString((generatedEntity1).at(29), "{{{entityNum}}}", entityNumStr);
-        replaceThisInString((generatedEntity1).at(38), "{{{endX}}}", endX);
-        replaceThisInString((generatedEntity1).at(39), "{{{endY}}}", endY);
-        replaceThisInString((generatedEntity1).at(40), "{{{endZ}}}", endZ);
-
-        writeThisThing(generatedEntity1, "DE Generated Traversal Chains.txt");
-
-        int midNum = 1;
-        for (const auto& currentMidPoint : midCoords)
+        for (int i = 0; i < entityObjects.size(); i++)
         {
-            std::vector<std::string> generatedEntity2 = TraversalChainMidTemplate;
+            std::vector<std::string> currentEntity = TraversalChainTemplate;
 
-            std::string nextPoint;
-            if (midNum == midCoords.size())
+            auto entityName = entityObjects[i].entityName + "_" + monsterName;
+
+            auto entityX = std::to_string(entityObjects[i].coordinates[0]);
+            auto entityY = std::to_string(entityObjects[i].coordinates[1]);
+            auto entityZ = std::to_string(entityObjects[i].coordinates[2] - DEpmNormalViewHeight);
+
+            auto animation = DEAnimationSets[animSetIndex][entityObjects[i].animationIndex];
+
+            std::string nextTargetName;
+            // Check if this is the last object in the vector. If it is, make the target the endpoint. If not, make the target the next object in the vector.
+            if (i == entityObjects.size() - 1)
+                nextTargetName = finalEntity.entityName;
+            else
+                nextTargetName = entityObjects[i+1].entityName + "_" + monsterName;
+
+            std::string previousTargetName, animation_r;
+            if (i == 0)
             {
-                nextPoint = "mod_traversal_point_" + monsterName + "_end_" + entityNumStr;
+                previousTargetName = "";
+                animation_r = animation;
+            }
+            else if (i == 1)
+            {
+                previousTargetName = finalObject_r.entityName;
+                animation_r = animReverser(DEAnimationSets[animSetIndex][entityObjects[i-1].animationIndex]);
             }
             else
             {
-                nextPoint = "mod_traversal_chain_" + monsterName + "_mid_" + numToLetterStr.at(midNum + 1) + "_" + entityNumStr;
+                previousTargetName = entityObjects[i-1].entityName + "_" + monsterName;
+                animation_r = animReverser(DEAnimationSets[animSetIndex][entityObjects[i-1].animationIndex]);
             }
 
-            const auto midCoordX = std::to_string(currentMidPoint.at(0));
-            const auto midCoordY = std::to_string(currentMidPoint.at(1));
-            const auto midCoordZ = std::to_string(currentMidPoint.at(2) - DEpmNormalViewHeight);
-            const std::string currentMidLetter = numToLetterStr.at(midNum);
-            const std::string midAnimation = DEAnimationSets.at(animSetIndex).at(traversalAnims.at(midNum));
+            replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityName);
+            replaceThisInString(currentEntity[9], "{{{MONSTERTYPE}}}", monsterType);
+            replaceThisInString(currentEntity[10], "{{{ANIMWEB}}}", animWeb);
+            replaceThisInString(currentEntity[12], "{{{COORDX}}}", entityX);
+            replaceThisInString(currentEntity[13], "{{{COORDY}}}", entityY);
+            replaceThisInString(currentEntity[14], "{{{COORDZ}}}", entityZ);
 
-            replaceThisInString((generatedEntity2).at(1), "{{{monsterName}}}", monsterName);
-            replaceThisInString((generatedEntity2).at(1), "{{{midLetter}}}", currentMidLetter);
-            replaceThisInString((generatedEntity2).at(1), "{{{entityNum}}}", entityNumStr);
-            replaceThisInString((generatedEntity2).at(9), "{{{monsterType}}}", monsterType);
-            replaceThisInString((generatedEntity2).at(10), "{{{animWeb}}}", animWeb);
-            replaceThisInString((generatedEntity2).at(12), "{{{midCoordX}}}", midCoordX);
-            replaceThisInString((generatedEntity2).at(13), "{{{midCoordY}}}", midCoordY);
-            replaceThisInString((generatedEntity2).at(14), "{{{midCoordZ}}}", midCoordZ);
-            replaceThisInString((generatedEntity2).at(20), "{{{nextPoint}}}", nextPoint);
-            replaceThisInString((generatedEntity2).at(21), "{{{monsterPathMid}}}", monsterPath);
-            replaceThisInString((generatedEntity2).at(21), "{{{midAnimation}}}", midAnimation);
+            if (i == 0)
+                replaceThisInString(currentEntity[18], "{{{REVERSE}}}", "1");
+            else
+                replaceThisInString(currentEntity[18], "{{{REVERSE}}}", reverse);
 
-            writeThisThing(generatedEntity2, "DE Generated Traversal Chains.txt");
+            replaceThisInString(currentEntity[20], "{{{NEXT_TARGET_NAME}}}", nextTargetName);
+            replaceThisInString(currentEntity[21], "{{{MONSTER_PATH}}}", monsterPath);
+            replaceThisInString(currentEntity[21], "{{{LINK_ANIMATION}}}", animation);
+            replaceThisInString(currentEntity[24], "{{{PREVIOUS_TARGET_NAME}}}", previousTargetName);
+            replaceThisInString(currentEntity[25], "{{{MONSTER_PATH}}}", monsterPath);
+            replaceThisInString(currentEntity[25], "{{{LINK_ANIMATION_R}}}", animation_r);
 
-            midNum++;
+            writeThisThing(currentEntity, "DE Generated Traversal Chains.txt");
         }
 
         if (reciprocalTraversal)
         {
-            auto generatedEntity1_r = TraversalChainTemplate;
+            std::vector<std::string> currentEntity_r = TraversalChainTemplate;
 
-            const auto startX_r = std::to_string(endCoords.at(0));
-            const auto startY_r = std::to_string(endCoords.at(1));
-            const auto startZ_r = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
-            const auto endX_r = std::to_string(startCoords.at(0));
-            const auto endY_r = std::to_string(startCoords.at(1));
-            const auto endZ_r = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
-            const std::string animation_r = animReverser(DEAnimationSets.at(animSetIndex).at(traversalAnims.at(midNum-1)));
-            entityNumStr.append("_r");
+            auto entityName_r = entityObjects[entityObjects.size()-1].entityName + "_" + monsterName + "_r";
+            auto animation_r = animReverser(DEAnimationSets[animSetIndex][entityObjects[entityObjects.size()-1].animationIndex]);
+            auto nextTargetName_r = entityObjects[entityObjects.size()-1].entityName + "_" + monsterName;
 
-            replaceThisInString((generatedEntity1_r).at(1), "{{{entityNum}}}", entityNumStr);
-            replaceThisInString((generatedEntity1_r).at(1), "{{{monsterName}}}", monsterName);
-            replaceThisInString((generatedEntity1_r).at(9), "{{{monsterType}}}", monsterType);
-            replaceThisInString((generatedEntity1_r).at(10), "{{{animWeb}}}", animWeb);
-            replaceThisInString((generatedEntity1_r).at(12), "{{{startX}}}", startX_r);
-            replaceThisInString((generatedEntity1_r).at(13), "{{{startY}}}", startY_r);
-            replaceThisInString((generatedEntity1_r).at(14), "{{{startZ}}}", startZ_r);
-            replaceThisInString((generatedEntity1_r).at(20), "{{{monsterName}}}", monsterName);
-            replaceThisInString((generatedEntity1_r).at(20), "{{{entityNum}}}", entityNumStr);
-            replaceThisInString((generatedEntity1_r).at(21), "{{{monsterPathStart}}}", monsterPath);
-            replaceThisInString((generatedEntity1_r).at(21), "{{{animation}}}", animation_r);
+            replaceThisInString(currentEntity_r[1], "{{{ENTITY_NAME}}}", entityName_r);
+            replaceThisInString(currentEntity_r[9], "{{{MONSTERTYPE}}}", monsterType);
+            replaceThisInString(currentEntity_r[10], "{{{ANIMWEB}}}", animWeb);
+            replaceThisInString(currentEntity_r[12], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
+            replaceThisInString(currentEntity_r[13], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
+            replaceThisInString(currentEntity_r[14], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
+            replaceThisInString(currentEntity_r[18], "{{{REVERSE}}}", "1");
+            replaceThisInString(currentEntity_r[20], "{{{NEXT_TARGET_NAME}}}", nextTargetName_r);
+            replaceThisInString(currentEntity_r[21], "{{{MONSTER_PATH}}}", monsterPath);
+            replaceThisInString(currentEntity_r[21], "{{{LINK_ANIMATION}}}", animation_r);
+            replaceThisInString(currentEntity_r[24], "{{{PREVIOUS_TARGET_NAME}}}", "");
+            replaceThisInString(currentEntity_r[25], "{{{MONSTER_PATH}}}", monsterPath);
+            replaceThisInString(currentEntity_r[25], "{{{LINK_ANIMATION_R}}}", animation_r);
 
-            replaceThisInString((generatedEntity1_r).at(29), "{{{monsterName}}}", monsterName);
-            replaceThisInString((generatedEntity1_r).at(29), "{{{entityNum}}}", entityNumStr);
-            replaceThisInString((generatedEntity1_r).at(38), "{{{endX}}}", endX_r);
-            replaceThisInString((generatedEntity1_r).at(39), "{{{endY}}}", endY_r);
-            replaceThisInString((generatedEntity1_r).at(40), "{{{endZ}}}", endZ_r);
-
-            writeThisThing(generatedEntity1_r, "DE Generated Traversal Chains.txt");
-
-            std::vector<std::vector<double>> midCoords_r(midCoords.rbegin(), midCoords.rend());
-            std::vector<double> traversalAnims_r(traversalAnims.rbegin(), traversalAnims.rend());
-            //for (double currentLine : traversalAnims_r)
-            //{
-            //    std::cout << currentLine << "\n";
-            //}
-            int midNum_r = 1;
-            for (const auto& currentMidPoint : midCoords_r)
-            {
-                std::vector<std::string> generatedEntity2_r = TraversalChainMidTemplate;
-
-                std::string nextPoint;
-                if (midNum_r == midCoords_r.size())
-                {
-                    nextPoint = "mod_traversal_point_" + monsterName + "_end_" + entityNumStr;
-                }
-                else
-                {
-                    nextPoint = "mod_traversal_chain_" + monsterName + "_mid_" + numToLetterStr.at(midNum_r + 1) + "_" + entityNumStr;
-                }
-
-                const auto midCoordX = std::to_string(currentMidPoint.at(0));
-                const auto midCoordY = std::to_string(currentMidPoint.at(1));
-                const auto midCoordZ = std::to_string(currentMidPoint.at(2) - DEpmNormalViewHeight);
-                const std::string currentMidLetter = numToLetterStr.at(midNum_r);
-                const std::string midAnimation = animReverser(DEAnimationSets.at(animSetIndex).at(traversalAnims_r.at(midNum_r)));
-
-                replaceThisInString((generatedEntity2_r).at(1), "{{{monsterName}}}", monsterName);
-                replaceThisInString((generatedEntity2_r).at(1), "{{{midLetter}}}", currentMidLetter);
-                replaceThisInString((generatedEntity2_r).at(1), "{{{entityNum}}}", entityNumStr);
-                replaceThisInString((generatedEntity2_r).at(9), "{{{monsterType}}}", monsterType);
-                replaceThisInString((generatedEntity2_r).at(10), "{{{animWeb}}}", animWeb);
-                replaceThisInString((generatedEntity2_r).at(12), "{{{midCoordX}}}", midCoordX);
-                replaceThisInString((generatedEntity2_r).at(13), "{{{midCoordY}}}", midCoordY);
-                replaceThisInString((generatedEntity2_r).at(14), "{{{midCoordZ}}}", midCoordZ);
-                replaceThisInString((generatedEntity2_r).at(20), "{{{nextPoint}}}", nextPoint);
-                replaceThisInString((generatedEntity2_r).at(21), "{{{monsterPathMid}}}", monsterPath);
-                replaceThisInString((generatedEntity2_r).at(21), "{{{midAnimation}}}", midAnimation);
-
-                writeThisThing(generatedEntity2_r, "DE Generated Traversal Chains.txt");
-
-                midNum_r++;
-            }
+            writeThisThing(currentEntity_r, "DE Generated Traversal Chains.txt");
         }
     }
 }
 
+
+/*
+    MAIN WINDOW
+*/
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -494,7 +561,6 @@ MainWindow::MainWindow(QWidget *parent)
     // For Traversal Chain (General)
     ui->demonSelect_19_Chain->setChecked(true);
     ui->radioButtonPresetNoneChain->setChecked(true);
-    ui->comboBoxAnimSelectStartChain->addItems(dropDownAnimations);
     ui->comboBoxAnimSelectStartChain_2->addItems(dropDownAnimations);
     ui->buttonGenerateTraversalChain->setEnabled(false); // Disable "generate traversal chain" button
     ui->pushButtonAddMidpoint->setEnabled(false); // Disable "add midpoint" button
@@ -510,6 +576,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+/*
+    GUI RELATED FUNCTIONS
+*/
 
 // Get the inputs, check if they are valid, then calculate the delta values and display them
 void getDeltaValues(Ui::MainWindow *ui)
@@ -719,7 +790,6 @@ void MainWindow::on_buttonClearCoords_clicked() // Traversal Info button
 }
 void MainWindow::on_buttonClearCoordsAndAnims_clicked() // Traversal Chain button
 {
-    ui->inputStartCoordsChain->clear();
     ui->inputMidCoordsChain->clear();
     ui->inputEndCoordsChain->clear();
     ui->listWidgetMidpoints->clear();
@@ -771,7 +841,7 @@ void MainWindow::on_inputEntityNumChain_textChanged(const QString& arg1)
 bool isInputValidChain(Ui::MainWindow *ui)
 {
     // Check if the start coords are valid
-    bool areStartCoordsValid = areCoordsValid(ui->inputStartCoordsChain->text().toStdString());
+    //bool areStartCoordsValid = areCoordsValid(ui->inputStartCoordsChain->text().toStdString());
 
     // Check if the end coords are valid
     bool areEndCoordsValid = areCoordsValid(ui->inputEndCoordsChain->text().toStdString());
@@ -783,7 +853,7 @@ bool isInputValidChain(Ui::MainWindow *ui)
 
     bool wasMidpointAdded = ui->listWidgetMidpoints->count();
 
-    return areStartCoordsValid && areEndCoordsValid && wasMidpointAdded;
+    return areEndCoordsValid && wasMidpointAdded;
 }
 // Check if the coords for the Traversal Chain midpoint are valid
 bool isInputValidChainMidpoint(Ui::MainWindow *ui)
@@ -795,10 +865,10 @@ bool isInputValidChainMidpoint(Ui::MainWindow *ui)
 }
 
 // If any input fields for the Traversal Chain tab are changed, make sure their inputs are valid
-void MainWindow::on_inputStartCoordsChain_textChanged(const QString &arg1)
-{
-    ui->buttonGenerateTraversalChain->setEnabled(isInputValidChain(ui));
-}
+//void MainWindow::on_inputStartCoordsChain_textChanged(const QString &arg1)
+//{
+//    ui->buttonGenerateTraversalChain->setEnabled(isInputValidChain(ui));
+//}
 void MainWindow::on_inputEndCoordsChain_textChanged(const QString &arg1)
 {
     ui->buttonGenerateTraversalChain->setEnabled(isInputValidChain(ui));
@@ -838,107 +908,28 @@ void MainWindow::on_pushButtonAddMidpoint_clicked()
 // getGUIInputsDETraversalChain
 void MainWindow::on_buttonGenerateTraversalChain_clicked()
 {
-    auto entityNum = ui->inputEntityNumChain->text().toInt();
-    auto startCoords = stringToVector(ui->inputStartCoordsChain->text().toStdString());
+    auto entityName = ui->inputEntityNumChain->text().toStdString();
 
-    std::vector<std::vector<double>> midCoords;
+    std::vector<idInfo_TraversalChain_General> entityObjects;
     for (int i = 0; i < ui->listWidgetMidpoints->count(); i++)
     {
-       midCoords.push_back(stringToVector(ui->listWidgetMidpoints->item(i)->text().toStdString()));
+        idInfo_TraversalChain_General tempObject;
+        tempObject.entityName = "mod_traversal_chain_" + entityName + "_" + numToLetterStr[i+1];
+        tempObject.coordinates = stringToVector(ui->listWidgetMidpoints->item(i)->text().toStdString());
+        tempObject.animationIndex = tempAnimList[i];
+
+        entityObjects.push_back(tempObject);
     }
 
-    auto endCoords = stringToVector(ui->inputEndCoordsChain->text().toStdString());
+    idInfo_TraversalPoint lastEntity;
+    lastEntity.entityName = "mod_traversal_chain_landing_" + entityName;
+    lastEntity.coordinates = stringToVector(ui->inputEndCoordsChain->text().toStdString());
 
-    auto monsterIndices = getMonsterTypesDETraversalChain(ui);
-    auto traversalAnims = tempAnimList;
-    traversalAnims.insert(traversalAnims.begin()+0, ui->comboBoxAnimSelectStartChain->currentIndex());
-    auto reciprocalTraversal = ui->selectReciprocalTraversalChain->isChecked();
+    std::vector<int> monsterIndices = getMonsterTypesDETraversalChain(ui);
 
-    generateTraversalChain(entityNum, startCoords, midCoords, endCoords, monsterIndices, traversalAnims, reciprocalTraversal);
-    ui->inputEntityNumChain->setText(QString::number(entityNum + 1));
-}
+    bool reciprocalTraversal = ui->selectReciprocalTraversalChain->isChecked();
 
-class idInfo_Traversal_X{
-public:
-    std::string entityName;
-    std::vector<double> coordinates;
-};
-
-class idInfo_TraversalChain : public idInfo_Traversal_X{
-public:
-    std::string linkAnimation;
-    std::string idleAnimation;
-};
-
-class idInfo_TraversalPoint : public idInfo_Traversal_X{
-};
-
-void generateHangout(
-    std::vector<std::string> hangoutTemplate,
-    std::vector<idInfo_TraversalChain> entityObjects,
-    idInfo_TraversalPoint finalEntity
-)
-{
-    static const std::vector<std::string> hangoutEndTemplate = textFileToVector("Templates/Traversal Chain/Hangout/TraversalChainHangout_End.txt");
-
-    for (int i = 0; i < entityObjects.size(); i++)
-    {
-        std::vector<std::string> currentEntity = hangoutTemplate;
-
-        auto entityName = entityObjects[i].entityName;
-
-        auto entityX = std::to_string(entityObjects[i].coordinates[0]);
-        auto entityY = std::to_string(entityObjects[i].coordinates[1]);
-        auto entityZ = std::to_string(entityObjects[i].coordinates[2] - DEpmNormalViewHeight);
-
-        const auto pitchYawRoll = angle_to_mat3(0, entityObjects[i].coordinates[3], 0);
-        const auto mat0X = std::to_string(pitchYawRoll[0]);
-        const auto mat0Y = std::to_string(pitchYawRoll[1]);
-        const auto mat0Z = std::to_string(pitchYawRoll[2]);
-        const auto mat1X = std::to_string(pitchYawRoll[3]);
-        const auto mat1Y = std::to_string(pitchYawRoll[4]);
-        const auto mat1Z = std::to_string(pitchYawRoll[5]);
-        const auto mat2X = std::to_string(pitchYawRoll[6]);
-        const auto mat2Y = std::to_string(pitchYawRoll[7]);
-        const auto mat2Z = std::to_string(pitchYawRoll[8]);
-
-        std::string nextTargetName;
-        // Check if this is the last object in the vector. If it is, make the target the endpoint. If not, make the target the next object in the vector.
-        if (i == entityObjects.size() - 1)
-            nextTargetName = finalEntity.entityName;
-        else
-            nextTargetName = entityObjects[i+1].entityName;
-
-        auto linkAnimation = entityObjects[i].linkAnimation;
-        auto idleAnimation = entityObjects[i].idleAnimation;
-
-        replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityName);
-        replaceThisInString(currentEntity[12], "{{{COORDX}}}", entityX);
-        replaceThisInString(currentEntity[13], "{{{COORDY}}}", entityY);
-        replaceThisInString(currentEntity[14], "{{{COORDZ}}}", entityZ);
-        replaceThisInString(currentEntity[19], "{{{MAT0X}}}", mat0X);
-        replaceThisInString(currentEntity[20], "{{{MAT0Y}}}", mat0Y);
-        replaceThisInString(currentEntity[21], "{{{MAT0Z}}}", mat0Z);
-        replaceThisInString(currentEntity[24], "{{{MAT1X}}}", mat1X);
-        replaceThisInString(currentEntity[25], "{{{MAT1Y}}}", mat1Y);
-        replaceThisInString(currentEntity[26], "{{{MAT1Z}}}", mat1Z);
-        replaceThisInString(currentEntity[29], "{{{MAT2X}}}", mat2X);
-        replaceThisInString(currentEntity[30], "{{{MAT2Y}}}", mat2Y);
-        replaceThisInString(currentEntity[31], "{{{MAT2Z}}}", mat2Z);
-        replaceThisInString(currentEntity[39], "{{{NEXT_TARGET_NAME}}}", nextTargetName);
-        replaceThisInString(currentEntity[40], "{{{LINK_ANIMATION}}}", linkAnimation);
-        replaceThisInString(currentEntity[43], "{{{IDLE_ANIMATION}}}", idleAnimation);
-
-        writeThisThing(currentEntity, "DE Generated Hangouts.txt");
-    }
-
-    std::vector<std::string> lastEntity = hangoutEndTemplate;
-
-    replaceThisInString(lastEntity[1], "{{{ENTITY_NAME}}}", finalEntity.entityName);
-    replaceThisInString(lastEntity[10], "{{{COORDX}}}", std::to_string(finalEntity.coordinates[0]));
-    replaceThisInString(lastEntity[11], "{{{COORDY}}}", std::to_string(finalEntity.coordinates[1]));
-    replaceThisInString(lastEntity[12], "{{{COORDZ}}}", std::to_string(finalEntity.coordinates[2] - DEpmNormalViewHeight));
-    writeThisThing(lastEntity, "DE Generated Hangouts.txt");
+    generateTraversalChain(entityObjects, lastEntity, monsterIndices, reciprocalTraversal);
 }
 
 
@@ -958,10 +949,10 @@ void MainWindow::on_pushButtonForTesting_clicked()
     landingEntity.entityName = "mod_traversal_chain_arachnotron_hangout_landing_" + entityName;
     landingEntity.coordinates = stringToVector(ui->inputCoordsLandArachnotron->text().toStdString());
 
-    std::vector<idInfo_TraversalChain> entityObjects;
+    std::vector<idInfo_TraversalChain_Hang> entityObjects;
     for (int i = 0; i < ui->listWidget_hangCoordsArachnotron->count(); i++)
     {
-        idInfo_TraversalChain tempObject;
+        idInfo_TraversalChain_Hang tempObject;
         tempObject.entityName = "mod_traversal_chain_arachnotron_hangout_" + entityName + "_" + numToLetterStr[i+1];
         tempObject.coordinates = stringToVector(ui->listWidget_hangCoordsArachnotron->item(i)->text().toStdString());
         tempObject.linkAnimation = ui->listWidget_hangLinkArachnotron->item(i)->text().toStdString();
@@ -978,10 +969,6 @@ void MainWindow::on_pushButtonForTesting_clicked()
     static const std::vector<std::string> hangoutTemplate = textFileToVector("Templates/Traversal Chain/Hangout/Arachnotron/TraversalChainHangout.txt");
 
     generateHangout(hangoutTemplate, entityObjects, landingEntity);
-    // test_entity
-    // -135.05 149.79 -41.34 269.4 6.0 | ceiling_hangout/floor_to_ceiling
-    // -135.35 138.65 -24.08 270.7 4.3 | ceiling_hangout/ceiling_to_floor
-    // -134.93 124.27 -29.29 90.4 89.0
 }
 
 // Add an Arachnotron Traversal Chain
@@ -1010,10 +997,10 @@ void MainWindow::on_pushButtonToMakeHangImp_clicked()
     landingEntity.entityName = "mod_traversal_chain_imp_hangout_landing_" + entityName;
     landingEntity.coordinates = stringToVector(ui->inputCoordsLandImp->text().toStdString());
 
-    std::vector<idInfo_TraversalChain> entityObjects;
+    std::vector<idInfo_TraversalChain_Hang> entityObjects;
     for (int i = 0; i < ui->listWidget_hangCoordsImp->count(); i++)
     {
-        idInfo_TraversalChain tempObject;
+        idInfo_TraversalChain_Hang tempObject;
         tempObject.entityName = "mod_traversal_chain_imp_hangout_" + entityName + "_" + numToLetterStr[i+1];
         tempObject.coordinates = stringToVector(ui->listWidget_hangCoordsImp->item(i)->text().toStdString());
         tempObject.linkAnimation = ui->listWidget_hangLinkImp->item(i)->text().toStdString();
@@ -1030,9 +1017,6 @@ void MainWindow::on_pushButtonToMakeHangImp_clicked()
     static const std::vector<std::string> hangoutTemplate = textFileToVector("Templates/Traversal Chain/Hangout/Imp/TraversalChainHangout.txt");
 
     generateHangout(hangoutTemplate, entityObjects, landingEntity);
-    //
-    //
-    //
 }
 
 
