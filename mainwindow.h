@@ -60,6 +60,16 @@ private slots:
 
     void on_inputCoordsLandArachnotron_textChanged(const QString &arg1);
 
+    void on_pushButton_Add_InfoPath_clicked();
+
+    void on_pushButton_Clear_InfoPath_clicked();
+
+    void on_lineEdit_InfoPath_Coords_textChanged(const QString &arg1);
+
+    void on_pushButton_ClearOutput_InfoPath_clicked();
+
+    void on_pushButton_Generate_InfoPath_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

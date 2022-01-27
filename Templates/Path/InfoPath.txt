@@ -1,0 +1,30 @@
+entity {
+	entityDef {{{ENTITY_NAME}}} {
+	class = "idInfoPath";
+	expandInheritance = false;
+	poolCount = 0;
+	poolGranularity = 2;
+	networkReplicated = false;
+	disableAIPooling = false;
+	edit = {
+		spawnPosition = {
+			x = {{{COORDX}}};
+			y = {{{COORDY}}};
+			z = {{{COORDZ}}};
+		}
+		targets = {
+			num = {{{NUM_TARGETS}}};
+			item[0] = "{{{NEXT_TARGET}}}";
+		}
+		walkState = "{{{WALKSTATE}}}";
+		navSize = "{{{NAVSIZE}}}";
+		abortForCombat = false;
+		abortForSearch = false;
+		abortForPain = false;
+		forceCombatAnims = true;
+		goalRadius = 2;
+		arrivalTolerance = 1;
+		lookAtNextPoint = true;
+	}
+}
+}

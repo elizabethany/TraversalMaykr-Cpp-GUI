@@ -488,18 +488,17 @@ void generateInfoPath(
 )
 {
     static const auto infoPathTemplate = textFileToVector("Templates/Path/InfoPath.txt");
-    auto size = entityObjects.size();
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < entityObjects.size(); i++)
     {
         auto currentEntity = infoPathTemplate;
 
-        replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityObjects[i].entityName + "_" + zeroPadded(std::to_string(i+1)));
+        replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityObjects[i].entityName);
         replaceThisInString(currentEntity[10], "{{{COORDX}}}", std::to_string(entityObjects[i].coordinates[0]));
         replaceThisInString(currentEntity[11], "{{{COORDY}}}", std::to_string(entityObjects[i].coordinates[1]));
         replaceThisInString(currentEntity[12], "{{{COORDZ}}}", std::to_string(entityObjects[i].coordinates[2] - DEpmNormalViewHeight));
 
-        if (i == size - 1)
+        if (i == entityObjects.size() - 1)
         {
             replaceThisInString(currentEntity[15], "{{{NUM_TARGETS}}}", "0");
             replaceThisInString(currentEntity[16], "{{{NEXT_TARGET}}}", "");
@@ -509,6 +508,11 @@ void generateInfoPath(
             replaceThisInString(currentEntity[15], "{{{NUM_TARGETS}}}", "1");
             replaceThisInString(currentEntity[16], "{{{NEXT_TARGET}}}", entityObjects[i+1].entityName);
         }
+
+        replaceThisInString(currentEntity[18], "{{{WALKSTATE}}}", entityObjects[i].walkState);
+        replaceThisInString(currentEntity[19], "{{{NAVSIZE}}}", entityObjects[i].navSize);
+
+        writeThisThing(currentEntity, "Output/Info Path.txt");
     }
 }
 
@@ -554,6 +558,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButtonToMakeHangImp->setEnabled(false);
     ui->comboBox_linkAnimsImp->addItems(linkAnimationsImp);
     ui->comboBox_idleAnimsImp->addItems(idleAnimationsImp);
+
+    // For Path Info
+    ui->comboBox_InfoPath_WalkState->addItems(walkStates);
+    ui->comboBox_InfoPath_NavSize->addItems(navSizes);
+    ui->pushButton_Add_InfoPath->setEnabled(false);
+    ui->pushButton_Generate_InfoPath->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -1101,5 +1111,73 @@ void MainWindow::on_inputCoordsHangImp_textChanged(const QString &arg1)
 void MainWindow::on_inputCoordsLandImp_textChanged(const QString &arg1)
 {
     ui->pushButtonToMakeHangImp->setEnabled(isInputValidHangLandImp(ui));
+}
+
+// Add Path Info to list
+void MainWindow::on_pushButton_Add_InfoPath_clicked()
+{
+    ui->listWidget_InfoPath_Coords->addItem(ui->lineEdit_InfoPath_Coords->text());
+    ui->listWidget_InfoPath_WalkState->addItem(ui->comboBox_InfoPath_WalkState->currentText());
+    ui->listWidget_InfoPath_NavSize->addItem(ui->comboBox_InfoPath_NavSize->currentText());
+    ui->lineEdit_InfoPath_Coords->clear();
+}
+
+// Check if the coords for the Path Info are valid
+bool isInputValidInfoPath(Ui::MainWindow *ui)
+{
+    bool arePathCoordsValid = areCoordsValid(ui->lineEdit_InfoPath_Coords->text().toStdString());
+
+    return arePathCoordsValid;
+}
+
+// Check if any Path Info were added
+bool checkAddedPaths(Ui::MainWindow *ui)
+{
+    bool wasPathAdded = ui->listWidget_InfoPath_Coords->count();
+    return wasPathAdded;
+}
+
+// When the Path Info's coords are changed, check if they are valid, and enable the "Add Path Info" and "Generate Path Info" buttons
+void MainWindow::on_lineEdit_InfoPath_Coords_textChanged(const QString &arg1)
+{
+    ui->pushButton_Add_InfoPath->setEnabled(isInputValidInfoPath(ui));
+    ui->pushButton_Generate_InfoPath->setEnabled(checkAddedPaths(ui));
+}
+
+// Clear Path Info
+void MainWindow::on_pushButton_Clear_InfoPath_clicked()
+{
+    ui->listWidget_InfoPath_Coords->clear();
+    ui->listWidget_InfoPath_WalkState->clear();
+    ui->listWidget_InfoPath_NavSize->clear();
+    ui->pushButton_Generate_InfoPath->setEnabled(checkAddedPaths(ui));
+}
+
+// Clear output file for Path Info
+void MainWindow::on_pushButton_ClearOutput_InfoPath_clicked()
+{
+    std::fstream output("Output/Info Path.txt", std::fstream::out);
+    output << "";
+    output.close();
+}
+
+
+void MainWindow::on_pushButton_Generate_InfoPath_clicked()
+{
+    auto entityName = ui->lineEdit_InfoPath_EntityName->text().toStdString();
+    std::vector<idInfoPath> entityObjects;
+
+    for (int i = 0; i < ui->listWidget_InfoPath_Coords->count(); i++)
+    {
+        idInfoPath tempObject;
+        tempObject.entityName = "mod_info_path_" + entityName + "_" + numToLetterStr[i+1];
+        tempObject.coordinates = stringToVector(ui->listWidget_InfoPath_Coords->item(i)->text().toStdString());
+        tempObject.walkState = ui->listWidget_InfoPath_WalkState->item(i)->text().toStdString();
+        tempObject.navSize = ui->listWidget_InfoPath_NavSize->item(i)->text().toStdString();
+
+        entityObjects.push_back(tempObject);
+    }
+
+    generateInfoPath(entityObjects);
 }
 

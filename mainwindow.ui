@@ -54,11 +54,14 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="layoutDirection">
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_TraversalInfo">
        <property name="sizePolicy">
@@ -90,6 +93,9 @@
               <height>40</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Clears the coordinates entered above</string>
+            </property>
             <property name="text">
              <string>Clear Coordinates</string>
             </property>
@@ -108,6 +114,9 @@
               <width>175</width>
               <height>40</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Clears the output file</string>
             </property>
             <property name="text">
              <string>Clear Output File</string>
@@ -172,6 +181,10 @@ This button will be disabled if you are missing certain information.</string>
               <width>175</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>If checked, the reciprocal traversal info will also be created.
+Leave uncheck if this traversal info is meant to be one-way.</string>
             </property>
             <property name="layoutDirection">
              <enum>Qt::LeftToRight</enum>
@@ -798,8 +811,11 @@ This number automatically increments by 1 after every generated entity.</string>
               <height>40</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Clears the coordinates and animations entered above</string>
+            </property>
             <property name="text">
-             <string>Clear Coordinates and Midpoints</string>
+             <string>Clear Coordinates and Traversal Chains</string>
             </property>
            </widget>
           </item>
@@ -862,6 +878,10 @@ Note that the entity class and monster type will be automatically added to the e
               <height>0</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>If checked, the reciprocal traversal chain will be created.
+Leave unchecked if this traversal chain is meant to be one-way.</string>
+            </property>
             <property name="text">
              <string>Create reciprocal traversal chain</string>
             </property>
@@ -880,6 +900,9 @@ Note that the entity class and monster type will be automatically added to the e
               <width>200</width>
               <height>40</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Clears the output file</string>
             </property>
             <property name="text">
              <string>Clear Output File</string>
@@ -1282,7 +1305,7 @@ This button will be disabled if you are missing certain information.</string>
           <item row="0" column="0">
            <widget class="QTabWidget" name="tabWidget_TraversalChainHang">
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
@@ -1294,9 +1317,6 @@ This button will be disabled if you are missing certain information.</string>
                 <property name="sizeConstraint">
                  <enum>QLayout::SetMaximumSize</enum>
                 </property>
-                <item row="3" column="2">
-                 <widget class="QListWidget" name="listWidget_hangIdleImp"/>
-                </item>
                 <item row="10" column="0" colspan="3" alignment="Qt::AlignHCenter">
                  <widget class="QPushButton" name="pushButton_clearHangImp">
                   <property name="sizePolicy">
@@ -1307,67 +1327,20 @@ This button will be disabled if you are missing certain information.</string>
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>250</width>
-                    <height>70</height>
+                    <width>200</width>
+                    <height>50</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Clears the inputs entered above</string>
                   </property>
                   <property name="text">
                    <string>Clear Coordinates and Animations</string>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
-                 <spacer name="verticalSpacer_24">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Maximum</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="2" column="2">
-                 <widget class="QComboBox" name="comboBox_idleAnimsImp">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>(Leave this at NONE if you aren't sure. It may not work anyways)
-This is for picking the idle animation to use at this traversal chain.
-The idle animation will allow the demon to use this traversal chain as a hangout.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QListWidget" name="listWidget_hangCoordsImp">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>100</height>
-                   </size>
-                  </property>
-                 </widget>
+                <item row="3" column="1">
+                 <widget class="QListWidget" name="listWidget_hangLinkImp"/>
                 </item>
                 <item row="2" column="0">
                  <widget class="QLineEdit" name="inputCoordsHangImp">
@@ -1391,6 +1364,25 @@ The idle animation will allow the demon to use this traversal chain as a hangout
                   </property>
                  </widget>
                 </item>
+                <item row="3" column="2">
+                 <widget class="QListWidget" name="listWidget_hangIdleImp"/>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QListWidget" name="listWidget_hangCoordsImp">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>100</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
                 <item row="9" column="0" colspan="3">
                  <spacer name="verticalSpacer_22">
                   <property name="orientation">
@@ -1407,29 +1399,38 @@ The idle animation will allow the demon to use this traversal chain as a hangout
                   </property>
                  </spacer>
                 </item>
-                <item row="3" column="1">
-                 <widget class="QListWidget" name="listWidget_hangLinkImp"/>
+                <item row="5" column="0" colspan="3">
+                 <spacer name="verticalSpacer_17">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Maximum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
-                <item row="11" column="0" colspan="3" alignment="Qt::AlignHCenter">
-                 <widget class="QPushButton" name="pushButtonToMakeHangImp">
+                <item row="0" column="0" colspan="3">
+                 <widget class="QLineEdit" name="inputEntityNameHangImp">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>250</width>
-                    <height>70</height>
+                    <width>0</width>
+                    <height>30</height>
                    </size>
                   </property>
-                  <property name="toolTip">
-                   <string>Click here to create traversal chains based on the information you entered above.
-This button will be disabled if you are missing certain information.</string>
-                  </property>
-                  <property name="text">
-                   <string>Generate Traversal Chain</string>
+                  <property name="placeholderText">
+                   <string>Entity Name</string>
                   </property>
                  </widget>
                 </item>
@@ -1455,8 +1456,31 @@ This button will be disabled if you are missing certain information.</string>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" colspan="3">
-                 <widget class="QLineEdit" name="inputEntityNameHangImp">
+                <item row="12" column="0" colspan="3" alignment="Qt::AlignHCenter">
+                 <widget class="QPushButton" name="pushButtonToMakeHangImp">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>200</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Click here to create traversal chains based on the information you entered above.
+This button will be disabled if you are missing certain information.</string>
+                  </property>
+                  <property name="text">
+                   <string>Generate Traversal Chain</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="0" colspan="3">
+                 <widget class="QLineEdit" name="inputCoordsLandImp">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                     <horstretch>0</horstretch>
@@ -1469,13 +1493,37 @@ This button will be disabled if you are missing certain information.</string>
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>Coordinates for the last point in the traversal chain</string>
+                  </property>
                   <property name="placeholderText">
-                   <string>Entity Name</string>
+                   <string>Landing Coordinates</string>
                   </property>
                  </widget>
                 </item>
-                <item row="5" column="0" colspan="3">
-                 <spacer name="verticalSpacer_17">
+                <item row="2" column="2">
+                 <widget class="QComboBox" name="comboBox_idleAnimsImp">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>(Leave this at NONE if you aren't sure. It may not work anyways)
+This is for picking the idle animation to use at this traversal chain.
+The idle animation will allow the demon to use this traversal chain as a hangout.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <spacer name="verticalSpacer_24">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
@@ -1485,7 +1533,7 @@ This button will be disabled if you are missing certain information.</string>
                   <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
-                    <height>10</height>
+                    <height>40</height>
                    </size>
                   </property>
                  </spacer>
@@ -1513,27 +1561,21 @@ This is disabled if you haven't done so.</string>
                   </property>
                  </widget>
                 </item>
-                <item row="8" column="0" colspan="3">
-                 <widget class="QLineEdit" name="inputCoordsLandImp">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
+                <item row="11" column="0">
+                 <spacer name="verticalSpacer_10">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="minimumSize">
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Maximum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
                    <size>
-                    <width>0</width>
-                    <height>30</height>
+                    <width>20</width>
+                    <height>40</height>
                    </size>
                   </property>
-                  <property name="toolTip">
-                   <string>Coordinates for the last point in the traversal chain</string>
-                  </property>
-                  <property name="placeholderText">
-                   <string>Landing Coordinates</string>
-                  </property>
-                 </widget>
+                 </spacer>
                 </item>
                </layout>
               </item>
@@ -1565,22 +1607,6 @@ This is disabled if you haven't done so.</string>
                 <property name="sizeConstraint">
                  <enum>QLayout::SetMaximumSize</enum>
                 </property>
-                <item row="1" column="1">
-                 <spacer name="verticalSpacer_14">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Maximum</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
                 <item row="3" column="0">
                  <widget class="QListWidget" name="listWidget_hangCoordsArachnotron">
                   <property name="sizePolicy">
@@ -1597,7 +1623,29 @@ This is disabled if you haven't done so.</string>
                   </property>
                  </widget>
                 </item>
-                <item row="9" column="0" colspan="3" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                <item row="8" column="0" colspan="3" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+                 <widget class="QPushButton" name="pushButton_clearHangArachnotron">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>200</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Clears the inputs entered above</string>
+                  </property>
+                  <property name="text">
+                   <string>Clear Coordinates and Animations</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="0" colspan="3" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                  <widget class="QPushButton" name="pushButtonForTesting">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1607,8 +1655,8 @@ This is disabled if you haven't done so.</string>
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>250</width>
-                    <height>70</height>
+                    <width>200</width>
+                    <height>50</height>
                    </size>
                   </property>
                   <property name="toolTip">
@@ -1620,40 +1668,8 @@ This button will be disabled if you are missing certain information.</string>
                   </property>
                  </widget>
                 </item>
-                <item row="8" column="0" colspan="3" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                 <widget class="QPushButton" name="pushButton_clearHangArachnotron">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>250</width>
-                    <height>70</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Clear Coordinates and Animations</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0" colspan="3">
-                 <spacer name="verticalSpacer_16">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Maximum</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>10</height>
-                   </size>
-                  </property>
-                 </spacer>
+                <item row="3" column="2">
+                 <widget class="QListWidget" name="listWidget_hangIdleArachnotron"/>
                 </item>
                 <item row="2" column="1">
                  <widget class="QComboBox" name="comboBox_linkAnimsArachnotron">
@@ -1677,43 +1693,8 @@ This button will be disabled if you are missing certain information.</string>
                   </property>
                  </widget>
                 </item>
-                <item row="7" column="0" colspan="3">
-                 <spacer name="verticalSpacer_13">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Maximum</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="3" column="2">
-                 <widget class="QListWidget" name="listWidget_hangIdleArachnotron"/>
-                </item>
-                <item row="0" column="0" colspan="3">
-                 <widget class="QLineEdit" name="inputEntityNameHangArachnotron">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="placeholderText">
-                   <string>Entity Name</string>
-                  </property>
-                 </widget>
+                <item row="3" column="1">
+                 <widget class="QListWidget" name="listWidget_hangLinkArachnotron"/>
                 </item>
                 <item row="2" column="0">
                  <widget class="QLineEdit" name="inputCoordsHangArachnotron">
@@ -1734,6 +1715,44 @@ This button will be disabled if you are missing certain information.</string>
                   </property>
                   <property name="placeholderText">
                    <string>Coordinates</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <spacer name="verticalSpacer_14">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Maximum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="6" column="0" colspan="3">
+                 <widget class="QLineEdit" name="inputCoordsLandArachnotron">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Coordinates for the last point in the traversal chain</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Landing Coordinates</string>
                   </property>
                  </widget>
                 </item>
@@ -1758,8 +1777,56 @@ The idle animation will allow the demon to use this traversal chain as a hangout
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
-                 <widget class="QListWidget" name="listWidget_hangLinkArachnotron"/>
+                <item row="5" column="0" colspan="3">
+                 <spacer name="verticalSpacer_16">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Maximum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="7" column="0" colspan="3">
+                 <spacer name="verticalSpacer_13">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Maximum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="0" column="0" colspan="3">
+                 <widget class="QLineEdit" name="inputEntityNameHangArachnotron">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Entity Name</string>
+                  </property>
+                 </widget>
                 </item>
                 <item row="4" column="0" colspan="3">
                  <widget class="QPushButton" name="pushButton_addChain">
@@ -1784,27 +1851,21 @@ This is disabled if you haven't done so.</string>
                   </property>
                  </widget>
                 </item>
-                <item row="6" column="0" colspan="3">
-                 <widget class="QLineEdit" name="inputCoordsLandArachnotron">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
+                <item row="9" column="0">
+                 <spacer name="verticalSpacer_9">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="minimumSize">
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Maximum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
                    <size>
-                    <width>0</width>
-                    <height>30</height>
+                    <width>20</width>
+                    <height>40</height>
                    </size>
                   </property>
-                  <property name="toolTip">
-                   <string>Coordinates for the last point in the traversal chain</string>
-                  </property>
-                  <property name="placeholderText">
-                   <string>Landing Coordinates</string>
-                  </property>
-                 </widget>
+                 </spacer>
                 </item>
                </layout>
               </item>
@@ -1840,9 +1901,12 @@ This is disabled if you haven't done so.</string>
           </property>
           <property name="minimumSize">
            <size>
-            <width>300</width>
-            <height>70</height>
+            <width>250</width>
+            <height>50</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Clears the output file, affects both tabs</string>
           </property>
           <property name="text">
            <string>Clear Output File (Affects Both Tabs)</string>
@@ -1855,98 +1919,226 @@ This is disabled if you haven't done so.</string>
        <attribute name="title">
         <string>Path Info</string>
        </attribute>
-       <widget class="QLineEdit" name="lineEdit_InfoPath_EntityName">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>40</y>
-          <width>113</width>
-          <height>24</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit_InfoPath_Coords">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>90</y>
-          <width>113</width>
-          <height>24</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="comboBox_InfoPath_WalkState">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>120</y>
-          <width>111</width>
-          <height>24</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_Add_InfoPath">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>180</y>
-          <width>80</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Add Path Info</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_Generate_InfoPath">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>270</y>
-          <width>171</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Generate Path Info</string>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="comboBox_InfoPath_NavSize">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>150</y>
-          <width>111</width>
-          <height>24</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_Clear_InfoPath">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>230</y>
-          <width>80</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Clear Path Info</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_ClearOutput_InfoPath">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>310</y>
-          <width>111</width>
-          <height>24</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Clear Output File</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <item row="2" column="2">
+           <widget class="QComboBox" name="comboBox_InfoPath_NavSize">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="7" column="0">
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0" colspan="3">
+           <widget class="QLineEdit" name="lineEdit_InfoPath_EntityName">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>The name to be given to the generated entities.
+Note that the entity class will be automatically added to the entity name.</string>
+            </property>
+            <property name="placeholderText">
+             <string>Entity Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_InfoPath_WalkState">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Use this to set the walk state for the Path Info.
+This determines how the demon moves to this Path Info.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0" colspan="3" alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="pushButton_Clear_InfoPath">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Clears the inputs entered above</string>
+            </property>
+            <property name="text">
+             <string>Clear Path Info</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0" colspan="3">
+           <widget class="QPushButton" name="pushButton_Add_InfoPath">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Click this to add Path Info with the above information.
+This button might be disabled if some information is missing.</string>
+            </property>
+            <property name="text">
+             <string>Add Path Info</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLineEdit" name="lineEdit_InfoPath_Coords">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Coordinates for the Path Info</string>
+            </property>
+            <property name="placeholderText">
+             <string>Path Info Coordinates</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0" colspan="3" alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="pushButton_ClearOutput_InfoPath">
+            <property name="minimumSize">
+             <size>
+              <width>250</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Clears the output file</string>
+            </property>
+            <property name="text">
+             <string>Clear Output File</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0" colspan="3" alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="pushButton_Generate_InfoPath">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Click this to generate Path Info.
+This button might be disabled if you currently have zero Path Info added to the above list.</string>
+            </property>
+            <property name="text">
+             <string>Generate Path Info</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <spacer name="verticalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Preferred</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="0">
+           <widget class="QListWidget" name="listWidget_InfoPath_Coords"/>
+          </item>
+          <item row="5" column="1">
+           <widget class="QListWidget" name="listWidget_InfoPath_WalkState"/>
+          </item>
+          <item row="5" column="2">
+           <widget class="QListWidget" name="listWidget_InfoPath_NavSize"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
