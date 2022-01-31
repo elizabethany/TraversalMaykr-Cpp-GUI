@@ -55,13 +55,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget_TraversalChainHang->setCurrentIndex(0);
 
     // For Traversal Info
-    ui->demonSelect_19->setChecked(true);
+    ui->demonSelect_18->setChecked(true);
     ui->radioButtonPresetNoneInfo->setChecked(true);
     ui->comboBoxAnimSelect->addItems(dropDownAnimations);
     ui->buttonGenerateTraversal->setEnabled(false); // Disable "generate traversal info" button
 
     // For Traversal Chain (General)
-    ui->demonSelect_19_Chain->setChecked(true);
+    ui->demonSelect_18_Chain->setChecked(true);
     ui->radioButtonPresetNoneChain->setChecked(true);
     ui->comboBoxAnimSelectStartChain_2->addItems(dropDownAnimations);
     ui->buttonGenerateTraversalChain->setEnabled(false); // Disable "generate traversal chain" button
@@ -175,8 +175,8 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
             // Strip everything after the "_" to get the number only
             auto checkboxNumber = checkboxName.substr(checkboxName.find('_') + 1);
 
-            // Convert the number str to int, then substract 1 (0-based)
-            int checkboxIndex = std::stoi(checkboxNumber) - 1;
+            // Convert the number str to int
+            int checkboxIndex = std::stoi(checkboxNumber);
 
             // Add number to list
             tempList.push_back(checkboxIndex);
@@ -199,7 +199,7 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
     }
     else if (ui->radioButtonPresetSuperHeavyInfo->isChecked()) // Super Heavy
     {
-        tempList = {0, 16, 3, 6, 9, 14};
+        tempList = {0, 16, 3, 6, 9};
         return tempList;
     }
     else if (ui->radioButtonPresetAInfo->isChecked()) // Fodder + Carcass, Prowler, Whiplash, Marauder
@@ -212,14 +212,14 @@ std::vector<int> getMonsterTypesDEInfoTraversal(Ui::MainWindow *ui)
         tempList = {11, 21, 7, 8, 0, 3};
         return tempList;
     }
-    else if (ui->radioButtonPresetBInfo->isChecked()) // All sans Tyrant
+    else if (ui->radioButtonPresetBInfo->isChecked()) // All sans Tyrant and Misc.
     {
-        tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+        tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21};
         return tempList;
     }
-    else if (ui->radioButtonPresetCInfo->isChecked()) // All
+    else if (ui->radioButtonPresetCInfo->isChecked()) // All (sans Misc.)
     {
-        tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+        tempList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21};
         return tempList;
     }
     else
@@ -285,8 +285,8 @@ std::vector<int> getMonsterTypesDETraversalChain(Ui::MainWindow *ui)
             // Strip everything after the "_" to get the number only
             auto checkboxNumber = checkboxName.substr(checkboxName.find('_') + 1);
 
-            // Convert the number str to int, then substract 1 (0-based)
-            int checkboxIndex = std::stoi(checkboxNumber) - 1;
+            // Convert the number str to int
+            int checkboxIndex = std::stoi(checkboxNumber);
 
             // Add number to list
             tempList.push_back(checkboxIndex);

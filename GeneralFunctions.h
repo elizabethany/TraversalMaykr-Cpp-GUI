@@ -56,4 +56,9 @@ std::string zeroPadded(
 
 bool areCoordsValid(const std::string& coordsStr);
 
+void renderThis(
+    std::vector<std::string>& givenTemplate,
+    std::vector<std::pair<std::string, std::string>> arguments
+);
+
 #endif // GENERALFUNCTIONS_H

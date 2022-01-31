@@ -103,7 +103,11 @@ int getAnimIndex(
     {
         return 4;
     }
-    else // failsafe, but should not be needed as the UI shouldn't allow monsterIndex to be a value outside of the above bounds
+    else if (monsterIndex == 22) // Gladiator
+    {
+        return 5;
+    }
+    else // for monsters that don't rely on the animIndex; return something anyways so it doesn't break
     {
         return 0;
     }
@@ -193,4 +197,35 @@ bool areCoordsValid(const std::string& coordsStr)
 {
     std::vector<double> coordsDouble = stringToVector(coordsStr);
     return coordsStr != "" && coordsDouble.size() >= 3;
+}
+
+void renderThis(
+    std::vector<std::string>& givenTemplate,
+    std::vector<std::pair<std::string, std::string>> arguments
+)
+{
+    // Check which lines in the template have variables in them, as denoted by "{{{", and store those lines in a vector
+    // This way we only interate through those specific lines, instead of the entire template
+    std::vector<int> linesToCheck;
+    for (int lineIndex = 0; lineIndex < givenTemplate.size(); lineIndex++)
+    {
+        if (givenTemplate[lineIndex].find("{{{") != std::string::npos)
+            linesToCheck.push_back(lineIndex);
+    }
+
+    // For every item that needs to be replaced, iterate through all the lines in the template that have variables, and replace them as they are found
+    for (auto const& [replacee, replacement] : arguments)
+    {
+        const std::string replaceThis = "{{{" + replacee + "}}}"; // This is so we don't have to include triple braces in all the keys in the map, we can add them here
+        for (int checkThisLine : linesToCheck)
+        {
+            // Use a while loop, in case the same variable appears more than once in the same line, so we can replace all instances of it
+            while (givenTemplate[checkThisLine].find(replaceThis) != std::string::npos)
+            {
+                size_t startPoint = givenTemplate[checkThisLine].find(replaceThis);
+                size_t endPoint = replaceThis.length();
+                givenTemplate[checkThisLine].replace(startPoint, endPoint, replacement);
+            }
+        }
+    }
 }
