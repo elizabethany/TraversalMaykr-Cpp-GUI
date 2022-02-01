@@ -39,6 +39,7 @@ The "Path Info" tab creates `idInfoPath` entities, which function as goal marker
 * There are some edge cases where the program will still accept bad inputs and crash, though they shouldn't happen unless you're manually entering coordinates
 * Wolf and Gladiator traversals don't work properly outside of ledge up/down & jump forward animations, since they have such a limited pool of animations. I'm still working on a way around that.
     * (Gladiator doesn't even use traversals out of the box)
+* Coordinates added to lists may include a line break; this won't affect the generated entity
 
 ## Credits
 * Me
