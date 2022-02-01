@@ -16,6 +16,12 @@ public:
     std::vector<double> coordinates;
 };
 
+class idInfoTraversal : public idEntity{
+public:
+    std::vector<double> endCoordinates;
+    int animationIndex;
+};
+
 // idInfo_TraversalPoint, in case anything needs to be added in the future
 class idInfo_TraversalPoint : public idEntity{
 };

@@ -32,3 +32,8 @@ CONFIG += embed_translations
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    appIcon.qrc
+
+RC_ICONS = ico/praetor_dexterity_on_btP_icon.ico

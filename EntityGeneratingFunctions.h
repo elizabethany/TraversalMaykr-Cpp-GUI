@@ -11,11 +11,8 @@
 #pragma once
 
 void generateInfoTraversal(
-    int entityNum,
-    std::vector<double> startCoords,
-    std::vector<double> endCoords,
+    idInfoTraversal entity,
     std::vector<int> monsterIndices,
-    int animIndex,
     bool reciprocalTraversal
 );
 

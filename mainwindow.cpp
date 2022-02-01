@@ -237,25 +237,36 @@ void MainWindow::on_buttonClearOutput_clicked() // Traversal Info button
     output.close();
 }
 
-// clearCoords
-void MainWindow::on_buttonClearCoords_clicked() // Traversal Info button
+void traversalInfoClearInputs(Ui::MainWindow *ui)
 {
     ui->inputStartCoords->clear();
     ui->inputEndCoords->clear();
 }
 
+// clearCoords
+void MainWindow::on_buttonClearCoords_clicked() // Traversal Info button
+{
+    traversalInfoClearInputs(ui);
+}
+
 // getGUIInputsDEInfoTraversal
 void MainWindow::on_buttonGenerateTraversal_released()
 {
-    auto entityNum = ui->inputEntityNum->text().toInt();
-    auto startCoords = stringToVector(ui->inputStartCoords->text().toStdString());
-    auto endCoords = stringToVector(ui->inputEndCoords->text().toStdString());
     std::vector<int> monsterIndices = getMonsterTypesDEInfoTraversal(ui);
     bool reciprocalTraversal = ui->selectReciprocalTraversal->isChecked();
-    int animIndex = ui->comboBoxAnimSelect->currentIndex();
 
-    generateInfoTraversal(entityNum, startCoords, endCoords, monsterIndices, animIndex, reciprocalTraversal);
-    ui->inputEntityNum->setText(QString::number(entityNum + 1));
+    idInfoTraversal tempEntity;
+    tempEntity.entityName = "mod_info_traversal_" + zeroPadded(ui->inputEntityNum->text().toStdString());
+    tempEntity.coordinates = stringToVector(ui->inputStartCoords->text().toStdString());
+    tempEntity.endCoordinates = stringToVector(ui->inputEndCoords->text().toStdString());
+    tempEntity.animationIndex = ui->comboBoxAnimSelect->currentIndex();
+
+    generateInfoTraversal(tempEntity, monsterIndices, reciprocalTraversal);
+
+    ui->inputEntityNum->setText(QString::number(ui->inputEntityNum->text().toInt() + 1));
+
+    if (ui->checkBox_ClearInputsOnGeneration_Info->isChecked())
+        traversalInfoClearInputs(ui);
 }
 
 
@@ -347,14 +358,19 @@ void MainWindow::on_buttonClearOutputChain_clicked() // Traversal Chain button
     output.close();
 }
 
-// clearCoords
-void MainWindow::on_buttonClearCoordsAndAnims_clicked() // Traversal Chain button
+void traversalChainClearInputs(Ui::MainWindow *ui)
 {
     ui->inputMidCoordsChain->clear();
     ui->inputEndCoordsChain->clear();
     ui->listWidgetMidpoints->clear();
     ui->listWidgetMidAnims->clear();
     tempAnimList.clear();
+}
+
+// clearCoords
+void MainWindow::on_buttonClearCoordsAndAnims_clicked() // Traversal Chain button
+{
+    traversalChainClearInputs(ui);
 }
 
 // Check if the start and end coords for the Traversal Chain are valid
@@ -456,6 +472,9 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
 
         generateTraversalChain(entityObjects_r, lastEntity_r, monsterIndices, true);
     }
+
+    if (ui->checkBox_ClearInputsOnGeneration_Chain->isChecked())
+        traversalChainClearInputs(ui);
 }
 
 

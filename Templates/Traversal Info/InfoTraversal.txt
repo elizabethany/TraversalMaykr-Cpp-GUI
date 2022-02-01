@@ -1,5 +1,5 @@
 entity {
-	entityDef mod_info_traversal_{{{monsterName}}}_{{{entityNum}}} {
+	entityDef {{{ENTITY_NAME}}} {
 	class = "idInfoTraversal";
 	expandInheritance = false;
 	poolCount = 0;

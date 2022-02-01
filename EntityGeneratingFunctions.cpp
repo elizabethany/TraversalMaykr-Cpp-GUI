@@ -35,11 +35,8 @@ const std::vector<std::string> DEMonsterPaths = { "archvile/traversal", "bloodan
 
 // Create idInfoTraversal entities for the given inputs and writes them to their output
 void generateInfoTraversal(
-    int entityNum,
-    std::vector<double> startCoords,
-    std::vector<double> endCoords,
+    idInfoTraversal entity,
     std::vector<int> monsterIndices,
-    int animIndex,
     bool reciprocalTraversal
 )
 {
@@ -49,53 +46,29 @@ void generateInfoTraversal(
     {
         std::vector<std::string> generatedEntity = infoTraversalTemplate;
 
-        std::string entityNumStr = zeroPadded(std::to_string(entityNum));
-
-        const int animSetIndex = getAnimIndex(monsterIndex);
-
-        const auto startX = std::to_string(startCoords.at(0));
-        const auto startY = std::to_string(startCoords.at(1));
-        const auto startZ = std::to_string(startCoords.at(2) - DEpmNormalViewHeight);
-        const auto endX = std::to_string(endCoords.at(0) - startCoords.at(0));
-        const auto endY = std::to_string(endCoords.at(1) - startCoords.at(1));
-        const auto endZ = std::to_string((endCoords.at(2) - DEpmNormalViewHeight) - (startCoords.at(2) - DEpmNormalViewHeight));
+        auto entityName = entity.entityName + "_" + DEMonsterNames.at(monsterIndex);
+        const auto animSetIndex = getAnimIndex(monsterIndex);
+        const auto monsterName = DEMonsterNames.at(monsterIndex);
+        const auto monsterPath = DEMonsterPaths.at(monsterIndex);
+        const auto monsterType = DEMonsterTypes.at(monsterIndex);
 
         std::string animation;
         if (monsterIndex == 23) // Check if it's Samur, since all of his animations are "idle"
             animation = "idle";
         else // Get the animation normally
-            animation = DEAnimationSets.at(animSetIndex).at(animIndex);
-
-        const std::string monsterName = DEMonsterNames.at(monsterIndex);
-        const std::string monsterPath = DEMonsterPaths.at(monsterIndex);
-        const std::string monsterType = DEMonsterTypes.at(monsterIndex);
-
-        /*
-        replaceThisInString((generatedEntity).at(1), "{{{entityNum}}}", entityNumStr);
-        replaceThisInString((generatedEntity).at(1), "{{{monsterName}}}", monsterName);
-        replaceThisInString((generatedEntity).at(9), "{{{monsterPath}}}", monsterPath);
-        replaceThisInString((generatedEntity).at(9), "{{{animation}}}", animation);
-        replaceThisInString((generatedEntity).at(10), "{{{monsterType}}}", monsterType);
-        replaceThisInString((generatedEntity).at(13), "{{{startX}}}", startX);
-        replaceThisInString((generatedEntity).at(14), "{{{startY}}}", startY);
-        replaceThisInString((generatedEntity).at(15), "{{{startZ}}}", startZ);
-        replaceThisInString((generatedEntity).at(18), "{{{endX}}}", endX);
-        replaceThisInString((generatedEntity).at(19), "{{{endY}}}", endY);
-        replaceThisInString((generatedEntity).at(20), "{{{endZ}}}", endZ);
-        */
+            animation = DEAnimationSets.at(animSetIndex).at(entity.animationIndex);
 
         std::vector<std::pair<std::string, std::string>> args = {
-            {"entityNum", entityNumStr},
-            {"monsterName", monsterName},
+            {"ENTITY_NAME", entityName},
             {"monsterPath", monsterPath},
             {"animation", animation},
             {"monsterType", monsterType},
-            {"startX", startX},
-            {"startY", startY},
-            {"startZ", startZ},
-            {"endX", endX},
-            {"endY", endY},
-            {"endZ", endZ}
+            {"startX", std::to_string(entity.coordinates[0])},
+            {"startY", std::to_string(entity.coordinates[1])},
+            {"startZ", std::to_string(entity.coordinates[2] - DEpmNormalViewHeight)},
+            {"endX", std::to_string(entity.endCoordinates[0] - entity.coordinates[0])},
+            {"endY", std::to_string(entity.endCoordinates[1] - entity.coordinates[1])},
+            {"endZ", std::to_string((entity.endCoordinates[2] - DEpmNormalViewHeight) - (entity.coordinates[2] - DEpmNormalViewHeight))}
         };
         renderThis(generatedEntity, args);
         writeThisThing(generatedEntity, "Output/Traversal Info.txt");
@@ -103,41 +76,20 @@ void generateInfoTraversal(
         if (reciprocalTraversal)
         {
             std::vector<std::string> generatedEntity_r = infoTraversalTemplate;
-            entityNumStr.append("_r");
-            const auto startX_r = std::to_string(endCoords.at(0));
-            const auto startY_r = std::to_string(endCoords.at(1));
-            const auto startZ_r = std::to_string(endCoords.at(2) - DEpmNormalViewHeight);
-            const auto endX_r = std::to_string(startCoords.at(0) - endCoords.at(0));
-            const auto endY_r = std::to_string(startCoords.at(1) - endCoords.at(1));
-            const auto endZ_r = std::to_string((startCoords.at(2) - DEpmNormalViewHeight) - (endCoords.at(2) - DEpmNormalViewHeight));
-            const std::string animation_r = animReverser(animation); // Reverse the animation since we are making reciprocal traversals
-
-            /*
-            replaceThisInString((generatedEntity_r).at(1), "{{{entityNum}}}", entityNumStr);
-            replaceThisInString((generatedEntity_r).at(1), "{{{monsterName}}}", monsterName);
-            replaceThisInString((generatedEntity_r).at(9), "{{{monsterPath}}}", monsterPath);
-            replaceThisInString((generatedEntity_r).at(9), "{{{animation}}}", animation_r);
-            replaceThisInString((generatedEntity_r).at(10), "{{{monsterType}}}", monsterType);
-            replaceThisInString((generatedEntity_r).at(13), "{{{startX}}}", startX_r);
-            replaceThisInString((generatedEntity_r).at(14), "{{{startY}}}", startY_r);
-            replaceThisInString((generatedEntity_r).at(15), "{{{startZ}}}", startZ_r);
-            replaceThisInString((generatedEntity_r).at(18), "{{{endX}}}", endX_r);
-            replaceThisInString((generatedEntity_r).at(19), "{{{endY}}}", endY_r);
-            replaceThisInString((generatedEntity_r).at(20), "{{{endZ}}}", endZ_r);
-            */
+            entityName.append("_r");
 
             std::vector<std::pair<std::string, std::string>> args_r = {
-                {"entityNum", entityNumStr},
+                {"ENTITY_NAME", entityName},
                 {"monsterName", monsterName},
                 {"monsterPath", monsterPath},
-                {"animation", animation_r},
+                {"animation", animReverser(animation)},
                 {"monsterType", monsterType},
-                {"startX", startX_r},
-                {"startY", startY_r},
-                {"startZ", startZ_r},
-                {"endX", endX_r},
-                {"endY", endY_r},
-                {"endZ", endZ_r}
+                {"startX", std::to_string(entity.endCoordinates[0])},
+                {"startY", std::to_string(entity.endCoordinates[1])},
+                {"startZ", std::to_string(entity.endCoordinates[2] - DEpmNormalViewHeight)},
+                {"endX", std::to_string(entity.coordinates[0] - entity.endCoordinates[0])},
+                {"endY", std::to_string(entity.coordinates[1] - entity.endCoordinates[1])},
+                {"endZ", std::to_string((entity.coordinates[2] - DEpmNormalViewHeight) - (entity.endCoordinates[2] - DEpmNormalViewHeight))}
             };
             renderThis(generatedEntity_r, args_r);
             writeThisThing(generatedEntity_r, "Output/Traversal Info.txt");
