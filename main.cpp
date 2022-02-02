@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
         }
     }
     MainWindow w;
-    w.resize(400,600); // Does this even do anything at this size?
     w.show();
     return a.exec();
 }
