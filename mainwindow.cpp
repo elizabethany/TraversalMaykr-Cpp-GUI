@@ -266,7 +266,9 @@ void MainWindow::on_buttonGenerateTraversal_released()
     ui->inputEntityNum->setText(QString::number(ui->inputEntityNum->text().toInt() + 1));
 
     if (ui->checkBox_ClearInputsOnGeneration_Info->isChecked())
+    {
         traversalInfoClearInputs(ui);
+    }
 }
 
 
@@ -474,7 +476,9 @@ void MainWindow::on_buttonGenerateTraversalChain_clicked()
     }
 
     if (ui->checkBox_ClearInputsOnGeneration_Chain->isChecked())
+    {
         traversalChainClearInputs(ui);
+    }
 }
 
 
@@ -509,9 +513,13 @@ void MainWindow::on_pushButtonForTesting_clicked()
 
         auto tempStr = ui->listWidget_hangIdleArachnotron->item(i)->text().toStdString();
         if (tempStr == "NONE")
+        {
             tempObject.idleAnimation = "";
+        }
         else
+        {
             tempObject.idleAnimation = "animweb/characters/monsters/arachnotron/" + tempStr;
+        }
 
         entityObjects.push_back(tempObject);
     }
@@ -542,7 +550,7 @@ void MainWindow::on_pushButton_clearHangArachnotron_clicked()
 // Check if the coords for the Arachnotron Traversal Chain are valid
 bool isInputValidHangArachnotron(Ui::MainWindow *ui)
 {
-    bool areChainCoordsValid = areCoordsValid(ui->inputCoordsHangArachnotron->text().toStdString());
+    bool areChainCoordsValid = areCoordsValid(ui->inputCoordsHangArachnotron->text().toStdString(), 4);
 
     return areChainCoordsValid;
 }
@@ -551,7 +559,7 @@ bool isInputValidHangArachnotron(Ui::MainWindow *ui)
 bool isInputValidHangLandArachnotron(Ui::MainWindow *ui)
 {
     // Check if the end coords are valid
-    bool areEndCoordsValid = areCoordsValid(ui->inputCoordsLandArachnotron->text().toStdString());
+    bool areEndCoordsValid = areCoordsValid(ui->inputCoordsLandArachnotron->text().toStdString(), 4);
 
     bool wasMidpointAdded = ui->listWidget_hangCoordsArachnotron->count();
 
@@ -589,9 +597,13 @@ void MainWindow::on_pushButtonToMakeHangImp_clicked()
 
         auto tempStr = ui->listWidget_hangIdleImp->item(i)->text().toStdString();
         if (tempStr == "NONE")
+        {
             tempObject.idleAnimation = "";
+        }
         else
+        {
             tempObject.idleAnimation = "animweb/characters/monsters/imp/" + tempStr;
+        }
 
         entityObjects.push_back(tempObject);
     }
@@ -622,7 +634,7 @@ void MainWindow::on_pushButton_clearHangImp_clicked()
 // Check if the coords for the Imp Traversal Chain are valid
 bool isInputValidHangImp(Ui::MainWindow *ui)
 {
-    bool areChainCoordsValid = areCoordsValid(ui->inputCoordsHangImp->text().toStdString());
+    bool areChainCoordsValid = areCoordsValid(ui->inputCoordsHangImp->text().toStdString(), 4);
 
     return areChainCoordsValid;
 }
@@ -631,7 +643,7 @@ bool isInputValidHangImp(Ui::MainWindow *ui)
 bool isInputValidHangLandImp(Ui::MainWindow *ui)
 {
     // Check if the end coords are valid
-    bool areEndCoordsValid = areCoordsValid(ui->inputCoordsLandImp->text().toStdString());
+    bool areEndCoordsValid = areCoordsValid(ui->inputCoordsLandImp->text().toStdString(), 4);
 
     bool wasMidpointAdded = ui->listWidget_hangCoordsImp->count();
 

@@ -54,7 +54,10 @@ std::string zeroPadded(
     std::string padThis
 );
 
-bool areCoordsValid(const std::string& coordsStr);
+bool areCoordsValid(
+    const std::string& coordsStr,
+    int vectorSize = 3
+);
 
 void renderThis(
     std::vector<std::string>& givenTemplate,

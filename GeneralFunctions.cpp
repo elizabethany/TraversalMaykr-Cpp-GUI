@@ -193,10 +193,13 @@ std::string zeroPadded(
     }
 }
 
-bool areCoordsValid(const std::string& coordsStr)
+bool areCoordsValid(
+    const std::string& coordsStr,
+    int vectorSize
+)
 {
     std::vector<double> coordsDouble = stringToVector(coordsStr);
-    return coordsStr != "" && coordsDouble.size() >= 3;
+    return coordsStr != "" && coordsDouble.size() >= vectorSize;
 }
 
 void renderThis(

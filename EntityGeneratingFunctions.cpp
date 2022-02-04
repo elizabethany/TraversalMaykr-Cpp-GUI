@@ -54,9 +54,13 @@ void generateInfoTraversal(
 
         std::string animation;
         if (monsterIndex == 23) // Check if it's Samur, since all of his animations are "idle"
+        {
             animation = "idle";
+        }
         else // Get the animation normally
+        {
             animation = DEAnimationSets.at(animSetIndex).at(entity.animationIndex);
+        }
 
         std::vector<std::pair<std::string, std::string>> args = {
             {"ENTITY_NAME", entityName},
@@ -129,31 +133,16 @@ void generateHangout(
         std::string nextTargetName;
         // Check if this is the last object in the vector. If it is, make the target the endpoint. If not, make the target the next object in the vector.
         if (i == entityObjects.size() - 1)
+        {
             nextTargetName = finalEntity.entityName;
+        }
         else
+        {
             nextTargetName = entityObjects[i+1].entityName;
+        }
 
         auto linkAnimation = entityObjects[i].linkAnimation;
         auto idleAnimation = entityObjects[i].idleAnimation;
-
-        /*
-        replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityName);
-        replaceThisInString(currentEntity[12], "{{{COORDX}}}", entityX);
-        replaceThisInString(currentEntity[13], "{{{COORDY}}}", entityY);
-        replaceThisInString(currentEntity[14], "{{{COORDZ}}}", entityZ);
-        replaceThisInString(currentEntity[19], "{{{MAT0X}}}", mat0X);
-        replaceThisInString(currentEntity[20], "{{{MAT0Y}}}", mat0Y);
-        replaceThisInString(currentEntity[21], "{{{MAT0Z}}}", mat0Z);
-        replaceThisInString(currentEntity[24], "{{{MAT1X}}}", mat1X);
-        replaceThisInString(currentEntity[25], "{{{MAT1Y}}}", mat1Y);
-        replaceThisInString(currentEntity[26], "{{{MAT1Z}}}", mat1Z);
-        replaceThisInString(currentEntity[29], "{{{MAT2X}}}", mat2X);
-        replaceThisInString(currentEntity[30], "{{{MAT2Y}}}", mat2Y);
-        replaceThisInString(currentEntity[31], "{{{MAT2Z}}}", mat2Z);
-        replaceThisInString(currentEntity[39], "{{{NEXT_TARGET_NAME}}}", nextTargetName);
-        replaceThisInString(currentEntity[40], "{{{LINK_ANIMATION}}}", linkAnimation);
-        replaceThisInString(currentEntity[43], "{{{IDLE_ANIMATION}}}", idleAnimation);
-        */
 
         std::vector<std::pair<std::string, std::string>> args = {
             {"ENTITY_NAME", entityName},
@@ -235,21 +224,13 @@ void generateTraversalChain(
             std::string nextTargetName;
             // Check if this is the last object in the vector. If it is, make the target the endpoint. If not, make the target the next object in the vector.
             if (i == entityObjects.size() - 1)
+            {
                 nextTargetName = finalEntity.entityName;
+            }
             else
+            {
                 nextTargetName = entityObjects[i+1].entityName + "_" + monsterName;
-
-            /*
-            replaceThisInString(currentEntity[1], "{{{ENTITY_NAME}}}", entityName);
-            replaceThisInString(currentEntity[9], "{{{MONSTERTYPE}}}", monsterType);
-            replaceThisInString(currentEntity[10], "{{{ANIMWEB}}}", animWeb);
-            replaceThisInString(currentEntity[12], "{{{COORDX}}}", entityX);
-            replaceThisInString(currentEntity[13], "{{{COORDY}}}", entityY);
-            replaceThisInString(currentEntity[14], "{{{COORDZ}}}", entityZ);
-            replaceThisInString(currentEntity[20], "{{{NEXT_TARGET_NAME}}}", nextTargetName);
-            replaceThisInString(currentEntity[21], "{{{MONSTER_PATH}}}", monsterPath);
-            replaceThisInString(currentEntity[21], "{{{LINK_ANIMATION}}}", animation);
-            */
+            }
 
             std::vector<std::pair<std::string, std::string>> args = {
                 {"ENTITY_NAME", entityName},

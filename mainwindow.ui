@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>652</width>
+    <width>654</width>
     <height>898</height>
    </rect>
   </property>
@@ -232,7 +232,7 @@ Direction does not matter for these coordinates.</string>
           <item row="6" column="0" colspan="2" alignment="Qt::AlignHCenter">
            <widget class="QGroupBox" name="groupBoxMonsterSelect">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -944,7 +944,7 @@ This is disabled if you haven't done so.</string>
           <item row="5" column="0" colspan="2" alignment="Qt::AlignHCenter">
            <widget class="QGroupBox" name="groupBoxMonsterSelect_3">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
