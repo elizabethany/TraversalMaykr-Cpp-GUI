@@ -3,7 +3,7 @@ A C++ GUI tool to generate demon traversal related entities for Doom Eternal. Th
 
 ## Overview
 
-Please see the wiki for more detailed documentation on each tab.
+Please see [the wiki](https://github.com/elizabethany/TraversalMaykr-Cpp-GUI/wiki) for more detailed documentation on each tab.
 
 ### General
 Coordinates are meant to be input by using `where`, and then pasting it into the coordinates field. You can still manually enter them, in the format `x y z yaw`, ex. `12 34 56 90` or `13.12 509.2 87.1123 271.2`. The first two tabs don't require yaw values.
