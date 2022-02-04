@@ -46,7 +46,7 @@ The "Path Info" tab creates `idInfoPath` entities, which function as goal marker
     * 😎
 * Powerball253
 	* Writing better function for gathering selected monster types
-	* Writing function for verifying inputs
+	* Writing function for verifying inputs (and subsequent improvements to it)
     * Various syntax/formatting improvements
 	* Providing tips to help me improve my cpp in general
 	* Linux compatibility
