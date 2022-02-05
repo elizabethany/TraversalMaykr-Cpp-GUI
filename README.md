@@ -5,6 +5,12 @@ A C++ GUI tool to generate demon traversal related entities for Doom Eternal. Th
 
 Please see [the wiki](https://github.com/elizabethany/TraversalMaykr-Cpp-GUI/wiki) for more detailed documentation on each tab.
 
+* Run `TraversalMaykr-Cpp-GUI.exe` to get started
+* Generated entities are in the `Output` folder
+* Entity templates are in the `Templates` folder
+* The `generated` folder contains the modified animWeb decl needed to the `custom_` Arachnotron animation states
+* The other folders and .dlls are just Qt stuff that can be ignored
+
 ### General
 Coordinates are meant to be input by using `where`, and then pasting it into the coordinates field. You can still manually enter them, in the format `x y z yaw`, ex. `12 34 56 90` or `13.12 509.2 87.1123 271.2`. The first two tabs don't require yaw values.
 
