@@ -14,7 +14,7 @@ Please see [the wiki](https://github.com/elizabethany/TraversalMaykr-Cpp-GUI/wik
 ### General
 Coordinates are meant to be input by using `where`, and then pasting it into the coordinates field. You can still manually enter them, in the format `x y z yaw`, ex. `12 34 56 90` or `13.12 509.2 87.1123 271.2`. The first two tabs don't require yaw values.
 
-All tabs have a button for you to clear their respective output files. Otherwise, every newly generated entity will always be appended to the output file.
+Newly generated entities will always be appended to the output file. Otherwise, all tabs have a button for you to clear their respective output files. 
 
 Output files are in the "Output" folder. If these text files are missing, new ones should be created by the program.
 
