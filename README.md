@@ -8,7 +8,7 @@ Please see [the wiki](https://github.com/elizabethany/TraversalMaykr-Cpp-GUI/wik
 * Run `TraversalMaykr-Cpp-GUI.exe` to get started
 * Generated entities are in the `Output` folder
 * Entity templates are in the `Templates` folder
-* The `generated` folder contains the modified animWeb decl needed to the `custom_` Arachnotron animation states
+* The `generated` folder contains the modified animWeb decl needed to use the `custom_` Arachnotron animation states
 * The other folders and .dlls are just Qt stuff that can be ignored
 
 ### General
