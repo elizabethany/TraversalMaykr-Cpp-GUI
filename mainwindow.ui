@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>654</width>
+    <width>716</width>
     <height>898</height>
    </rect>
   </property>
@@ -144,7 +144,8 @@ Leave uncheck if this traversal info is meant to be one-way.</string>
             <property name="toolTip">
              <string>The starting entity number is the number appended to the name of the generated entity.
 For example, if you set it to 24 and made a traversal info for soldiers, then the generated entity would be named mod_info_traversal_soldier_00024.
-This number automatically increments by 1 after every generated entity.</string>
+This number automatically increments by 1 after every generated entity.
+Non-number inputs are still accepted, but will be turned into zeroes.</string>
             </property>
             <property name="placeholderText">
              <string>Entity Number</string>
@@ -1255,7 +1256,8 @@ This button will be disabled if you are missing certain information.</string>
             </property>
             <property name="toolTip">
              <string>The name to be given to the generated entities.
-Note that the entity class and monster type will be automatically added to the entity name.</string>
+Note that the entity class and monster type will be automatically added to the entity name.
+Non-alphanumeric characters will be converted to underscores.</string>
             </property>
             <property name="placeholderText">
              <string>Entity Name</string>
@@ -1607,6 +1609,10 @@ This button will be disabled if you are missing certain information.</string>
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="toolTip">
+                   <string>The name to be given to the generated entities.
+Non-alphanumeric characters will be converted to underscores.</string>
+                  </property>
                   <property name="placeholderText">
                    <string>Entity Name</string>
                   </property>
@@ -1731,6 +1737,10 @@ This button will be disabled if you are missing certain information.</string>
                     <width>0</width>
                     <height>30</height>
                    </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>The name to be given to the generated entities.
+Non-alphanumeric characters will be converted to underscores.</string>
                   </property>
                   <property name="placeholderText">
                    <string>Entity Name</string>
@@ -1983,7 +1993,8 @@ This button might be disabled if you currently have zero Path Info added to the 
             </property>
             <property name="toolTip">
              <string>The name to be given to the generated entities.
-Note that the entity class will be automatically added to the entity name.</string>
+Note that the entity class will be automatically added to the entity name.
+Non-alphanumeric characters will be converted to underscores.</string>
             </property>
             <property name="placeholderText">
              <string>Entity Name</string>

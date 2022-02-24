@@ -176,7 +176,14 @@ std::string zeroPadded(
     std::string padThis
 )
 {
-    int size = padThis.size();
+    // Just replace non-string inputs with a zero
+    if (!isdigit(padThis[0]))
+    {
+        padThis = "0";
+    }
+
+    // Pad with zeroes up to six places if applicable
+    size_t size = padThis.size();
     if (size < 6)
     {
         std::string tempStr;
@@ -185,12 +192,9 @@ std::string zeroPadded(
             tempStr += "0";
         }
         tempStr += padThis;
-        return tempStr;
     }
-    else
-    {
-        return padThis;
-    }
+
+    return padThis;
 }
 
 bool areCoordsValid(
@@ -200,6 +204,20 @@ bool areCoordsValid(
 {
     std::vector<double> coordsDouble = stringToVector(coordsStr);
     return coordsStr != "" && coordsDouble.size() >= vectorSize;
+}
+
+// Replaces non-alphanumeric characters with underscores
+void deSpacer(
+    std::string &inputStr
+)
+{
+    for (char &currentLetter : inputStr)
+    {
+        if (!isalnum(currentLetter))
+        {
+            currentLetter = '_';
+        }
+    }
 }
 
 void renderThis(
@@ -219,7 +237,7 @@ void renderThis(
     // For every item that needs to be replaced, iterate through all the lines in the template that have variables, and replace them as they are found
     for (auto const& [replacee, replacement] : arguments)
     {
-        const std::string replaceThis = "{{{" + replacee + "}}}"; // This is so we don't have to include triple braces in all the keys in the map, we can add them here
+        const std::string replaceThis = "{{{" + replacee + "}}}"; // This is so we don't have to include triple braces in the arguments, we can add them here
         for (int checkThisLine : linesToCheck)
         {
             // Use a while loop, in case the same variable appears more than once in the same line, so we can replace all instances of it

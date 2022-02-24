@@ -425,6 +425,7 @@ void MainWindow::on_pushButtonAddMidpoint_clicked()
 void MainWindow::on_buttonGenerateTraversalChain_clicked()
 {
     auto entityName = ui->inputEntityNumChain->text().toStdString();
+    deSpacer(entityName);
 
     std::vector<idInfo_TraversalChain_General> entityObjects;
     for (int i = 0; i < ui->listWidgetMidpoints->count(); i++)
@@ -498,6 +499,7 @@ void MainWindow::on_pushButtonClearOutputHang_clicked()
 void MainWindow::on_pushButtonForTesting_clicked()
 {
     auto entityName = ui->inputEntityNameHangArachnotron->text().toStdString();
+    deSpacer(entityName);
 
     idInfo_TraversalPoint landingEntity;
     landingEntity.entityName = "mod_traversal_chain_arachnotron_hangout_landing_" + entityName;
@@ -582,6 +584,7 @@ void MainWindow::on_inputCoordsLandArachnotron_textChanged(const QString &arg1)
 void MainWindow::on_pushButtonToMakeHangImp_clicked()
 {
     auto entityName = ui->inputEntityNameHangImp->text().toStdString();
+    deSpacer(entityName);
 
     idInfo_TraversalPoint landingEntity;
     landingEntity.entityName = "mod_traversal_chain_imp_hangout_landing_" + entityName;
@@ -718,6 +721,7 @@ void MainWindow::on_pushButton_ClearOutput_InfoPath_clicked()
 void MainWindow::on_pushButton_Generate_InfoPath_clicked()
 {
     auto entityName = ui->lineEdit_InfoPath_EntityName->text().toStdString();
+    deSpacer(entityName);
     std::vector<idInfoPath> entityObjects;
 
     for (int i = 0; i < ui->listWidget_InfoPath_Coords->count(); i++)

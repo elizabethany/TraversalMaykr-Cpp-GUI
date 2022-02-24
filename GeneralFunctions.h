@@ -59,6 +59,10 @@ bool areCoordsValid(
     int vectorSize = 3
 );
 
+void deSpacer(
+    std::string &inputStr
+);
+
 void renderThis(
     std::vector<std::string>& givenTemplate,
     std::vector<std::pair<std::string, std::string>> arguments
