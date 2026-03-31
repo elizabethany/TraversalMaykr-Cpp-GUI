@@ -49,7 +49,7 @@ The "Path Info" tab creates `idInfoPath` entities, which function as goal marker
 ## Credits
 * Me
     * 😎
-* Powerball253
+* Bruno Ancona
 	* Writing better function for gathering selected monster types
 	* Writing function for verifying inputs (and subsequent improvements to it)
     * Various syntax/formatting improvements
