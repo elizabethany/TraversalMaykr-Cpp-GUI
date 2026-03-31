@@ -1,5 +1,5 @@
 # TraversalMaykr-Cpp-GUI
-A C++ GUI tool to generate demon traversal related entities for Doom Eternal. This program is a rewrite and revamp of [TraversalMaykr-Py-GUI](https://github.com/elizabethany/TraversalMaykr-Py-GUI), which was based on Powerball253's [TraversalMaykr](https://github.com/PowerBall253/TraversalMaykr).
+A C++ GUI tool to generate demon traversal related entities for Doom Eternal. This program is a rewrite and revamp of [TraversalMaykr-Py-GUI](https://github.com/elizabethany/TraversalMaykr-Py-GUI), which was based on Bruno Ancona's [TraversalMaykr](https://github.com/brunoanc/TraversalMaykr).
 
 ## Overview
 
